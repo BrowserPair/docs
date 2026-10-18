@@ -1,0 +1,72 @@
+---
+title: "Managed Tasks: Run Browser Work from the BrowserPair App"
+sidebarTitle: "Managed tasks"
+description: "Run a bounded browser task from the BrowserPair app with a Brain, optional Reflex, Skills, approvals and task history."
+icon: "play"
+keywords:
+  - "BrowserPair managed tasks"
+  - "AI browser task"
+---
+
+Use the BrowserPair dashboard when you want BrowserPair to coordinate planning, bounded execution, approvals, Skills, and task history for you.
+
+<CardGroup cols={3}>
+  <Card title="Choose the browser" icon="browser">Select the connected profile where the task is allowed to run.</Card>
+  <Card title="Choose the websites" icon="globe">Define one or more explicit domains before execution begins.</Card>
+  <Card title="Describe the outcome" icon="play">Tell BrowserPair what should happen; the task remains bounded by your settings.</Card>
+</CardGroup>
+
+## Choose how to start tasks
+
+If you connect an external AI app such as ChatGPT or Claude, start tasks in that app. You do not need a BrowserPair Brain model. The Tasks page shows the connected app, a read-only first try, and shared task history.
+
+If you connect your own Brain model, BrowserPair shows a managed task composer. The first Brain becomes your account default. Accounts with neither path configured can choose either approach. Models, Skills, Permissions, and Analytics are grouped under Advanced in the sidebar.
+
+## Requirements
+
+Before a managed task can run:
+
+- at least one browser must be connected;
+- at least one allowed website must be entered; and
+- a **Brain** provider must be configured.
+
+<Note>A Reflex provider is optional. BrowserPair can still use bounded deterministic execution where available and escalate planning decisions to the Brain.</Note>
+
+## Run a task
+
+<Steps>
+  <Step title="Open Tasks">Describe the desired outcome in the task composer.</Step>
+  <Step title="Open Task settings">Choose the browser and allowed websites. Multiple explicit domains are supported.</Step>
+  <Step title="Choose a Skill or auto-match">Leave **Skill** on auto-match or select a compatible enabled Skill explicitly.</Step>
+  <Step title="Keep the defaults or override them">Account-level Brain, Reflex, trust threshold, observation policy, and execution limits are used unless you choose task-specific overrides.</Step>
+  <Step title="Run and review">BrowserPair creates one durable task, surfaces approvals when needed, and records the final state in task history.</Step>
+</Steps>
+
+## Task settings
+
+<CardGroup cols={2}>
+  <Card title="Authority" icon="shield">Browser, allowed websites, and Skill selection define what the task may attempt.</Card>
+  <Card title="Model overrides" icon="brain">Override Brain, fallbacks, Reflex, or trust only when a task needs different routing.</Card>
+  <Card title="Execution limits" icon="gauge">Bound Reflex steps, Brain calls, Reflex calls, total steps, and maximum duration.</Card>
+  <Card title="Runtime website grants" icon="globe">
+    Review user-approved domain expansion that applies only to the current task.
+  </Card>
+</CardGroup>
+
+<Warning>
+  A Skill, provider, screenshot, or model response cannot add browser authority.
+</Warning>
+
+<CardGroup cols={3}>
+  <Card title="Brain + Reflex" icon="brain" href="/brain-reflex">
+    Configure model routing and observations.
+  </Card>
+
+  <Card title="Skills" icon="puzzle-piece" href="/skills-guide">
+    Reuse workflow knowledge safely.
+  </Card>
+
+  <Card title="Permissions" icon="shield" href="/permissions">
+    Understand approvals and scope.
+  </Card>
+</CardGroup>

@@ -1,0 +1,177 @@
+---
+title: "BrowserPair Task Semantics: Durable Identity, Grants, and Safe Retries"
+sidebarTitle: "Task Semantics"
+description: "How BrowserPair preserves task identity, authority, tab ownership, generations, and effect state across reconnects and retries."
+icon: "arrows-rotate"
+keywords:
+  - "BrowserPair task semantics"
+  - "browser task idempotency"
+  - "effect verification"
+---
+
+BrowserPair tasks are durable coordination objects, not fire-and-forget browser RPCs. Authority, ownership, browser state, and uncertain effects remain attached to one task identity across normal reconnects.
+
+<CardGroup cols={3}>
+  <Card title="One task identity" icon="fingerprint">
+    Idempotent creation prevents network retries from inventing duplicate work.
+  </Card>
+
+  <Card title="One current owner" icon="lock">
+    Fencing generations reject stale executors after reconnect or supersession.
+  </Card>
+
+  <Card title="No blind replay" icon="arrows-rotate">
+    Uncertain browser effects are verified or explicitly resolved before retry.
+  </Card>
+</CardGroup>
+
+## Original contract and effective authority
+
+The task contract created at start remains immutable:
+
+- initial domains;
+- capabilities;
+- explicit confirmation requirements; and
+- optional side-effect bound.
+
+A later user-approved website does not rewrite that original contract. BrowserPair records a separate task-scoped grant.
+
+```text
+original task domains
++ explicit task-scoped user grants
+≤ reusable agent-key domain ceiling
+```
+
+<Warning>
+  Page content, redirects, models, and Skills cannot create task grants.
+</Warning>
+
+## What the task remembers
+
+<CardGroup cols={2}>
+  <Card title="Authority state" icon="shield">
+    Original contract, explicit task grants, sensitive grants, and required confirmations.
+  </Card>
+
+  <Card title="Ownership state" icon="browser">
+    Browser owner, fencing generation, connection generation, and strongly owned tabs.
+  </Card>
+
+  <Card title="Interaction state" icon="eye">
+    Current observation/action turn and interaction generation.
+  </Card>
+
+  <Card title="Effect state" icon="arrows-rotate">
+    Whether a mutation is pending, executing, known complete, definitely absent, or uncertain.
+  </Card>
+
+  <Card title="Managed intelligence state" icon="brain">
+    Selected providers, subgoal, observation settings, counters, limits, escalation state, and bound Skill version.
+  </Card>
+
+  <Card title="Durable result" icon="circle-check">
+    Terminal outcome and safe task history remain attached to the same task identity.
+  </Card>
+</CardGroup>
+
+## Idempotent creation
+
+`POST /v1/tasks` requires an idempotency key.
+
+<Tabs>
+  <Tab title="Retry the same request">
+    Same key and identical request returns the original task.
+  </Tab>
+  <Tab title="Reuse the key differently">
+    Same key with a different request fails closed.
+  </Tab>
+</Tabs>
+
+This solves duplicate **task creation**. Browser mutations need an additional effect-recovery model.
+
+## Browser and tab ownership
+
+BrowserPair does not treat every open tab as available agent state.
+
+- strongly task-owned tabs may be used automatically;
+- probable or unrelated tabs are not silently adopted; and
+- navigation without an owned tab can create a new task-owned tab inside the user's existing browser profile.
+
+## Reconnect and fencing
+
+<Steps>
+  <Step title="Durable state remains">
+    Contract, grants, owned tabs, current interaction, and effect state remain associated with the existing task.
+  </Step>
+  <Step title="Ownership advances">
+    A newer browser/controller connection receives the current generation.
+  </Step>
+  <Step title="Stale work is fenced out">
+    Older executors can no longer mutate the task.
+  </Step>
+  <Step title="The agent resumes from current state">
+    REST `GET /v1/tasks/:id` or MCP `task_state` returns the latest durable interaction.
+  </Step>
+</Steps>
+
+## Effect verification
+
+The difficult case is a connection failure after BrowserPair sent a state-changing action but before it could prove the result.
+
+<CardGroup cols={3}>
+  <Card title="Effect succeeded" icon="circle-check">
+    Continue from the observed post-effect state.
+  </Card>
+
+  <Card title="Definitely not executed" icon="rotate-left">
+    A retry can be considered using the current authority and state. This verdict needs a fresh observation taken after the uncertain action; claimed from that action's own result it is refused with `fresh_observation_required`.
+  </Card>
+
+  <Card title="Indeterminate" icon="triangle-exclamation">
+    Do not replay blindly; require additional verification or resolution.
+  </Card>
+</CardGroup>
+
+<Warning>
+  `executing` and effect-unknown mutations are never blindly replayed.
+</Warning>
+
+## Execution, verification and review
+
+Effect state answers _did the browser action happen_; verification answers _did the user's requested result happen_. Task history shows:
+
+| State | Meaning |
+| --- | --- |
+| Executed | BrowserPair knows the bounded action ran. |
+| UI verified | A fresh observation confirms the immediate page effect. |
+| Outcome verified | Fresh evidence satisfies the requested outcome criteria (URL, visible text, field value, checked state). |
+| Needs review | The result could not be proven. Shown as a warning in task history; only verified tasks show a green _Completed_. |
+
+Evidence is deliberately strict: text typed into an editor that was never saved, text the user cannot see, a redirect target in a query string, or a page that was still loading never counts as proof. A navigation that the page declined (for example "Leave this page?") is reported as a dismissed dialog, not as success; an agent can answer such a dialog OK only by repeating the action with `acceptDialog` and your approval in Chrome. Downloads an action starts are reported as evidence, never as proof of the outcome.
+
+## Managed Brain + Reflex continuity
+
+Managed and external-Reflex tasks also preserve:
+
+- selected Brain and Reflex provider identities plus fallbacks;
+- current subgoal and success criteria;
+- observation mode and scope;
+- Reflex effective confidence and escalation reason;
+- Brain, Reflex, step, and duration limits; and
+- selected Skill ID and version.
+
+These fields help BrowserPair resume coordination. They never expand browser authority.
+
+<CardGroup cols={3}>
+  <Card title="REST API" icon="code" href="/rest-api">
+    Work with durable task state directly over HTTP.
+  </Card>
+
+  <Card title="Remote MCP" icon="plug" href="/remote-mcp">
+    Use the same semantics through MCP tools.
+  </Card>
+
+  <Card title="Permissions" icon="shield" href="/permissions">
+    Understand the authority that remains attached to the task.
+  </Card>
+</CardGroup>

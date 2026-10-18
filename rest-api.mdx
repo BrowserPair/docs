@@ -1,0 +1,230 @@
+---
+icon: "code"
+title: "BrowserPair REST API for Durable Browser Automation"
+sidebarTitle: "REST API"
+description: "Create idempotent scoped browser tasks, request observations or subgoals, respond to browser state, and cancel work over REST."
+keywords:
+  - "BrowserPair API"
+  - "browser automation REST API"
+  - "durable browser tasks"
+---
+
+Use the REST API when you want explicit HTTP control over BrowserPair's durable browser-task lifecycle.
+
+<CardGroup cols={3}>
+  <Card title="Base URL" icon="globe">
+    `https://api.browserpair.com`
+  </Card>
+
+  <Card title="Authentication" icon="key">
+    Bearer `bp_live_…` agent key.
+  </Card>
+
+  <Card title="Create safely" icon="fingerprint">
+    `POST /v1/tasks` requires an idempotency key.
+  </Card>
+</CardGroup>
+
+## Agent endpoints
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/v1/browsers` | List browsers available to the agent key. |
+| `POST` | `/v1/tasks` | Create a durable bounded task. |
+| `GET` | `/v1/tasks/:id` | Read current durable state and interaction. |
+| `POST` | `/v1/tasks/:id/subgoal` | Delegate bounded work to Reflex. |
+| `POST` | `/v1/tasks/:id/observe` | Request a fresh observation. |
+| `POST` | `/v1/tasks/:id/respond` | Send one bounded agent response. |
+| `POST` | `/v1/tasks/:id/cancel` | Cancel the task. |
+
+<Note>
+  Human approval is intentionally separate from agent authority. A task that needs a confirmation or runtime scope expansion surfaces that request to the signed-in user.
+</Note>
+
+## Create a task
+
+```bash
+curl https://api.browserpair.com/v1/tasks \
+  -H 'Authorization: Bearer bp_live_…' \
+  -H 'Content-Type: application/json' \
+  -H 'Idempotency-Key: invoice-check-001' \
+  -d '{
+    "browserId": "brw_…",
+    "goal": "Open the billing page and read the latest invoice status",
+    "contract": {
+      "version": 1,
+      "domains": ["example.com"],
+      "capabilities": ["read", "navigate", "click"],
+      "confirmations": [],
+      "maxSideEffects": 2
+    }
+  }'
+```
+
+## Task contract
+
+<ParamField body="browserId" type="string" required>
+  Connected browser identifier inside the reusable agent key's browser scope.
+</ParamField>
+
+<ParamField body="goal" type="string" required>
+  Human-readable durable task intent.
+</ParamField>
+
+<ParamField body="contract" type="object" required>
+  The task authority created at start.
+
+  <Expandable title="Contract fields">
+    <ParamField body="version" type="integer" required>
+      Use `1`.
+    </ParamField>
+
+    <ParamField body="domains" type="string[]" required>
+      One or more explicit websites, all inside the reusable key's domain ceiling.
+    </ParamField>
+
+    <ParamField body="capabilities" type="string[]" required>
+      The exact capability classes this task may exercise.
+    </ParamField>
+
+    <ParamField body="confirmations" type="string[]">
+      Additional immutable task confirmation requirements.
+    </ParamField>
+
+    <ParamField body="maxSideEffects" type="integer">
+      Optional bound on side-effecting operations.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Capability classes
+
+<CardGroup cols={2}>
+  <Card title="Ordinary browsing" icon="mouse-pointer">
+    `read`, `navigate`, `hover`, `click`, `fill`, `select`
+  </Card>
+
+  <Card title="Extra input" icon="keyboard">
+    `keyboard`, `drag_drop`, `range_interaction`, `canvas_interaction`
+  </Card>
+
+  <Card title="Elevated effects" icon="shield">
+    `communication`, `publish`, `destructive`, `authentication`, `payment`, `account_security`, `state_change`
+  </Card>
+
+  <Card title="Files and diagnostics" icon="file-arrow-down">
+    `download`, `file_upload`, `diagnostics_read`
+  </Card>
+</CardGroup>
+
+A task can narrow the reusable key, never widen it.
+
+## Idempotency
+
+<Warning>
+  Every `POST /v1/tasks` request requires `Idempotency-Key`.
+</Warning>
+
+The key must be 8–200 characters using letters, numbers, `.`, `_`, `:`, or `-`.
+
+<Tabs>
+  <Tab title="Same key + same request">
+    BrowserPair returns the original task.
+  </Tab>
+  <Tab title="Same key + different request">
+    BrowserPair fails closed with an idempotency conflict.
+  </Tab>
+</Tabs>
+
+## Read current state
+
+`GET /v1/tasks/:id` returns the durable task state and, when relevant, the current bounded interaction.
+
+<Tip>
+  Treat the interaction generation as part of the action context. Do not reuse stale element refs from an older generation.
+</Tip>
+
+## Delegate a Reflex subgoal
+
+`POST /v1/tasks/:id/subgoal` can include:
+
+- a bounded subgoal;
+- success criteria;
+- maximum Reflex steps;
+- observation mode and scope; and
+- an optional compatible Skill ID.
+
+The original task authority remains unchanged.
+
+## Request an observation
+
+`POST /v1/tasks/:id/observe` requests fresh context without performing a browser mutation.
+
+Modes are `lite`, `accessibility`, `dom`, `screenshot`, and `combined`. Scope is `relevant-region` or `full-page`.
+
+## Respond to the task
+
+`POST /v1/tasks/:id/respond` accepts one action against the current interaction generation.
+
+Supported kinds include `navigate`, `open_tab`, `back`, `adopt_tab`, `click`, `double_click`, `context_click`, `hover`, `fill`, `select`, `focus`, `press`, `scroll`, `wait`, `drag`, `canvas_click`, `range_click`, `done`, `blocked`, and `resolve_effect`. Hover, keys other than Enter, drag and drop, sliders and canvas points each need their own capability (`hover`, `keyboard`, `drag_drop`, `range_interaction`, `canvas_interaction`).
+
+<Warning>
+  Use only refs returned by the current observation. BrowserPair rejects authority-expanding or stale requests rather than inferring intent.
+</Warning>
+
+### Page dialogs
+
+BrowserPair answers native page dialogs at once so the page never hangs: alerts are acknowledged, and confirmation, prompt and "Leave this page?" dialogs are dismissed. The action outcome lists them in `dialogs` (type, credential-redacted message, how it was handled), and a dismissed confirmation makes the action `verified_failure` (`js_dialog_dismissed`).
+
+To answer a confirmation or leave-page dialog **OK**, repeat the same action with `"acceptDialog": true`:
+
+```json
+{ "interactionGeneration": 7, "action": { "kind": "click", "ref": "e12", "acceptDialog": true } }
+```
+
+This always pauses for the user's approval in Chrome, applies to that one action only, and accepts only a dialog with exactly the type and text the previous attempt reported. A different dialog is dismissed (`js_dialog_changed`); prompt dialogs are always dismissed. Without a dismissed dialog in the last outcome the request is refused (`dialog_accept_unavailable`). The page's effect stays uncertain until fresh evidence or `resolve_effect`, and it is never repeated automatically.
+
+### Files
+
+- **Downloads** need `download`. A download an action starts is held until the user approves that file in Chrome; otherwise the outcome is `verified_failure` `download_requires_approval` with the file's redacted name and origin. Repeat the action with `"allowDownload": true` to ask the user for that exact file.
+- **Uploads** use the `upload` action with a `ref` (a file field, or the control that opens the file chooser) and a `file`: `{"source": "user"}` lets the user pick the file in the approval, or `{"source": "content", "name", "text" | "base64"}` supplies a small file (at most 256 KiB). Needs `file_upload`; every upload waits for the user's approval. Local file paths are never accepted.
+
+### Ending, handing over and switching tabs
+
+- `done` and `blocked` accept `tabs`: `keep` (default), `result` (keep the current tab, close the task's other tabs) or `close` (close every tab the task opened).
+- `handoff` ends agent control and leaves the current tab with the user.
+- `user_step` with `reason` (`sign_in`, `verification`, `payment`, `review`) pauses until the user finishes that step; for sign-in, `credentials` (field refs only, never values) lets the user type the details into the BrowserPair side panel.
+- `switch_tab` with a `tabId` from the observation's `task_tabs` returns to another tab the task opened.
+
+### Outcome evidence
+
+Besides `effect_state`, `executed` and `error`, an outcome can carry `dialogs` (above) and `downloads` — downloads the action started, as `{ filename, origin }` with a redacted file name and no URL path. Downloads are evidence only; they never prove the requested outcome.
+
+## When an action is rejected
+
+Rejections name what is missing instead of guessing:
+
+| Error | Meaning |
+| --- | --- |
+| `capability_denied` | The body includes `requiredCapability` (for example `communication` for a "Send message" button or `keyboard` for Escape), `reason` (`label_risk`, `form_submit`, `key_or_modifier`, `action_kind`) and `grantedCapabilities`. Ask the user for a task with that capability or choose another target. |
+| `action_ref_not_found` / `stale_interaction_generation` | The ref or generation is no longer current. Read the task state again. |
+| `effect_resolution_required` | The previous action's effect is uncertain. Observe, then send `resolve_effect`. |
+| `fresh_observation_required` | `definitely_not_executed` was claimed from the uncertain action's own result. Request a fresh observation first and decide from it. |
+| `target_occluded_or_moved` | Nothing was pressed. When something covers the target, `occluded_by` names it (the covering element's role and name, or a frame's web host). Close or handle that element, or observe again. |
+| `browser_input_blocked_by_extension_frame` | Another browser extension's frame (for example a password manager) is in the page, and Chrome blocks automation while it is there. Nothing was sent; try again once it closes. |
+| `blocked_by_browser_policy` | The browser's managed (organization) policy blocks that site. Nothing was sent and no approval can lift it. |
+| `dialog_accept_unavailable` | `acceptDialog` was sent, but the last outcome reported no dismissed confirmation or leave-page dialog. |
+
+<CardGroup cols={3}>
+  <Card title="Remote MCP" icon="plug" href="/remote-mcp">
+    Use the same capabilities through MCP tools.
+  </Card>
+
+  <Card title="Task semantics" icon="arrows-rotate" href="/task-semantics">
+    Understand durable state and safe retries.
+  </Card>
+
+  <Card title="Permissions" icon="shield" href="/permissions">
+    See how agent-key and task authority interact.
+  </Card>
+</CardGroup>

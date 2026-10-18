@@ -1,0 +1,49 @@
+---
+title: "Use BrowserPair in ChatGPT"
+sidebarTitle: "ChatGPT"
+description: "Add BrowserPair to ChatGPT, sign in with your BrowserPair account, and let ChatGPT run scoped browser tasks in your own Chrome with approvals and verified results."
+icon: "comments"
+keywords:
+  - "BrowserPair ChatGPT"
+  - "ChatGPT browser tasks"
+  - "ChatGPT MCP connector"
+---
+
+ChatGPT can use BrowserPair to carry out tasks in the Chrome profile you already use. ChatGPT decides what to do; BrowserPair keeps it inside the limits you choose and executes each step in its Chrome extension.
+
+<Note>
+  Connect BrowserPair from ChatGPT's Plugin Directory when available. Some ChatGPT workspaces also allow a custom MCP connection; custom connections may require Developer mode. Availability and exact menu names depend on your plan and workspace.
+</Note>
+
+## Add BrowserPair
+
+<Steps>
+  <Step title="Connect your browser">
+    Pair the Chrome profile you want ChatGPT to use. See [Quickstart](/quickstart).
+  </Step>
+  <Step title="Find BrowserPair in ChatGPT">
+    Open **Plugins** from the ChatGPT sidebar or **Settings → Plugins**, then look for BrowserPair. If your workspace supports custom MCP connections instead, use that option.
+  </Step>
+  <Step title="Connect with OAuth">
+    Select **Connect** for BrowserPair. For a custom MCP connection, use the server URL `https://mcp.browserpair.com` and OAuth authentication; enable Developer mode only if ChatGPT requires it for custom connections.
+  </Step>
+  <Step title="Allow it in BrowserPair">
+    ChatGPT sends you to BrowserPair. Check that the identity is published by **chatgpt.com**, choose the browser, websites, permissions and approvals, then select **Allow**. See [Connect an AI app](/connect-ai-app).
+  </Step>
+</Steps>
+
+## Try it
+
+- "Which of my browsers are connected to BrowserPair?"
+- "Open example.com in my browser and tell me the page heading."
+- "Look up Ada Lovelace on Wikipedia in my browser and give me her birth year."
+
+When a step needs your approval, ChatGPT tells you to approve or deny it in the BrowserPair card in Chrome. Ask ChatGPT to stop a task at any time; work already done on websites is not undone.
+
+## Limits
+
+ChatGPT can use only the websites you allowed; to add or remove a site, open **Agent access → Connected apps → Edit websites** in the BrowserPair App. By default ChatGPT can never make payments, change sign-in or security settings, or see passwords, one-time codes, card numbers or other sensitive data through BrowserPair; only you can allow chosen ones for a limited time with [Developer mode](/developer-mode). BrowserPair can request masked screenshot observations; displaying image content depends on the ChatGPT connection and tool response support. Each browser-accepted task counts toward your monthly BrowserPair task allowance.
+
+## Disconnect
+
+Remove BrowserPair in ChatGPT, or select **Disconnect** under **Agent access → Connected apps** in the [BrowserPair App](https://app.browserpair.com/). Either way ChatGPT loses access immediately.

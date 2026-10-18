@@ -1,0 +1,57 @@
+---
+title: "Developer Mode: Let an Agent Work with Secrets and Risky Steps You Choose"
+sidebarTitle: "Developer mode"
+description: "Turn on Developer mode for one agent key or connected AI app so it can type and read the secrets and take the risky steps you choose, for a limited time, with approvals that still follow your settings."
+icon: "code"
+keywords:
+  - "BrowserPair developer mode"
+  - "AI agent secrets"
+  - "API key automation"
+---
+
+Developer mode is for work where you *want* an agent to handle secrets or risky steps, for example creating an access token and putting it into another service, or running a checkout in a test shop. It is off by default and you turn it on for one agent at a time.
+
+<Warning>
+  While Developer mode is on, the agent can see and type the secrets you choose. Turn it on only for agents and tasks you trust, and keep the duration short.
+</Warning>
+
+## What changes while it is on
+
+| | Default | Developer mode |
+| --- | --- | --- |
+| Typing a chosen secret type (API keys, access tokens, passwords, one-time codes, card data, other sensitive data) | Needs a separate grant | Allowed |
+| Reading a chosen secret type | Redacted; needs your approval per request | The agent asks for one type at a time and gets it without stopping |
+| Buttons whose words mean a risky step you chose (payment, sign-in, account security, delete, publish, send) | Refused if the task did not list that step | Allowed; it still follows your approval setting |
+| Connected AI apps (ChatGPT, Claude) | Never payments, sign-in or security changes, or secrets | Only what you chose for that app |
+
+Nothing else changes: the agent stays inside its websites and browser, BrowserPair never repeats an action whose effect is uncertain, and a plain page view stays fully redacted.
+
+## Turn it on
+
+<Steps>
+  <Step title="Open Agent access">
+    In the [BrowserPair App](https://app.browserpair.com/), open **Agent access** and choose **Developer mode…** on an agent key or a connected app. You can also switch it on when you connect an AI app.
+  </Step>
+  <Step title="Choose what it may do">
+    Pick the secret types and the risky steps, the approval setting to use, and how long: 1 hour, 8 hours, 24 hours (default), 7 days or 30 days.
+  </Step>
+  <Step title="Confirm the warning">
+    BrowserPair emails you when Developer mode turns on and off, and shows a banner in the App while it is on.
+  </Step>
+</Steps>
+
+<Note>
+  Your browser's own setting in the BrowserPair side panel still limits approvals. To let the agent work without stopping, set both Developer mode and that browser to **Allow all**; the side panel offers a one-click button while a Developer-mode task runs.
+</Note>
+
+## Sign-in without Developer mode
+
+When a site needs you to sign in, an agent can ask you to type your details into the BrowserPair side panel instead. BrowserPair fills and submits them, and the agent only learns whether it worked. This needs no Developer mode.
+
+## Turn it off
+
+Choose **Turn off Developer mode** in Agent access. It ends on the agent's next request, and an action that was waiting under it is withdrawn without touching the page. It also ends when it expires, when you revoke the key, disconnect the app or remove its browser.
+
+## For agent developers
+
+Every Remote MCP and REST result carries `developer_mode` (`active`, `expires_at`, `sensitive_categories`, `capabilities`). To read a secret, request an observation with one `sensitive_category` from that list; only that type is revealed in that observation. Keep secrets inside the task and never repeat them elsewhere. Only the user can turn Developer mode on or off, in the App; no API key, OAuth token or page content can.

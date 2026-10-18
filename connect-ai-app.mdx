@@ -1,0 +1,87 @@
+---
+title: "Connect an AI App to BrowserPair with OAuth"
+sidebarTitle: "Connect an AI app"
+description: "Connect ChatGPT, Claude or any MCP client to BrowserPair Remote MCP with your BrowserPair account, choose its limits on a consent screen, and disconnect at any time."
+icon: "link"
+keywords:
+  - "BrowserPair OAuth"
+  - "MCP OAuth connector"
+  - "connect AI app to browser"
+---
+
+AI apps that speak MCP with OAuth can connect to BrowserPair without a copied agent key. The app sends you to BrowserPair, you sign in and choose its limits, and the app receives a short-lived token that works only on Remote MCP.
+
+<CardGroup cols={3}>
+  <Card title="Your account" icon="user">
+    Sign in with the same BrowserPair account that owns your connected browser.
+  </Card>
+
+  <Card title="Your limits" icon="shield">
+    Pick one browser, the websites, what the app may do and when it must ask you.
+  </Card>
+
+  <Card title="Your off switch" icon="power-off">
+    Disconnect under **Agent access → Connected apps**; access ends immediately.
+  </Card>
+</CardGroup>
+
+## Connect
+
+<Steps>
+  <Step title="Connect a browser first">
+    Install the BrowserPair extension and pair the Chrome profile you want the app to use. See [Quickstart](/quickstart).
+  </Step>
+  <Step title="Add BrowserPair in your AI app">
+    Use the server URL `https://mcp.browserpair.com` and choose OAuth if the app asks. See [ChatGPT](/chatgpt) for the ChatGPT steps.
+  </Step>
+  <Step title="Choose the app's limits">
+    BrowserPair shows the app's name, whether its identity is published by its own domain, and the address it returns to. Choose the browser, at least one website, what it may do and the approval preset, then select **Allow**.
+  </Step>
+  <Step title="Ask for a browser task">
+    The app can now list your browser, start tasks inside those limits, and report verified results.
+  </Step>
+</Steps>
+
+## What a connected app can and cannot do
+
+|  | Connected app (OAuth) | Agent key (`bp_live_…`) |
+| --- | --- | --- |
+| Websites | Only the sites you allowed; change them any time under **Connected apps → Edit websites** | The key's sites |
+| Read, navigate, click, type, choose options | Yes, if you allow them (default) | If granted |
+| Submit forms, send messages, publish, delete | Only if you allow them; risky steps still ask you | If granted |
+| Payments, sign-in or security settings | **Never**, unless you turn on [Developer mode](/developer-mode) for that app | Only with explicit capabilities |
+| Passwords, one-time codes, card numbers, other sensitive data | **Never**, unless you turn on [Developer mode](/developer-mode) for that app | Only with explicit sensitive grants |
+| Downloads, uploads, console and network diagnostics | Only if you allow them; every file waits for your approval in Chrome | If granted (`download`, `file_upload`, `diagnostics_read`) |
+| REST API | No (Remote MCP only) | Yes |
+
+Website content is untrusted data. Nothing a page or the app's model says can widen these limits.
+
+## Approvals and uncertain results
+
+- When a step needs your decision, the task pauses and the app is told to ask you to approve or deny it in the BrowserPair card in Chrome.
+- A task may start with only some of the app's sites. If it then needs another of them, you approve that site in Chrome. A site outside the app's list is refused, and no approval in Chrome can add it: add it under **Agent access → Connected apps → Edit websites** (no need to connect again).
+- If the task has no page open yet, the request waits in the BrowserPair side panel: click the BrowserPair icon in Chrome's toolbar to approve or deny it.
+- If BrowserPair cannot confirm whether an action took effect, it never repeats it automatically. The app is told to look at the page again before deciding.
+- Each result says whether the outcome was verified on the page or needs your review.
+
+## Manage connected apps
+
+Open **Agent access** in the [BrowserPair App](https://app.browserpair.com/). Each connected app shows its browser, websites, permissions and when it was last used. **Edit websites** changes its site list without reconnecting; removing a site stops the app's running tasks that could still reach it, and BrowserPair emails you about the change. **Disconnect** ends its tokens at once and stops its running tasks. Removing the only browser an app may use also disconnects it.
+
+Connected apps count toward your plan's agent limit, like agent keys.
+
+## For MCP client developers
+
+| Item | Value |
+| --- | --- |
+| Protected resource metadata | `https://mcp.browserpair.com/.well-known/oauth-protected-resource` (and `/mcp` for the `https://mcp.browserpair.com/mcp` form) |
+| Authorization server metadata | `https://mcp.browserpair.com/.well-known/oauth-authorization-server` |
+| Grant | Authorization code with PKCE `S256`; refresh tokens rotate on every use |
+| Client registration | Client ID Metadata Documents or dynamic registration; public clients (`none`) |
+| Redirects | HTTPS, or loopback `http://localhost` / `http://127.0.0.1` on any port |
+| Scope | `browser` (`offline_access` is accepted) |
+| Token lifetime | Access 1 hour, refresh 30 days |
+
+Authorization responses include `iss` (RFC 9207). Unauthenticated MCP requests receive `401` with `WWW-Authenticate: Bearer resource_metadata="…"`. Reusing a rotated refresh token revokes the connection.
+
+Product history: [Changelog](https://browserpair.com/changelog/).

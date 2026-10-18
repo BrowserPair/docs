@@ -1,0 +1,160 @@
+---
+title: "BrowserPair Permissions: Scopes, Approvals, and Sensitive Access"
+sidebarTitle: "Permissions"
+description: "Understand agent-key ceilings, task contracts, approval presets, website grants, and high-risk browser action boundaries."
+icon: "shield"
+keywords:
+  - "BrowserPair permissions"
+  - "AI agent permissions"
+  - "scoped browser access"
+---
+
+BrowserPair treats authority as an explicit stack. Every layer can narrow what came before it; none can silently widen it.
+
+<CardGroup cols={3}>
+  <Card title="Agent-key ceiling" icon="key">
+    Reusable browser, website, capability, approval, and optional rate boundaries.
+  </Card>
+
+  <Card title="Task contract" icon="file-shield">
+    Per-task domains, capabilities, confirmations, and optional side-effect bound.
+  </Card>
+
+  <Card title="Explicit grants" icon="shield">
+    Bounded user approvals for runtime website expansion or protected data.
+  </Card>
+</CardGroup>
+
+```text
+user authority
+  -> agent-key ceiling
+    -> task contract
+      -> explicit task grants
+        -> policy / task confirmation
+```
+
+## Hard scope
+
+An agent key can restrict:
+
+- browser IDs;
+- domains;
+- capabilities;
+- approval preset; and
+- an optional per-hour task limit.
+
+Current capability classes include ordinary browsing plus elevated effects such as communication, publish, destructive, authentication, payment, account security, and state change.
+
+## Approval presets
+
+<AccordionGroup>
+  <Accordion title="Always ask" icon="hand">
+    Confirm before the first browser observation and before actions.
+  </Accordion>
+
+  <Accordion title="Allow read tools" icon="eye">
+    Reading and navigation can continue automatically; state-changing interactions ask first.
+  </Accordion>
+
+  <Accordion title="Allow low-risk tools — default" icon="shield">
+    Ordinary low-risk browsing proceeds automatically while elevated or high-risk actions still require confirmation.
+  </Accordion>
+
+  <Accordion title="Allow all tools in scope" icon="bolt">
+    Remove optional user prompts for actions already allowed by the key and task contract. Hard denials and immutable confirmations remain.
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  Approval behavior is not authority. A permissive preset never adds a browser, domain, capability, sensitive-data category, or task-contract permission.
+</Warning>
+
+## Runtime website expansion
+
+A task can start with one or many explicit domains.
+
+When the next destination is outside the current effective task scope, BrowserPair does not navigate silently.
+
+<CardGroup cols={3}>
+  <Card title="Deny" icon="xmark">
+    Keep the existing task authority unchanged.
+  </Card>
+
+  <Card title="Allow once" icon="clock">
+    Authorize only the exact bounded request.
+  </Card>
+
+  <Card title="Allow for task" icon="play">
+    Add that exact domain to the current task's effective authority until the task ends.
+  </Card>
+</CardGroup>
+
+If the destination is outside the reusable agent key's hard domain ceiling, runtime task approval cannot bypass the key. Change or reissue the key instead.
+
+## The approval card
+
+Approvals appear as a BrowserPair card on the task's own tab, or in the BrowserPair side panel when the task has no page yet (click the BrowserPair icon in Chrome's toolbar). The card names the action and its target, for example `Click "Delete repository"`, plus the site and risk; the target text comes from the page and is shown quoted. On high-risk cards Enter rejects, so approving takes a deliberate click (or Tab, then Enter). Using the card never closes the page's own menus or popovers, so an approved click inside an open menu still lands.
+
+Approval emails and system notifications never quote page text; they use BrowserPair's own wording with the site and risk only.
+
+## Developer mode
+
+For work you want an agent to do with secrets or risky steps, turn on [Developer mode](/developer-mode) for that one agent key or connected app. You choose the secret types, the risky steps and the duration; words on a button no longer block those steps, and approvals still follow your settings.
+
+## Organization policy
+
+On managed Chrome, an administrator can set `blockedUrlPatterns` for the BrowserPair extension (host patterns that include subdomains). Blocked sites are refused before any input (`blocked_by_browser_policy`) for navigation, links, forms, frames, redirects and tab adoption. The policy can only remove access; no approval, key or preset can lift it.
+
+## When a capability is missing
+
+A `capability_denied` rejection names the capability the action needs (`requiredCapability`), why (`label_risk` for words such as Send, Delete or Pay on the target, `form_submit`, `key_or_modifier`, `action_kind`) and what the task already has (`grantedCapabilities`). The agent can then ask the user for a task with that capability or pick another target; nothing is granted automatically.
+
+## Removing a browser
+
+Removing a browser revokes its device credential at once and stops its active tasks. Agent keys scoped **only** to that browser are revoked too, so they can never drift to another browser; keys that also cover other browsers keep working for those. The App lists the affected keys before you confirm, and revocation cannot be undone.
+
+## Sensitive-data grants
+
+Protected values are redacted by default. User grants can be scoped to:
+
+- one exact pending action;
+- the current task; or
+- one agent key until revoked.
+
+Optional domain binding can narrow a grant further.
+
+<Card title="Sensitive access" icon="key" href="/sensitive-access">
+  See the protected categories, grant lifetimes, audit behavior, and revocation model.
+</Card>
+
+## High-risk effects
+
+Publish, send, delete, payment, password-related, transfer, and other elevated actions require the corresponding capability plus every confirmation required by policy or the task contract.
+
+<Note>
+  **Allow all tools in scope** can remove optional prompts, but it cannot remove a confirmation explicitly required by the immutable task contract.
+</Note>
+
+## What can never grant authority
+
+<CardGroup cols={2}>
+  <Card title="Page + browser content" icon="globe">
+    Text, DOM content, screenshots, redirects, links, forms, and popups are untrusted input.
+  </Card>
+
+  <Card title="Model + workflow content" icon="brain">
+    Brain output, Reflex output, Skills, external-agent instructions, and generated plans are also non-authoritative.
+  </Card>
+</CardGroup>
+
+They may influence **what the task understands**, but never **what the task is allowed to do**.
+
+<CardGroup cols={2}>
+  <Card title="Sensitive access" icon="key" href="/sensitive-access">
+    Narrow protected-data disclosure separately from browser authority.
+  </Card>
+
+  <Card title="Task semantics" icon="arrows-rotate" href="/task-semantics">
+    See how these permissions remain durable across reconnects and retries.
+  </Card>
+</CardGroup>

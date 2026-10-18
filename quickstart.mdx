@@ -1,0 +1,185 @@
+---
+title: "BrowserPair Quickstart: Connect a Browser and Run a Task"
+sidebarTitle: "Quickstart"
+description: "Connect your Chrome profile and run a managed BrowserPair task or connect an external agent over MCP or REST."
+icon: "rocket"
+keywords:
+  - "BrowserPair quickstart"
+  - "connect AI agent to browser"
+  - "MCP browser automation"
+---
+
+Get BrowserPair ready with a guided setup, then choose one of two ways to work: connect an AI app such as ChatGPT or Claude and send tasks there, or configure your own Brain model to start managed tasks inside BrowserPair. Both use your connected Chrome profile and the same task authority checks.
+
+<CardGroup cols={3}>
+  <Card title="1. Connect" icon="browser">
+    Pair the Chrome profile you already use.
+  </Card>
+
+  <Card title="2. Bound" icon="shield">
+    Define exactly which browser, websites, and actions are allowed.
+  </Card>
+
+  <Card title="3. Run" icon="play">
+    Start from the dashboard, Remote MCP, or REST.
+  </Card>
+</CardGroup>
+
+## Connect your browser
+
+<Steps>
+  <Step title="Install BrowserPair">
+    Add the BrowserPair extension to the Chrome profile you want to use for agent work.
+  </Step>
+  <Step title="Start pairing">
+    Sign in to [BrowserPair](https://app.browserpair.com/), follow the on-screen setup guide, and open the Chrome extension when prompted. The guide walks through browser pairing and approval. Chrome requests broad website access at installation; you can still restrict it in Chrome's extension settings.
+  </Step>
+  <Step title="Approve the browser">
+    Complete the pairing approval in the BrowserPair app.
+  </Step>
+  <Step title="Confirm presence">
+    Open **Browsers** in the dashboard. The profile should show **Online** while the extension is connected.
+  </Step>
+</Steps>
+
+<Note>
+  BrowserPair uses the browser profile that is already signed in. You do not export the profile, cookies, or a separate login state to your agent.
+</Note>
+
+## Choose your first-task path
+
+<Tabs>
+  <Tab title="Managed task">
+    Choose this path when you want BrowserPair to coordinate planning and execution.
+
+    <Steps>
+      <Step title="Configure a Brain">
+        Under **Advanced**, open **Models** and connect a Brain model. The first connected Brain becomes the account default. Reflex is optional.
+      </Step>
+      <Step title="Open Tasks">
+        Describe the outcome you want in plain language.
+      </Step>
+      <Step title="Set task boundaries">
+        Open **Task settings**, select the connected browser, and enter one or more allowed websites such as `github.com, vercel.com`.
+      </Step>
+      <Step title="Run and review">
+        Start the task. BrowserPair will surface approvals, pauses, and the final durable state in the task history.
+      </Step>
+    </Steps>
+
+    <Card title="Managed task guide" icon="play" href="/managed-tasks">
+      See task settings, Skills, model overrides, limits, and pause behavior.
+    </Card>
+  </Tab>
+  <Tab title="Connect an AI app">
+    Choose this path when ChatGPT, Claude, or another AI app already provides the Brain. You do not need to connect a model in BrowserPair.
+
+    <Steps>
+      <Step title="Open Agent access">
+        In the BrowserPair App, open **Agent access → Connected apps**. Choose the AI app you want to connect.
+      </Step>
+      <Step title="Connect with OAuth">
+        Follow the instructions in your AI app to add BrowserPair at `https://mcp.browserpair.com`. Sign in to BrowserPair when prompted.
+      </Step>
+      <Step title="Review its permissions">
+        Choose the browser, websites, capabilities, and approval behavior on the BrowserPair authorization screen.
+      </Step>
+      <Step title="Send your first task">
+        Use the read-only **Try it** request, press Send in your AI app, and review the linked outcome in BrowserPair **Tasks**.
+      </Step>
+    </Steps>
+
+    <Note>
+      For direct REST or token-based MCP integrations, create an agent key under **Agent access**. Its `bp_live_…` token appears only once; keep it in your agent's secret manager. Rotate it if exposed.
+    </Note>
+  </Tab>
+</Tabs>
+
+## Your first try with a connected AI app
+
+After connecting an AI app, use the read-only **Try it** prompt in the setup guide or Tasks. BrowserPair prepares the request with a unique idempotency key. You press Send in your AI app; the BrowserPair app does not submit or replay the request for you. The test reports success only when the task associated with that exact key completes with a verified outcome. Other tasks cannot make this test show success. If the app omits the key or the result is unverified, review the task in Tasks.
+
+## Remote MCP connection
+
+OAuth-connected AI apps do not need a manually copied agent key. The Bearer token below is for direct agent-key integrations.
+
+<CardGroup cols={2}>
+  <Card title="Endpoint" icon="plug">
+    `https://mcp.browserpair.com`
+  </Card>
+
+  <Card title="Authentication" icon="key">
+    `Authorization: Bearer bp_live_…`
+  </Card>
+</CardGroup>
+
+The current MCP surface includes browser discovery, durable task creation/state, bounded Reflex subgoals, richer observations, agent responses, and cancellation.
+
+<Card title="Remote MCP reference" icon="plug" href="/remote-mcp">
+  See every tool and the recommended external-agent loop.
+</Card>
+
+## First REST task
+
+```bash
+curl https://api.browserpair.com/v1/tasks \
+  -H 'Authorization: Bearer bp_live_…' \
+  -H 'Content-Type: application/json' \
+  -H 'Idempotency-Key: invoice-check-001' \
+  -d '{
+    "browserId": "brw_…",
+    "goal": "Open the billing page and read the latest invoice status",
+    "contract": {
+      "version": 1,
+      "domains": ["example.com"],
+      "capabilities": ["read", "navigate", "click"],
+      "confirmations": []
+    }
+  }'
+```
+
+<Tip>
+  One intended task should use one stable `Idempotency-Key`. Retrying the same request with that key returns the original task instead of creating duplicate work.
+</Tip>
+
+## What a pause means
+
+BrowserPair pauses rather than guessing when authority or certainty is missing.
+
+<AccordionGroup>
+  <Accordion title="A new website is required" icon="globe">
+    The task cannot silently leave its effective website scope. A signed-in user may approve a bounded task-scoped domain grant when the reusable agent key permits it.
+  </Accordion>
+
+  <Accordion title="Sensitive data is redacted" icon="key">
+    Protected values stay hidden until the user grants the minimum matching sensitive-data category.
+  </Accordion>
+
+  <Accordion title="The next action needs confirmation" icon="shield">
+    Approval presets and task-contract rules determine when BrowserPair asks before continuing.
+  </Accordion>
+
+  <Accordion title="The current observation is not enough" icon="eye">
+    A Brain can request richer accessibility, DOM, screenshot, or combined context when account policy allows it.
+  </Accordion>
+
+  <Accordion title="An effect is uncertain" icon="arrows-rotate">
+    BrowserPair verifies or asks for resolution before retrying a side effect.
+  </Accordion>
+</AccordionGroup>
+
+## Next
+
+<CardGroup cols={3}>
+  <Card title="Brain + Reflex" icon="brain" href="/brain-reflex">
+    Configure managed intelligence and provider routing.
+  </Card>
+
+  <Card title="Permissions" icon="shield" href="/permissions">
+    Understand the authority model before widening any scope.
+  </Card>
+
+  <Card title="Task semantics" icon="arrows-rotate" href="/task-semantics">
+    Learn how tasks survive reconnects without blind replay.
+  </Card>
+</CardGroup>

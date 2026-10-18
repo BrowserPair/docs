@@ -1,0 +1,127 @@
+---
+title: "BrowserPair: The Browser Access Layer for AI Agents"
+sidebarTitle: "Introduction"
+description: "Connect AI agents to the browser profile you already use with scoped authority, durable tasks, and recoverable execution."
+icon: "house"
+keywords:
+  - "BrowserPair"
+  - "AI browser automation"
+  - "AI agents"
+  - "browser access"
+---
+
+BrowserPair is the control layer between an AI agent and the browser profile you already use. It adds bounded authority, durable task coordination, explicit approvals, and extension-owned execution without turning your browser session into a cloud browser.
+
+<CardGroup cols={3}>
+  <Card title="Your browser" icon="browser">
+    Existing signed-in sessions stay in the connected browser profile.
+  </Card>
+
+  <Card title="Your authority" icon="shield">
+    Browser, website, capability, and sensitive-data boundaries come from you.
+  </Card>
+
+  <Card title="Recoverable execution" icon="arrows-rotate">
+    Tasks keep durable identity across reconnects and uncertain effects are verified before retry.
+  </Card>
+</CardGroup>
+
+## Choose how you want to work
+
+<CardGroup cols={2}>
+  <Card title="Run a task in BrowserPair" icon="play" href="/managed-tasks">
+    Connect your own Brain model to enable the task composer in BrowserPair. A Reflex provider is optional; approvals, Skills, and history live in the app.
+  </Card>
+
+  <Card title="Bring your own agent" icon="plug" href="/remote-mcp">
+    Connect ChatGPT, Claude, or another AI app over MCP and start tasks in that app, without configuring BrowserPair's managed Brain. REST and scoped agent keys are available for developers.
+  </Card>
+</CardGroup>
+
+<Tip>
+  New to BrowserPair? Start with the [Quickstart](/quickstart). It takes you from an unpaired browser to your first bounded task.
+</Tip>
+
+## The BrowserPair flow
+
+<Steps>
+  <Step title="Connect a browser">
+    Pair the Chrome profile you already use. BrowserPair receives a device credential for that browser; your agent key remains separate.
+  </Step>
+  <Step title="Define authority">
+    Choose the browser, allowed websites, capabilities, approval behavior, and—only when necessary—narrow sensitive-data grants.
+  </Step>
+  <Step title="Run a durable task">
+    Start work from the BrowserPair app, Remote MCP, or REST. The same permission and recovery model applies to every path.
+  </Step>
+  <Step title="Approve only when needed">
+    BrowserPair pauses when a bounded request needs your authority—for example a new website, a protected value, or a high-risk action.
+  </Step>
+  <Step title="Verify the result">
+    Browser execution stays inside the extension. Task state, ownership, and effect verification make reconnects safer than blind replay.
+  </Step>
+</Steps>
+
+## Where each responsibility lives
+
+<CardGroup cols={2}>
+  <Card title="Connected browser" icon="laptop">
+    Holds the user's signed-in profile, performs browser mutations, observes the current page, applies local redaction, and verifies effects.
+  </Card>
+
+  <Card title="BrowserPair Cloud" icon="cloud">
+    Coordinates identity, scoped authority, routing, durable task state, approvals, usage, audit, and optional managed model routing.
+  </Card>
+</CardGroup>
+
+<Warning>
+  Page text, screenshots, model output, redirects, and Skills are all non-authoritative input. None of them can silently widen the authority granted by the user, agent key, or task.
+</Warning>
+
+## Explore the system
+
+<CardGroup cols={3}>
+  <Card title="Brain + Reflex" icon="brain" href="/brain-reflex">
+    Managed planning, fast bounded execution, provider fallbacks, and observation policy.
+  </Card>
+
+  <Card title="Skills" icon="wand-magic-sparkles" href="/skills">
+    Reusable workflow knowledge that never grants browser authority.
+  </Card>
+
+  <Card title="Sensitive access" icon="key" href="/sensitive-access">
+    Redaction defaults and explicit once, task, or agent-scoped grants.
+  </Card>
+
+  <Card title="Remote MCP" icon="plug" href="/remote-mcp">
+    The complete MCP tool surface for external agents.
+  </Card>
+
+  <Card title="REST API" icon="code" href="/rest-api">
+    Durable task creation and agent control over HTTP.
+  </Card>
+
+  <Card title="Permissions" icon="shield" href="/permissions">
+    Hard scope, approval presets, runtime website grants, and high-risk actions.
+  </Card>
+</CardGroup>
+
+## Free defaults
+
+<CardGroup cols={3}>
+  <Card title="1 browser" icon="browser">
+    One connected browser profile per account.
+  </Card>
+
+  <Card title="2 agent keys" icon="key">
+    Two active external-agent keys.
+  </Card>
+
+  <Card title="100 tasks / month" icon="gauge">
+    Started tasks per UTC calendar month.
+  </Card>
+</CardGroup>
+
+<Card title="Open BrowserPair" icon="arrow-up-right-from-square" href="https://app.browserpair.com/">
+  Connect a browser, configure an agent or managed Brain, and run your first task.
+</Card>

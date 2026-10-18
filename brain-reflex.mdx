@@ -1,0 +1,61 @@
+---
+title: "Brain + Reflex: BrowserPair Task Intelligence"
+sidebarTitle: "Brain + Reflex"
+description: "Configure BrowserPair Brain and Reflex providers, fallbacks, trust thresholds, observations, and bounded task limits."
+icon: "brain"
+keywords:
+  - "BrowserPair"
+  - "Brain Reflex"
+  - "AI browser agent"
+---
+
+BrowserPair separates **planning** from **fast bounded execution** so routine browser work can stay responsive without giving the execution layer unlimited authority.
+
+<Note>
+  ChatGPT, Claude, and other connected AI apps provide their own models. You do not need to configure Brain or Reflex in BrowserPair to use them. This page is for tasks started inside BrowserPair.
+</Note>
+
+<CardGroup cols={3}>
+  <Card title="Brain" icon="brain">Plans, evaluates uncertainty, chooses subgoals, and decides when richer context is needed.</Card>
+  <Card title="Reflex" icon="bolt">Executes routine verified actions while effective confidence remains above your threshold.</Card>
+  <Card title="Authority layer" icon="shield">Task and user permissions remain in force regardless of which model makes a decision.</Card>
+</CardGroup>
+
+## Supported provider types
+
+| Provider | Brain | Reflex | Configuration |
+| --- | --- | --- | --- |
+| Anthropic | Yes | Yes | Model ID + credential |
+| OpenAI | Yes | Yes | Model ID + credential |
+| Google | Yes | Yes | Gemini model ID + credential |
+| TypeSafe | No | Yes | Reflex-only |
+| OpenAI-compatible | Yes | Yes | HTTPS endpoint + model ID + credential |
+
+<Note>Provider credentials are encrypted in BrowserPair Cloud. The raw credential is not returned after creation.</Note>
+
+## Configure routing
+
+<Steps>
+  <Step title="Add a provider">In the BrowserPair App, expand **Advanced**, open **Models**, and select **Connect a model**. The first Brain you connect becomes the account default.</Step>
+  <Step title="Choose primary and fallback">Set a default Brain and optional fallbacks.</Step>
+  <Step title="Set Reflex trust">Below the threshold, BrowserPair escalates rather than guessing.</Step>
+  <Step title="Review observation policy">Control accessibility, DOM, screenshot, or combined observations.</Step>
+  <Step title="Keep bounded limits">Use safe defaults unless a workflow actually needs more room.</Step>
+</Steps>
+
+## Observation modes
+
+<Tabs>
+  <Tab title="Lite">Small task-relevant semantic context.</Tab>
+  <Tab title="Accessibility">Accessibility-oriented page structure.</Tab>
+  <Tab title="DOM">Bounded DOM context when policy allows it.</Tab>
+  <Tab title="Screenshot">Visual context without more authority.</Tab>
+  <Tab title="Combined">Richer combined context when explicitly permitted.</Tab>
+</Tabs>
+
+<Warning>Richer observation is more context, not more permission.</Warning>
+
+<CardGroup cols={2}>
+  <Card title="Remote MCP" icon="plug" href="/remote-mcp">Recommended tool surface for an external Brain.</Card>
+  <Card title="REST API" icon="code" href="/rest-api">Use explicit HTTP endpoints.</Card>
+</CardGroup>

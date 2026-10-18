@@ -1,0 +1,100 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "luma",
+  "name": "BrowserPair",
+  "colors": {
+    "primary": "#78952B",
+    "light": "#C8FF4D",
+    "dark": "#C8FF4D"
+  },
+  "favicon": "https://browserpair.com/mark.svg",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "icon": "rocket",
+        "pages": [
+          "index",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "Use BrowserPair",
+        "icon": "browser",
+        "pages": [
+          "managed-tasks",
+          "brain-reflex",
+          "skills-guide",
+          "sensitive-access"
+        ]
+      },
+      {
+        "group": "Agent APIs",
+        "icon": "plug",
+        "pages": [
+          "remote-mcp",
+          "rest-api",
+          "connect-ai-app",
+          "chatgpt"
+        ]
+      },
+      {
+        "group": "Concepts",
+        "icon": "shield",
+        "pages": [
+          "permissions",
+          "task-semantics",
+          "developer-mode"
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "https://browserpair.com/mark.svg",
+    "dark": "https://browserpair.com/mark.svg"
+  },
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Open app",
+      "href": "https://app.browserpair.com/"
+    },
+    "links": [
+      {
+        "href": "https://browserpair.com",
+        "label": "Website"
+      },
+      {
+        "href": "https://browserpair.com/changelog/",
+        "label": "Changelog"
+      },
+      {
+        "href": "https://browserpair.com/security",
+        "label": "Security"
+      }
+    ]
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "mcp",
+      "cursor"
+    ]
+  },
+  "footer": {
+    "socials": {
+      "website": "https://browserpair.com/"
+    }
+  },
+  "description": "BrowserPair documentation for connecting AI agents to your existing browser with scoped access, managed Brain + Reflex tasks, Remote MCP, REST APIs, Skills, approvals, and recoverable browser execution.",
+  "redirects": [
+    {
+      "source": "/skills",
+      "destination": "/skills-guide",
+      "permanent": true
+    }
+  ]
+}

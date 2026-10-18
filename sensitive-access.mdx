@@ -1,0 +1,61 @@
+---
+title: "Sensitive Data Access and Redaction"
+sidebarTitle: "Sensitive access"
+description: "Understand BrowserPair redaction and explicit once, task, or agent-scoped grants for protected browser data."
+icon: "lock"
+keywords:
+  - "BrowserPair sensitive access"
+  - "browser redaction"
+  - "AI agent security"
+---
+
+Sensitive values are **redacted by default** before ordinary BrowserPair observations leave the connected device. Disclosure requires an explicit user grant that matches current authority.
+
+<CardGroup cols={3}>
+  <Card title="Redacted first" icon="eye-slash">Protected values stay hidden unless the workflow truly needs them.</Card>
+  <Card title="Minimum scope" icon="key">Grants can be limited to one action, one task, or one agent key.</Card>
+  <Card title="Revocable + auditable" icon="shield">Reusable grants can be revoked and grant events are recorded.</Card>
+</CardGroup>
+
+## Protected categories
+
+<CardGroup cols={2}>
+  <Card title="Passwords & passcodes" icon="lock">Authentication secrets and password-like fields.</Card>
+  <Card title="OTP & verification codes" icon="mobile-screen">One-time and verification values.</Card>
+  <Card title="Payment & card fields" icon="credit-card">Card numbers and payment-sensitive values.</Card>
+  <Card title="API keys & secrets" icon="key">API credentials and secret tokens.</Card>
+  <Card title="Auth & access tokens" icon="ticket">Authorization values exposed in page fields.</Card>
+  <Card title="Other sensitive fields" icon="shield">Protected values outside the named categories.</Card>
+</CardGroup>
+
+## Grant lifetimes
+
+| Scope | Lifetime | Bound to |
+| --- | --- | --- |
+| **Once** | One exact pending action | task + category + action ID |
+| **Task** | Until the task ends | task + category + optional domain |
+| **Agent** | Future tasks until revoked | agent key + category + optional domain |
+
+<Warning>A sensitive-data grant never overrides browser scope, website scope, capabilities, or policy-required confirmation.</Warning>
+
+## Reusable agent grant
+
+<Steps>
+  <Step title="Choose the agent key">
+    Select the exact reusable key.
+  </Step>
+  <Step title="Choose one category">
+    Grant only the data class the workflow needs.
+  </Step>
+  <Step title="Optionally restrict the domain">
+    Narrow the grant further when possible.
+  </Step>
+  <Step title="Review and revoke">
+    Use the dashboard grant list and audit trail.
+  </Step>
+</Steps>
+
+<CardGroup cols={2}>
+  <Card title="Permissions" icon="shield" href="/permissions">See the broader authority model.</Card>
+  <Card title="Task semantics" icon="arrows-rotate" href="/task-semantics">See how durable state protects retries.</Card>
+</CardGroup>

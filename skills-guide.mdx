@@ -1,0 +1,43 @@
+---
+title: "BrowserPair Skills: Reusable Workflow Knowledge"
+sidebarTitle: "Skills"
+description: "Create, version, share, import, export, and auto-match BrowserPair Skills without expanding browser authority."
+icon: "puzzle-piece"
+keywords:
+  - "BrowserPair Skills"
+  - "AI agent skills"
+  - "browser workflows"
+---
+
+BrowserPair Skills are reusable, versioned workflow knowledge for recurring browser work. They help an agent understand **how** to approach a task without deciding **what it is allowed to do**.
+
+<CardGroup cols={3}>
+  <Card title="Reusable" icon="puzzle-piece">Capture workflow structure, terminology, landmarks, and verification hints once.</Card>
+  <Card title="Versioned" icon="code-branch">Pin, promote, install, and evolve a Skill without losing which version a task used.</Card>
+  <Card title="Non-authoritative" icon="shield">A Skill never adds browser, website, capability, sensitive-data, or confirmation authority.</Card>
+</CardGroup>
+
+<Warning>The task and agent key must independently authorize every action a Skill suggests.</Warning>
+
+## What a Skill can describe
+
+<CardGroup cols={2}>
+  <Card title="Applicability" icon="globe">Domains, URL patterns, and task intents.</Card>
+  <Card title="Authority requirements" icon="shield">Required capability names the task must already possess.</Card>
+  <Card title="Workflow knowledge" icon="list-check">Semantic landmarks, terminology, suggested actions, and expected inputs/outputs.</Card>
+  <Card title="Verification" icon="circle-check">Success hints, failure modes, and limitations.</Card>
+</CardGroup>
+
+## Create and use a Skill
+
+<Steps>
+  <Step title="Create private">In the BrowserPair App, expand **Advanced → Skills** and describe the workflow. Skills are optional workflow knowledge, not a prerequisite to connect ChatGPT or another AI app.</Step>
+  <Step title="Enable or pin">Enable, disable, pin a version, or configure auto-suggestion.</Step>
+  <Step title="Match to a task">BrowserPair can auto-match by goal, domain, and capability authority.</Step>
+  <Step title="Bind the version">The selected Skill ID and version are recorded with the task.</Step>
+</Steps>
+
+<CardGroup cols={2}>
+  <Card title="Run with a Skill" icon="play" href="/managed-tasks">Select one or let BrowserPair auto-match it.</Card>
+  <Card title="Permissions" icon="shield" href="/permissions">See the boundaries Skills cannot override.</Card>
+</CardGroup>
