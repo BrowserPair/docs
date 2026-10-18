@@ -49,14 +49,21 @@ Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and r
 
 | Tool | Purpose |
 | --- | --- |
-| `browser_list` | List browser profiles available to the key and whether each is online. |
+| `browser_list` | List browser profiles available to the connection, with the name the user gave each one and whether it is online. Pick the browser whose name the user said. |
 | `browser_run` | Start one durable bounded browser task. |
 | `task_state` | Read current task state and the latest bounded interaction. |
 | `task_subgoal` | Delegate a bounded subgoal to BrowserPair Reflex. |
 | `task_observe` | Request a fresh browser observation without performing an action. |
 | `task_diagnostics` | Read a task tab's console messages or request list (bounded, redacted, no headers or bodies). Needs `diagnostics_read`. |
-| `task_respond` | Perform one bounded agent response, resolve an effect, finish, or report blocked. To answer a dismissed page confirmation dialog OK, repeat the action with `acceptDialog: true` (always approved by the user in Chrome; see [REST API → Page dialogs](/rest-api#page-dialogs)). |
+| Page actions | One tool per step: `task_click`, `task_double_click`, `task_context_click`, `task_fill`, `task_select`, `task_press`, `task_hover`, `task_focus`, `task_scroll`, `task_wait`, `task_drag`, `task_canvas_click`, `task_canvas_drag`, `task_range_click`, `task_upload`, `task_set_viewport`. Each takes a `ref` from the current observation and the `interaction_generation`. To answer a dismissed page confirmation dialog OK, repeat the action with `acceptDialog: true` (always approved by the user in Chrome; see [REST API → Page dialogs](/rest-api#page-dialogs)). |
+| Tabs and pages | `task_navigate`, `task_open_tab`, `task_back`, `task_switch_tab`, `task_adopt_tab` (use one of the user's open tabs listed in `open_tabs`), `task_close_tab` (close a tab the task opened). |
+| User and effects | `task_user_step` (the user signs in or completes a step themselves), `task_resolve_effect` (decide an uncertain step from a fresh observation). |
+| Finish | `task_done` (with `expectedOutcome` criteria the page proves and optional `tabs: keep, result or close`), `task_blocked`, `task_handoff`. |
 | `task_cancel` | Cancel the task. |
+
+## Tabs
+
+Each observation lists the task's own tabs (`task_tabs`). By default it also lists the user's open tabs on websites the connection may use (`open_tabs`, with title and address); other tabs are only counted. The user can limit this to the task's own websites, or turn it off, in the App under **Permissions**. An agent may continue in one of the user's tabs with `task_adopt_tab`. That tab stays the user's: BrowserPair never closes it. `task_close_tab` and `task_done tabs: close` close only tabs the task opened.
 
 ## Start a task
 
