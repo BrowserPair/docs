@@ -17,7 +17,7 @@ AI apps that speak MCP with OAuth can connect to BrowserPair without a copied ag
   </Card>
 
   <Card title="Your limits" icon="shield">
-    Pick one browser, the websites, what the app may do and when it must ask you.
+    Pick the browsers, the websites, what the app may do and when it must ask you.
   </Card>
 
   <Card title="Your off switch" icon="power-off">
@@ -35,7 +35,7 @@ AI apps that speak MCP with OAuth can connect to BrowserPair without a copied ag
     Use the server URL `https://mcp.browserpair.com` and choose OAuth if the app asks. See [ChatGPT](/chatgpt) for the ChatGPT steps.
   </Step>
   <Step title="Choose the app's limits">
-    BrowserPair shows the app's name, whether its identity is published by its own domain, and the address it returns to. Choose the browser, at least one website, what it may do and the approval preset, then select **Allow**.
+    BrowserPair shows the app's name, whether its identity is published by its own domain, and the address it returns to. Choose one browser or all of your browsers, at least one website, what it may do and the approval preset, then select **Allow**.
   </Step>
   <Step title="Ask for a browser task">
     The app can now list your browser, start tasks inside those limits, and report verified results.
@@ -69,6 +69,10 @@ Website content is untrusted data. Nothing a page or the app's model says can wi
 Open **Agent access** in the [BrowserPair App](https://app.browserpair.com/). Each connected app shows its browser, websites, permissions and when it was last used. **Edit websites** changes its site list without reconnecting; removing a site stops the app's running tasks that could still reach it, and BrowserPair emails you about the change. **Disconnect** ends its tokens at once and stops its running tasks. Removing the only browser an app may use also disconnects it.
 
 Connected apps count toward your plan's agent limit, like agent keys.
+
+### Several Chrome profiles
+
+Pair each Chrome profile separately and give each one its own name, for example "Work" and "Personal". When you pair a new profile, you can let your connected AI apps use it too. You can also change an app's browsers later with **Change browsers**. To rename a browser, use **Browsers → Rename** in the App, or the settings in the BrowserPair side panel. AI apps see the new name right away in `browser_list`, so you can tell them which browser to use by name. Removing a browser from an app stops that app's tasks in it, and BrowserPair emails you about the change.
 
 ## For MCP client developers
 
