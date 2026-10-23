@@ -94,8 +94,9 @@ This solves duplicate **task creation**. Browser mutations need an additional ef
 BrowserPair does not treat every open tab as available agent state.
 
 - strongly task-owned tabs may be used automatically;
-- probable or unrelated tabs are not silently adopted; and
-- navigation without an owned tab can create a new task-owned tab inside the user's existing browser profile.
+- probable or unrelated tabs are not silently adopted; the agent may continue in one of the user's open tabs only by naming it explicitly (`adopt_tab`), and only on a website the task may use; that tab stays the user's and is never closed by BrowserPair;
+- navigation without an owned tab can create a new task-owned tab inside the user's existing browser profile; and
+- an agent can close a tab the task opened (`close_tab`, or `tabs: close` when finishing), never one the user had.
 
 ## Reconnect and fencing
 

@@ -21,6 +21,25 @@ BrowserPair separates **planning** from **fast bounded execution** so routine br
   <Card title="Authority layer" icon="shield">Task and user permissions remain in force regardless of which model makes a decision.</Card>
 </CardGroup>
 
+## Your model works like an MCP client
+
+The Brain you connect gets the same tools that ChatGPT or Claude get over [Remote MCP](/remote-mcp): `task_click`, `task_fill`, `task_navigate`, `task_adopt_tab`, `task_done` and the rest, limited to what the task may do, plus `task_observe` and `ask_user`. BrowserPair has already started the task, so the Brain never calls `browser_run` or `task_state`.
+
+- **One step per turn.** On each turn the Brain sends a short message and one tool call. BrowserPair checks and runs the call exactly as it would an MCP call, with the same permissions, approvals and effect safety.
+- **Refused steps.** If a call is refused before anything happens (an unknown element, invalid arguments, a missing permission), the Brain gets BrowserPair's guidance and can try another way. After three refusals on the same page, the task waits for you.
+- **Questions.** When the request needs something only you know, such as your name or which plan to pick, the Brain asks with `ask_user` instead of guessing. The task waits until you answer.
+- **Finishing.** The Brain finishes with `task_done` and criteria the page proves, so the result is recorded as verified. When it cannot finish, it uses `task_blocked`.
+
+### The conversation
+
+Every task run by your model has a conversation: your request, the model's messages and questions, and one line per browser step. You see it in the BrowserPair side panel and in the task details in the App. In either place you can answer a question or add an instruction while the task runs.
+
+Your replies are your own words, just like the task request. They never grant permissions: the next step is checked like every other. The stored conversation is encrypted. It holds BrowserPair's own wording, the model's messages and the tool calls, never page text, typed values or file contents.
+
+<Note>
+  For OpenAI reasoning models (gpt-5, o-series), BrowserPair uses the model's own sampling settings when the model does not accept `temperature`.
+</Note>
+
 ## Supported provider types
 
 | Provider | Brain | Reflex | Configuration |
