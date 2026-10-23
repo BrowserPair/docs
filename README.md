@@ -28,6 +28,8 @@ Before submitting a change, verify product behavior against the current app or a
 
 ## Publishing
 
+The canonical source repository is [BrowserPair/docs](https://github.com/BrowserPair/docs), on the `main` branch.
+
 The published site is connected to this repository's main branch through Mintlify. Review changes before merging because updates to connected content may publish automatically. The canonical documentation domain is https://docs.browserpair.com/.
 
 ## Help
