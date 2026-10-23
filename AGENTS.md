@@ -1,33 +1,31 @@
-> **First-time setup**: Customize this file for your project. Prompt the user to customize this file for their project.
-> For Mintlify product knowledge (components, configuration, writing standards),
-> install the Mintlify skill: `npx skills add https://mintlify.com/docs`
+# BrowserPair documentation instructions
 
-# Documentation project instructions
+This repository publishes BrowserPair's public documentation at https://docs.browserpair.com/ through Mintlify. It does not contain the private application source.
 
-## About this project
+## Product terminology
 
-- This is a documentation site built on [Mintlify](https://mintlify.com)
-- Pages are MDX files with YAML frontmatter
-- Configuration lives in `docs.json`
-- Use the Mintlify MCP server, `https://mcp.mintlify.com`, to edit content and settings via MCP
-- Use the Mintlify docs MCP server, `https://www.mintlify.com/docs/mcp`, to query information about using Mintlify via MCP
+- BrowserPair connects AI agents to the user's existing Chrome profile.
+- A browser device credential is separate from an external agent key.
+- Managed tasks use a user-configured Brain; external MCP agents supply their own Brain.
+- Reflex performs bounded delegated work.
+- Skills are workflow knowledge, never authorization.
+- An uncertain effect must be verified before a retry.
 
-## Terminology
+## Authoring
 
-{/* Add product-specific terms and preferred usage */}
-{/* Example: Use "workspace" not "project", "member" not "user" */}
+Use concise English, active voice and second person. Use sentence case headings and real UI labels. Write MDX with valid frontmatter; navigation and branding live in docs.json.
 
-## Style preferences
+Verify every API path, field, capability and UI route against current product behavior. Do not infer released features from plans or old project tasks. State limitations and avoid blanket privacy, security or automation guarantees.
 
-{/* Add any project-specific style rules below */}
+## Publication boundaries
 
-- Use active voice and second person ("you")
-- Keep sentences concise — one idea per sentence
-- Use sentence case for headings
-- Bold for UI elements: Click **Settings**
-- Code formatting for file names, commands, paths, and code references
+Keep secrets, device credentials, private dashboards, customer data and internal infrastructure details out of public files. Use obvious placeholders in examples. Public product documentation belongs here; internal operations belong in the private application repository.
 
-## Content boundaries
+Preserve published page URLs or add redirects. Check links and preview changed pages before merging. Changes to connected content on main may publish automatically through Mintlify.
 
-{/* Define what should and shouldn't be documented */}
-{/* Example: Don't document internal admin features */}
+## Related public resources
+
+- Product hub: https://github.com/BrowserPair/browserpair
+- Examples: https://github.com/BrowserPair/examples
+- Skills: https://github.com/BrowserPair/skills
+- Ecosystem guide: https://github.com/BrowserPair/awesome-browser-agents
