@@ -15,7 +15,8 @@
         "icon": "rocket",
         "pages": [
           "index",
-          "quickstart"
+          "quickstart",
+          "compare-browser-automation"
         ]
       },
       {
@@ -25,7 +26,8 @@
           "managed-tasks",
           "brain-reflex",
           "skills-guide",
-          "sensitive-access"
+          "sensitive-access",
+          "read-authenticated-dashboard"
         ]
       },
       {
@@ -45,7 +47,8 @@
         "pages": [
           "permissions",
           "task-semantics",
-          "developer-mode"
+          "developer-mode",
+          "browser-session-data-flow"
         ]
       }
     ]
