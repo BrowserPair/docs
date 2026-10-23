@@ -71,6 +71,10 @@
       {
         "href": "https://browserpair.com/security",
         "label": "Security"
+      },
+      {
+        "href": "https://github.com/BrowserPair",
+        "label": "GitHub"
       }
     ]
   },
@@ -86,7 +90,8 @@
   },
   "footer": {
     "socials": {
-      "website": "https://browserpair.com/"
+      "website": "https://browserpair.com/",
+      "github": "https://github.com/BrowserPair"
     }
   },
   "description": "BrowserPair documentation for connecting AI agents to your existing browser with scoped access, managed Brain + Reflex tasks, Remote MCP, REST APIs, Skills, approvals, and recoverable browser execution.",
