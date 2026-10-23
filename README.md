@@ -1,55 +1,37 @@
-# Mintlify Starter Kit
+# BrowserPair documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+Official documentation for [BrowserPair](https://browserpair.com/), the browser access layer that connects AI agents to your existing Chrome profile with scoped permissions, approvals, durable tasks and outcome verification.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+**Read the published guides at [docs.browserpair.com](https://docs.browserpair.com/).**
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+## Find a guide
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+- [Quickstart](https://docs.browserpair.com/quickstart): pair Chrome and run your first bounded task.
+- [Connect an AI app](https://docs.browserpair.com/connect-ai-app) and [ChatGPT](https://docs.browserpair.com/chatgpt).
+- [Remote MCP](https://docs.browserpair.com/remote-mcp) and [REST API](https://docs.browserpair.com/rest-api).
+- [Permissions](https://docs.browserpair.com/permissions), [sensitive access](https://docs.browserpair.com/sensitive-access) and [task semantics](https://docs.browserpair.com/task-semantics).
+- [Managed tasks](https://docs.browserpair.com/managed-tasks), [Brain + Reflex](https://docs.browserpair.com/brain-reflex) and [Skills](https://docs.browserpair.com/skills-guide).
 
-## AI-assisted writing
+## Public resources
 
-Set up your AI coding tool to work with Mintlify:
+[Product and community hub](https://github.com/BrowserPair/browserpair) · [Examples](https://github.com/BrowserPair/examples) · [Skills](https://github.com/BrowserPair/skills) · [Browser-agent resources](https://github.com/BrowserPair/awesome-browser-agents)
 
-```bash
-npx skills add https://mintlify.com/docs
-```
+This repository contains public documentation, not the private BrowserPair application source. Mintlify builds and hosts the documentation; the product described here is BrowserPair.
 
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
+## Edit and preview
 
-See the [AI tools guides](/ai-tools) for tool-specific setup.
+Pages are MDX files with frontmatter. Navigation and branding live in docs.json. Keep existing page URLs stable; add redirects when moving a published page.
 
-## Development
+Install the official [Mintlify CLI](https://www.npmjs.com/package/mint), then run `mint dev` from this directory. Use `mint broken-links` to check internal links. Follow the current [Mintlify documentation](https://www.mintlify.com/docs) for CLI requirements.
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
+Before submitting a change, verify product behavior against the current app or authoritative API reference. Never add invented endpoints, unsupported integrations, credentials or private operational details.
 
-```
-npm i -g mint
-```
+## Publishing
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+The published site is connected to this repository's main branch through Mintlify. Review changes before merging because updates to connected content may publish automatically. The canonical documentation domain is https://docs.browserpair.com/.
 
-```
-mint dev
-```
+## Help
 
-View your local preview at `http://localhost:3000`.
+[Support](https://browserpair.com/support) · [Security](https://browserpair.com/security) · [Privacy](https://browserpair.com/privacy) · [Service status](https://status.browserpair.com/)
 
-## Publishing changes
-
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
-
-## Need help?
-
-### Troubleshooting
-
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
-
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+For a documentation correction, open a pull request. Keep tokens, cookies, personal data and unredacted logs out of public reports.
