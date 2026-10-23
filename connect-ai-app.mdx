@@ -21,7 +21,7 @@ AI apps that speak MCP with OAuth can connect to BrowserPair without a copied ag
   </Card>
 
   <Card title="Your off switch" icon="power-off">
-    Disconnect under **Agent access → Connected apps**; access ends immediately.
+    Disconnect under **AI apps → Connected apps**; access ends immediately.
   </Card>
 </CardGroup>
 
@@ -59,14 +59,14 @@ Website content is untrusted data. Nothing a page or the app's model says can wi
 ## Approvals and uncertain results
 
 - When a step needs your decision, the task pauses and the app is told to ask you to approve or deny it in the BrowserPair card in Chrome.
-- A task may start with only some of the app's sites. If it then needs another of them, you approve that site in Chrome. A site outside the app's list is refused, and no approval in Chrome can add it: add it under **Agent access → Connected apps → Edit websites** (no need to connect again).
+- A task may start with only some of the app's sites. If it then needs another of them, you approve that site in Chrome. A site outside the app's list is refused, and no approval in Chrome can add it: add it under **AI apps → Connected apps → Edit websites** (no need to connect again).
 - If the task has no page open yet, the request waits in the BrowserPair side panel: click the BrowserPair icon in Chrome's toolbar to approve or deny it.
 - If BrowserPair cannot confirm whether an action took effect, it never repeats it automatically. The app is told to look at the page again before deciding.
 - Each result says whether the outcome was verified on the page or needs your review.
 
 ## Manage connected apps
 
-Open **Agent access** in the [BrowserPair App](https://app.browserpair.com/). Each connected app shows its browser, websites, permissions and when it was last used. **Edit websites** changes its site list without reconnecting; removing a site stops the app's running tasks that could still reach it, and BrowserPair emails you about the change. **Disconnect** ends its tokens at once and stops its running tasks. Removing the only browser an app may use also disconnects it.
+Open **AI apps** in the [BrowserPair App](https://app.browserpair.com/). Each connected app shows its browser, websites, permissions and when it was last used. **Edit websites** changes its site list without reconnecting; removing a site stops the app's running tasks that could still reach it, and BrowserPair emails you about the change. **Disconnect** ends its tokens at once and stops its running tasks. Removing the only browser an app may use also disconnects it.
 
 Connected apps count toward your plan's agent limit, like agent keys.
 
