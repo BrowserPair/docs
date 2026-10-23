@@ -35,7 +35,8 @@
           "remote-mcp",
           "rest-api",
           "connect-ai-app",
-          "chatgpt"
+          "chatgpt",
+          "claude"
         ]
       },
       {
