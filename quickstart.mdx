@@ -54,9 +54,9 @@ Get BrowserPair ready with a guided setup, then choose one of two ways to work: 
 
     <Steps>
       <Step title="Configure a Brain">
-        Open **Settings → Models** and connect a Brain model. The first connected Brain becomes the account default. Reflex is optional.
+        Under **Advanced**, open **Models** and connect a Brain model. The first connected Brain becomes the account default. Reflex is optional.
       </Step>
-      <Step title="Open Chat">
+      <Step title="Open Tasks">
         Describe the outcome you want in plain language.
       </Step>
       <Step title="Set task boundaries">
@@ -72,11 +72,11 @@ Get BrowserPair ready with a guided setup, then choose one of two ways to work: 
     </Card>
   </Tab>
   <Tab title="Connect an AI app">
-    Choose this path when ChatGPT, Claude, or another AI app already provides the Brain. You do not need to connect a model in BrowserPair.
+    Choose this path when ChatGPT, Claude, or another AI app already provides the Brain. You do not need to connect a model in BrowserPair. Follow the client-specific [ChatGPT guide](/chatgpt) or [Claude guide](/claude).
 
     <Steps>
       <Step title="Open Agent access">
-        In the BrowserPair App, open **AI apps → Connected apps**. Choose the AI app you want to connect.
+        In the BrowserPair App, open **Agent access → Connected apps**. Choose the AI app you want to connect.
       </Step>
       <Step title="Connect with OAuth">
         Follow the instructions in your AI app to add BrowserPair at `https://mcp.browserpair.com`. Sign in to BrowserPair when prompted.
@@ -85,19 +85,19 @@ Get BrowserPair ready with a guided setup, then choose one of two ways to work: 
         Choose the browser, websites, capabilities, and approval behavior on the BrowserPair authorization screen.
       </Step>
       <Step title="Send your first task">
-        Use the read-only **Try it** request, press Send in your AI app, and review the linked outcome in BrowserPair **Activity**.
+        Use the read-only **Try it** request, press Send in your AI app, and review the linked outcome in BrowserPair **Tasks**.
       </Step>
     </Steps>
 
     <Note>
-      For direct REST or token-based MCP integrations, create an agent key under **AI apps**. Its `bp_live_…` token appears only once; keep it in your agent's secret manager. Rotate it if exposed.
+      For direct REST or token-based MCP integrations, create an agent key under **Agent access**. Its `bp_live_…` token appears only once; keep it in your agent's secret manager. Rotate it if exposed.
     </Note>
   </Tab>
 </Tabs>
 
 ## Your first try with a connected AI app
 
-After connecting an AI app, use the read-only **Try it** prompt in the setup guide or Activity. BrowserPair prepares the request with a unique idempotency key. You press Send in your AI app; the BrowserPair app does not submit or replay the request for you. The test reports success only when the task associated with that exact key completes with a verified outcome. Other tasks cannot make this test show success. If the app omits the key or the result is unverified, review the task in Activity.
+After connecting an AI app, use the read-only **Try it** prompt in the setup guide or Tasks. BrowserPair prepares the request with a unique idempotency key. You press Send in your AI app; the BrowserPair app does not submit or replay the request for you. The test reports success only when the task associated with that exact key completes with a verified outcome. Other tasks cannot make this test show success. If the app omits the key or the result is unverified, review the task in Tasks.
 
 ## Remote MCP connection
 
@@ -167,12 +167,6 @@ BrowserPair pauses rather than guessing when authority or certainty is missing.
     BrowserPair verifies or asks for resolution before retrying a side effect.
   </Accordion>
 </AccordionGroup>
-
-## Help and billing
-
-<Note>
-  Free includes self-service documentation. Paid Pro accounts can open **Live support** from the BrowserPair App profile menu and view existing support conversations. The feature remains available through the current paid subscription period, including a scheduled cancellation; when Pro ends, live support and conversation history are hidden until you resubscribe. Free users can upgrade in **Profile → Plan & billing**.
-</Note>
 
 ## Next
 
