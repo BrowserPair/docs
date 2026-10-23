@@ -1,0 +1,93 @@
+---
+title: "Use BrowserPair in Claude"
+sidebarTitle: "Claude"
+description: "Connect Claude to your existing Chrome profile with BrowserPair's remote MCP connector and OAuth. Set permissions and run your first browser task."
+keywords:
+  - "BrowserPair Claude"
+  - "Claude browser automation"
+  - "Claude remote MCP connector"
+  - "use existing Chrome session with Claude"
+---
+
+BrowserPair connects Claude to the Chrome profile you already use through a remote MCP connector. Claude provides the planning; BrowserPair runs bounded browser tasks in your connected profile. You do not need to configure a Brain model inside BrowserPair for this path.
+
+## Before you connect
+
+- Sign in to [BrowserPair](https://app.browserpair.com/) and pair the Chrome extension using the [quickstart](/quickstart).
+- Keep the paired Chrome profile online.
+- Use a Claude account or workspace that permits custom remote MCP connectors.
+
+<Note>
+  Claude's connector menus and availability depend on your workspace. Team or Enterprise owners may need to add the connector before members can connect it. Follow [Anthropic's current custom connector instructions](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp) if your menus differ.
+</Note>
+
+## Add BrowserPair to Claude
+
+<Steps>
+  <Step title="Add a custom connector">
+    In Claude, open **Customize → Connectors** and add a custom web connector. Name it **BrowserPair** and use this remote MCP server URL:
+
+    ```text
+    https://mcp.browserpair.com
+    ```
+
+    Continue to the connection or sign-in step.
+  </Step>
+  <Step title="Authorize with BrowserPair">
+    When Claude opens the BrowserPair authorization screen, sign in and review the requesting app. Choose the browser, websites, capabilities, and approval behavior you want this connection to have. Approve only the scope you intend to use.
+
+    This OAuth connection does not require you to paste a BrowserPair agent key into Claude.
+  </Step>
+  <Step title="Enable the connector in your conversation">
+    In Claude's conversation controls, enable BrowserPair under **Connectors** when needed.
+  </Step>
+  <Step title="Run a read-only first task">
+    Use the **Try it** prompt in BrowserPair's setup guide, or start by asking Claude to list your connected browsers. Then request a small read-only task on an allowed website.
+  </Step>
+</Steps>
+
+<Tip>
+  BrowserPair's **Developer mode** is a separate BrowserPair permission setting. It is not a prerequisite for adding a custom connector in Claude.
+</Tip>
+
+## Try a browser task
+
+For a first check, allow `example.com` for the connection and ask:
+
+> Use BrowserPair to open https://example.com in my connected Chrome profile and report the main heading and page URL. Do not submit forms or change anything.
+
+For work in an authenticated dashboard, choose that website in the connection's allowed scope first. For example:
+
+> Use BrowserPair to read the status of my latest deployment in the connected dashboard. Report the status and the page URL. Do not redeploy, edit settings, or delete anything.
+
+Review the associated task in BrowserPair **Tasks**. A task being accepted is not the same as its requested result being verified. If a task pauses, inspect the reason and provide only the permission or input it needs.
+
+## How the connection works
+
+Claude sends task requests to BrowserPair's public remote MCP endpoint. BrowserPair coordinates execution with your paired Chrome extension, so website interactions use that browser profile's current session.
+
+You do not export a cookie file or create a separate browser login for Claude. Browser observations and task results are returned through the integration; review the connection scope before using private pages. Read [Remote MCP](/remote-mcp), [permissions](/permissions), and [sensitive-data access](/sensitive-access) for the applicable controls.
+
+## Troubleshooting
+
+| Symptom | What to check |
+| --- | --- |
+| Custom connector option is missing | Check Claude's workspace policy and Anthropic's current connector instructions. An organization owner may need to add it. |
+| Claude does not use BrowserPair | Enable the connector for the conversation and explicitly ask to use BrowserPair. |
+| No browser is available | Open the paired Chrome profile and confirm it appears online in BrowserPair **Browsers**. |
+| A website is outside scope | Review the connection's allowed websites in **Agent access → Connected apps**. |
+| A task pauses for approval | Read the task's approval request in BrowserPair before continuing. |
+| An action has an uncertain result | Inspect its durable task state. Do not ask Claude to repeat the action blindly. |
+
+## Manage or disconnect access
+
+In BrowserPair, open **Agent access → Connected apps** to review or revoke the Claude connection. You can also remove the connector from Claude. Review existing task states in BrowserPair before starting replacement work.
+
+<CardGroup cols={2}>
+  <Card title="AI app connections" icon="plug" href="/connect-ai-app">
+    Understand OAuth connections and manage access.
+  </Card>
+  <Card title="ChatGPT setup" icon="comments" href="/chatgpt">
+    Connect BrowserPair from ChatGPT instead.
+  </Card>
+</CardGroup>

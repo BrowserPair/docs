@@ -1,0 +1,42 @@
+---
+title: "BrowserPair, Playwright, and Browser Use"
+sidebarTitle: "Compare approaches"
+description: "Compare existing browser sessions, planning, permissions, and integration choices for BrowserPair, Playwright, and Browser Use."
+---
+
+BrowserPair, Playwright, and Browser Use support different ways of doing browser work. Choose based on who plans the task, where the browser runs, and how you manage permissions and results.
+
+## Compare the approaches
+
+| Question | BrowserPair | Playwright | Browser Use |
+| --- | --- | --- | --- |
+| What do you start with? | A paired Chrome profile and a task from an AI app or managed Brain. | Code that controls a browser; Playwright Test adds a test runner. | An agent task and model, or direct browser-control code. |
+| Can existing authentication be reused? | Tasks run through the extension in the paired profile's current session. | Tests can load stored authentication state; Chromium can also be attached over CDP. | Real Browser profiles and CDP connections support existing browser state; cloud browsers are another option. |
+| How do you connect an external AI app? | Remote MCP with OAuth; direct integrations can use agent keys and REST. | Choose the library or an integration such as Playwright MCP for your environment. | Choose the open-source or cloud integration that fits your agent. |
+| What does BrowserPair provide around execution? | Website and capability scope, approval pauses, durable task state, verification, and handling of uncertain effects. | Assess the runner, integration, and controls you build around your automation. | Assess the selected agent, browser configuration, tools, and hosted service. |
+| What should you evaluate first? | Whether working through your paired Chrome profile fits the workflow and whether the browser will be online. | Whether you want to express and maintain repeatable browser steps and assertions in code. | Whether you want to build or operate a model-driven browser agent with its own browser configuration. |
+
+The last row is selection guidance, not a performance benchmark. This page does not claim that one approach is universally faster, safer, or more reliable.
+
+## When to start with BrowserPair
+
+Start here when an AI app such as [ChatGPT](/chatgpt) or [Claude](/claude) should work in the browser profile you already use, and you want to manage its browser access in BrowserPair. Pair the extension, authorize a bounded connection, and review task state before widening access.
+
+BrowserPair needs the paired browser online. Using an existing session also means the agent may encounter private account data; review [the data flow](/browser-session-data-flow) before authorizing a website.
+
+## When to evaluate another approach
+
+For an application test suite with repeatable assertions, evaluate Playwright's testing workflow. For an agent you configure and run in your own code or in managed browser infrastructure, evaluate Browser Use's open-source and cloud options.
+
+Existing-session access is not unique to BrowserPair. Playwright documents Chromium CDP attachment and authentication state reuse. Browser Use documents real Chrome profiles and remote CDP browsers.
+
+## Sources and scope
+
+Reviewed on October 23, 2026. Competitor capabilities change; consult their documentation before choosing an implementation:
+
+- [Playwright authentication](https://playwright.dev/docs/auth)
+- [Playwright CDP attachment](https://playwright.dev/docs/api/class-browsertype#browser-type-connect-over-cdp)
+- [Browser Use real browser profiles](https://docs.browser-use.com/open-source/customize/browser/real-browser)
+- [Browser Use remote browsers](https://docs.browser-use.com/open-source/customize/browser/remote)
+
+For BrowserPair's API behavior, read [Remote MCP](/remote-mcp), [permissions](/permissions), and [task semantics](/task-semantics).

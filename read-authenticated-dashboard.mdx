@@ -1,0 +1,41 @@
+---
+title: "Read an Authenticated Dashboard with ChatGPT or Claude"
+sidebarTitle: "Read a dashboard"
+description: "Use a bounded, read-only BrowserPair task to check a dashboard in your existing Chrome session and review the verified result."
+---
+
+Use this example when you want ChatGPT or Claude to read a status from a dashboard you are already signed in to, such as a deployment, billing, or support dashboard.
+
+This is a workflow template, not a recorded customer run or a benchmark. Replace the example website and status with your own.
+
+## Prepare the connection
+
+1. Pair the Chrome profile where the dashboard is already signed in.
+2. Connect [ChatGPT](/chatgpt) or [Claude](/claude) using BrowserPair's remote MCP endpoint.
+3. Limit the connection to the dashboard's website and the capabilities needed to read it.
+4. Keep that Chrome profile online. Check [session and data flow](/browser-session-data-flow) before using private account pages.
+
+Choose a task with a result you can verify. Start with a status or heading rather than a request to make account changes.
+
+## Send a bounded prompt
+
+> Use BrowserPair in my connected Chrome profile to open my deployment dashboard at [dashboard URL]. Read the latest deployment's status, project name, and visible deployment time. Return the page URL and say which fields you could verify. Do not redeploy, change settings, delete anything, or submit forms. Stop and ask if the website is outside the allowed scope or the correct project is unclear.
+
+The text of the prompt describes intent. The actual connection and task permissions still control what BrowserPair may do.
+
+## Review the result
+
+Check the associated task in BrowserPair's task history:
+
+- Did it use the intended browser and website?
+- Does the result identify the project and source page?
+- Was the requested information verified, or does it need review?
+- Did it pause because the page, permissions, or account context were unclear?
+
+An accepted task is not a verified result. If the page requires sign-in again, complete the appropriate human step before continuing. If BrowserPair cannot establish what a previous action did, inspect its state instead of asking for a blind repeat.
+
+## Extend it carefully
+
+After the reading task succeeds, choose a separate, explicit task if you want to change anything. For example, reading a deployment status does not authorize a redeploy. Review the website, capabilities, and approval behavior for the new request.
+
+See [task semantics](/task-semantics) for durable state and recovery, or the [public examples repository](https://github.com/BrowserPair/examples) for a direct REST integration.
