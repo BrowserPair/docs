@@ -1,43 +1,47 @@
 ---
-title: "Developer Mode: Let an Agent Work with Secrets and Risky Steps You Choose"
+title: "Developer mode: Account-wide permissions for trusted AI agents"
 sidebarTitle: "Developer mode"
-description: "Turn on Developer mode for one agent key or connected AI app so it can type and read the secrets and take the risky steps you choose, for a limited time, with approvals that still follow your settings."
+description: "Understand Developer mode, its nine account-wide ask-before switches and the safeguards that remain in force."
 icon: "code"
 keywords:
   - "BrowserPair developer mode"
+  - "AI agent permissions"
   - "AI agent secrets"
-  - "API key automation"
 ---
 
-Developer mode is the account-wide alternative to Standard, available from **Manage → Permissions**. It starts with all nine **Ask me before** switches off. You can turn individual switches on at any time. The setting applies across all connected AI apps, API keys, Chat and schedules, not to just one client.
+Developer mode controls **when BrowserPair asks you** before sensitive steps. It applies account-wide to ChatGPT, Claude, other MCP connections, API keys, BrowserPair Chat and schedules. It is not a temporary grant to one agent.
 
 <Warning>
-Developer mode is not a time-limited per-agent grant. Use it only if you trust all the connections on the account. It never bypasses Chrome website permissions, manual sign-in/file steps, task-required confirmations or uncertain-effect recovery.
+  Developer mode starts with all nine **Ask me before** switches off. Activate it only if you trust every connected AI agent on your account.
 </Warning>
 
-## What changes while it is on
+## Standard compared with Developer
 
-| | Default | Developer mode |
+| Sensitive step | Standard defaults | Developer defaults |
 | --- | --- | --- |
-| Typing a chosen secret type (API keys, access tokens, passwords, one-time codes, card data, other sensitive data) | Needs a separate grant | Allowed |
-| Reading a chosen secret type | Redacted; needs your approval per request | The agent asks for one type at a time and gets it without stopping |
-| Buttons whose words mean a risky step you chose (payment, sign-in, account security, delete, publish, send) | Refused if the task did not list that step | Allowed; it still follows your approval setting |
-| Connected AI apps (ChatGPT, Claude) | Never payments, sign-in or security changes, or secrets | Only what you chose for that app |
+| Payments; sign-in/account security; deletion; sending/publishing; files; passwords/secrets; website instructions | Ask before acting | No additional question by default |
+| Opening new websites; submitting forms | No question by default | No question by default |
+| Custom ask-before switches | Any switch can be changed | Any switch can be changed |
+| Browser and task protections | Always enforced | Always enforced |
 
-Nothing else changes: the agent stays inside its websites and browser, BrowserPair never repeats an action whose effect is uncertain, and a plain page view stays fully redacted.
+Both modes offer the same browser tools. Chrome site access, managed-browser blocks, task-required confirmations, user-entered credentials, local file choice, generation checks and uncertain-effect recovery remain enforced in both.
 
-## Turn it on
+## Switch modes
 
-Open **BrowserPair App → Permissions**, select **Developer → Use** and acknowledge the warning. Review the nine sensitive-step switches. Use **Standard → Use** to return to the more protective defaults.
+<Steps>
+  <Step title="Open Permissions">In the [BrowserPair App](https://app.browserpair.com/), open **Manage → Permissions**.</Step>
+  <Step title="Use Developer">Choose **Developer → Use**, acknowledge the warning, and review every ask-before switch.</Step>
+  <Step title="Return to Standard">Choose **Standard → Use** to restore its default questions. Changes affect future and pending decisions, not completed website actions.</Step>
+</Steps>
 
-## Sign-in without Developer mode
+There is no per-agent Developer timer, per-key permission preset, connected-app website editor or reusable agent-specific sensitive-data grant.
 
-When a site needs you to sign in, an agent can ask you to type your details into the BrowserPair side panel instead. BrowserPair fills and submits them, and the agent only learns whether it worked. This needs no Developer mode.
+## Sensitive data and manual steps
 
-## Turn it off
+Sensitive data is normally masked in Standard mode. The current task agent may request one protected category at a time; the current account **Passwords and secrets** question determines whether that request needs additional approval. The task and browser boundaries still apply.
 
-Switch back to **Standard** from Permissions or the browser side panel. Changes affect pending and future decisions; already-executed website effects are not undone.
+A task may pause for you to sign in, verify an account, review a payment or select a local file yourself. Developer mode never bypasses these user steps or permits blind replay of an action with an uncertain effect.
 
 ## For agent developers
 
-Every Remote MCP and REST result carries `developer_mode` (`active`, `expires_at`, `sensitive_categories`, `capabilities`). To read a secret, request an observation with one `sensitive_category` from that list; only that type is revealed in that observation. Keep secrets inside the task and never repeat them elsewhere. Only the user can turn Developer mode on or off, in the App; no API key, OAuth token or page content can.
+Read the active mode and current ask-before settings from task guidance. Do not rely on removed per-agent `expires_at` values or time-limited grants. A `sensitive_category` request is bounded to the current observation and task. See [Permissions](/permissions) and [Sensitive access](/sensitive-access).
