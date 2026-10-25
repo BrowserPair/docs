@@ -59,6 +59,7 @@ Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and r
 | Tabs | `task_open_tab`, `task_back`, `task_switch_tab`, `task_adopt_tab` and `task_close_tab` (only a task-owned tab can be closed). |
 | User steps and uncertain effects | `task_user_step` requests manual user input; `task_resolve_effect` reconciles an uncertain action after a fresh observation. |
 | Finish | `task_done`, `task_blocked` and `task_handoff` finish or return control without claiming an unsupported result. |
+| Legacy compatibility (agent keys only) | `task_respond` can still be available to key-authenticated MCP clients. OAuth connections use only the named actions. |
 | `task_cancel` | Cancel the task. |
 
 ## Tabs and browser ownership
@@ -145,7 +146,7 @@ with either `relevant-region` or `full-page` scope.
 
 ## Use current tools safely
 
-Each Remote MCP browser step has a **separate named tool**, taking fresh observation refs and the matching `interaction_generation` where required. The retired `task_respond` MCP tool is not part of the current interface. The REST endpoint `POST /v1/tasks/:id/respond` is different and remains available.
+Each Remote MCP browser step has a **separate named tool**, taking fresh observation refs and the matching `interaction_generation` where required. For OAuth-connected AI apps, use the named `task_*` tools: `task_respond` is not advertised to those connections. Agent-key MCP clients may still receive `task_respond` for compatibility with older integrations; new clients should prefer the named tools. The separate REST endpoint `POST /v1/tasks/:id/respond` also remains available.
 
 When an action's effect is unknown, request a fresh observation and reconcile with `task_resolve_effect` rather than replaying the action. A dismissed page confirmation can be accepted only through a new, specifically approved action. BrowserPair still checks account Permissions, task contract and Chrome restrictions at every step.
 
