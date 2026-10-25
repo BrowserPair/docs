@@ -61,6 +61,10 @@ Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and r
 | Finish | `task_done`, `task_blocked` and `task_handoff` finish or return control without claiming an unsupported result. |
 | `task_cancel` | Cancel the task. |
 
+## Tabs and browser ownership
+
+Observations can include `task_tabs` for task-owned tabs and `open_tabs` for eligible user-opened tabs, according to the user's current Permissions setting. An agent can continue an existing user-owned tab with `task_adopt_tab` only when it names that tab and the site is authorized. Adoption never transfers ownership: the user's tab is not closed by BrowserPair. `task_close_tab` and `task_done` with `tabs: close` can close task-created tabs only.
+
 ## Start a task
 
 `browser_run` requires:
