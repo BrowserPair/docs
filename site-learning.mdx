@@ -1,0 +1,43 @@
+---
+title: "Site Learning: Private Patterns and Optional Sharing"
+sidebarTitle: "Site Learning"
+description: "Understand how BrowserPair learns from verified tasks, what it saves and how to turn learning off."
+icon: "brain"
+---
+
+BrowserPair can become more familiar with eligible websites as you use it. **Private learning and reviewed shared-knowledge use are on after acknowledging a one-time notice**. Contributing site patterns to the shared pool is a separate, explicit opt-in.
+
+## How it works
+
+<Steps>
+  <Step title="Observe an authorised page">The Chrome extension observes only pages the user and current task may access.</Step>
+  <Step title="Remove private information">Only bounded, content-free structure from eligible HTTPS pages is considered. Sensitive sites and credential-bearing paths are excluded.</Step>
+  <Step title="Verify the task">Successful outcome evidence is required before a structural pattern contributes to private encrypted site memory.</Step>
+  <Step title="Use fresh page evidence">A later task may receive a site-family hint, but it still re-observes the live page and resolves every action target anew.</Step>
+</Steps>
+
+Learned information can include reviewed page families, parameterised URL routes, layout or language buckets, types of UI controls and verified task outcomes. **Raw HTML, page text, form values, passwords, screenshots, CSS selectors and click coordinates are not stored in learned site memory.**
+
+## Your controls
+
+Open **BrowserPair App → Automations → Learning**:
+
+| Setting | Initial state |
+| --- | --- |
+| Learn from my tasks | On after the notice |
+| Use shared site knowledge | On after the notice |
+| Improve BrowserPair for everyone | Off until explicit consent |
+| Excluded sites | User-managed |
+| Learned sites | Review or forget one site; delete all learning |
+
+Contributions may come only from eligible public, non-sensitive websites and require independent consenting contributors and verified results before promotion. Withdrawal, stale evidence, poor outcomes or contributor-quorum loss can remove shared knowledge from delivery.
+
+## Privacy and retention
+
+Private site memory is encrypted and expires 365 days after its last update, or sooner if you delete it. Raw consented structural contributions have separate retention limits (up to 180 days).
+
+<Warning>
+Learned guidance cannot grant access, override Chrome permissions, bypass account-wide ask-before settings or replay an uncertain browser effect.
+</Warning>
+
+See [Skills](/skills-guide), [Permissions](/permissions), [Browser sessions and data flow](/browser-session-data-flow) and the full [Site Learning privacy explanation](https://browserpair.com/learning-privacy.html).
