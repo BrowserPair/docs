@@ -9,10 +9,10 @@ keywords:
   - "API key automation"
 ---
 
-Developer mode is for work where you *want* an agent to handle secrets or risky steps, for example creating an access token and putting it into another service, or running a checkout in a test shop. It is off by default and you turn it on for one agent at a time.
+Developer mode is the account-wide alternative to Standard, available from **Manage → Permissions**. It starts with all nine **Ask me before** switches off. You can turn individual switches on at any time. The setting applies across all connected AI apps, API keys, Chat and schedules, not to just one client.
 
 <Warning>
-  While Developer mode is on, the agent can see and type the secrets you choose. Turn it on only for agents and tasks you trust, and keep the duration short.
+Developer mode is not a time-limited per-agent grant. Use it only if you trust all the connections on the account. It never bypasses Chrome website permissions, manual sign-in/file steps, task-required confirmations or uncertain-effect recovery.
 </Warning>
 
 ## What changes while it is on
@@ -28,21 +28,7 @@ Nothing else changes: the agent stays inside its websites and browser, BrowserPa
 
 ## Turn it on
 
-<Steps>
-  <Step title="Open Agent access">
-    In the [BrowserPair App](https://app.browserpair.com/), open **AI apps** and choose **Developer mode…** on an agent key or a connected app. You can also switch it on when you connect an AI app.
-  </Step>
-  <Step title="Choose what it may do">
-    Pick the secret types and the risky steps, the approval setting to use, and how long: 1 hour, 8 hours, 24 hours (default), 7 days or 30 days.
-  </Step>
-  <Step title="Confirm the warning">
-    BrowserPair emails you when Developer mode turns on and off, and shows a banner in the App while it is on.
-  </Step>
-</Steps>
-
-<Note>
-  Your browser's own setting in the BrowserPair side panel still limits approvals. To let the agent work without stopping, set both Developer mode and that browser to **Allow all**; the side panel offers a one-click button while a Developer-mode task runs.
-</Note>
+Open **BrowserPair App → Permissions**, select **Developer → Use** and acknowledge the warning. Review the nine sensitive-step switches. Use **Standard → Use** to return to the more protective defaults.
 
 ## Sign-in without Developer mode
 
@@ -50,7 +36,7 @@ When a site needs you to sign in, an agent can ask you to type your details into
 
 ## Turn it off
 
-Choose **Turn off Developer mode** in AI apps. It ends on the agent's next request, and an action that was waiting under it is withdrawn without touching the page. It also ends when it expires, when you revoke the key, disconnect the app or remove its browser.
+Switch back to **Standard** from Permissions or the browser side panel. Changes affect pending and future decisions; already-executed website effects are not undone.
 
 ## For agent developers
 
