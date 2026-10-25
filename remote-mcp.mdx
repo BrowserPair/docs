@@ -2,7 +2,7 @@
 icon: "plug"
 title: "BrowserPair Remote MCP for AI Browser Agents"
 sidebarTitle: "Remote MCP"
-description: "Connect MCP-speaking AI agents to BrowserPair with scoped keys, durable tasks, bounded Reflex subgoals, and browser observations."
+description: "Connect AI agents through OAuth or MCP keys to run durable tasks with explicit tools, verified results and account-wide Permissions."
 keywords:
   - "BrowserPair MCP"
   - "MCP browser automation"
@@ -49,13 +49,16 @@ Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and r
 
 | Tool | Purpose |
 | --- | --- |
-| `browser_list` | List browser profiles available to the key and whether each is online. |
+| `browser_list` | List available browser profiles, names and online status. |
 | `browser_run` | Start one durable bounded browser task. |
 | `task_state` | Read current task state and the latest bounded interaction. |
 | `task_subgoal` | Delegate a bounded subgoal to BrowserPair Reflex. |
 | `task_observe` | Request a fresh browser observation without performing an action. |
 | `task_diagnostics` | Read a task tab's console messages or request list (bounded, redacted, no headers or bodies). Needs `diagnostics_read`. |
-| `task_respond` | Perform one bounded agent response, resolve an effect, finish, or report blocked. To answer a dismissed page confirmation dialog OK, repeat the action with `acceptDialog: true` (always approved by the user in Chrome; see [REST API → Page dialogs](/rest-api#page-dialogs)). |
+| Page actions | `task_navigate`, `task_click`, `task_fill`, `task_select`, `task_press`, `task_hover`, `task_scroll`, `task_drag`, `task_upload`, `task_set_viewport` and other individually named tools act on current task evidence. |
+| Tabs | `task_open_tab`, `task_back`, `task_switch_tab`, `task_adopt_tab` and `task_close_tab` (only a task-owned tab can be closed). |
+| User steps and uncertain effects | `task_user_step` requests manual user input; `task_resolve_effect` reconciles an uncertain action after a fresh observation. |
+| Finish | `task_done`, `task_blocked` and `task_handoff` finish or return control without claiming an unsupported result. |
 | `task_cancel` | Cancel the task. |
 
 ## Start a task
@@ -97,10 +100,10 @@ Capability names are task hints; the current account Permissions governs sensiti
     Call `task_state` and use only the current interaction generation.
   </Step>
   <Step title="Choose the next mode">
-    Respond directly with `task_respond`, delegate routine work with `task_subgoal`, or request richer context with `task_observe`.
+    Choose one current `task_*` action, delegate bounded work with `task_subgoal`, or request richer context with `task_observe`.
   </Step>
   <Step title="Finish deliberately">
-    Report `done`, `blocked`, resolve an uncertain effect, or cancel.
+    Use `task_done` with observable evidence, `task_blocked` when the work cannot continue, or cancel. An uncertain effect needs fresh evidence first.
   </Step>
 </Steps>
 
@@ -136,15 +139,15 @@ with either `relevant-region` or `full-page` scope.
   Observation depth does not change authority. Account observation policy, domain scope, capabilities, and sensitive-data redaction still apply.
 </Warning>
 
-## Respond safely
+## Use current tools safely
 
-Current action kinds include `navigate`, `open_tab`, `back`, `adopt_tab`, `click`, `double_click`, `context_click`, `hover`, `fill`, `select`, `focus`, `press`, `scroll`, `wait`, `drag`, `canvas_click`, `range_click`, `done`, `blocked`, and `resolve_effect`. Hover, keys other than Enter, drag and drop, sliders and canvas points each need their own capability (`hover`, `keyboard`, `drag_drop`, `range_interaction`, `canvas_interaction`).
+Each Remote MCP browser step has a **separate named tool**, taking fresh observation refs and the matching `interaction_generation` where required. The retired `task_respond` MCP tool is not part of the current interface. The REST endpoint `POST /v1/tasks/:id/respond` is different and remains available.
+
+When an action's effect is unknown, request a fresh observation and reconcile with `task_resolve_effect` rather than replaying the action. A dismissed page confirmation can be accepted only through a new, specifically approved action. BrowserPair still checks account Permissions, task contract and Chrome restrictions at every step.
 
 <Warning>
-  Never invent a DOM or accessibility ref. Use only refs returned by the current BrowserPair interaction, with the matching interaction generation.
+  Never invent element refs, task permissions or a verified result. An apparent success in the model's text is not proof of a website side effect.
 </Warning>
-
-A rejected action says why: `capability_denied` includes `requiredCapability`, `reason` and `grantedCapabilities`, and `resolve_effect` with `definitely_not_executed` is refused (`fresh_observation_required`) until you have called `task_observe` after the uncertain action. See [REST API → When an action is rejected](/rest-api#when-an-action-is-rejected).
 
 ## Idempotency
 
