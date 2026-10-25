@@ -35,7 +35,7 @@ BrowserPair connects Claude to the Chrome profile you already use through a remo
     Continue to the connection or sign-in step.
   </Step>
   <Step title="Authorize with BrowserPair">
-    When Claude opens the BrowserPair authorization screen, sign in and review the requesting app. Choose the browser, websites, capabilities, and approval behavior you want this connection to have. Approve only the scope you intend to use.
+    When Claude opens the BrowserPair authorization screen, sign in and review the requesting app. Confirm Claude's identity and its connected browser. Sensitive-step questions are controlled by the account-wide Permissions page.
 
     This OAuth connection does not require you to paste a BrowserPair agent key into Claude.
   </Step>
@@ -61,7 +61,7 @@ For work in an authenticated dashboard, choose that website in the connection's 
 
 > Use BrowserPair to read the status of my latest deployment in the connected dashboard. Report the status and the page URL. Do not redeploy, edit settings, or delete anything.
 
-Review the associated task in BrowserPair **Tasks**. A task being accepted is not the same as its requested result being verified. If a task pauses, inspect the reason and provide only the permission or input it needs.
+Review the associated task in BrowserPair **Activity**. A task being accepted is not the same as its requested result being verified. If a task pauses, inspect the reason and provide only the permission or input it needs.
 
 ## How the connection works
 
@@ -76,13 +76,13 @@ You do not export a cookie file or create a separate browser login for Claude. B
 | Custom connector option is missing | Check Claude's workspace policy and Anthropic's current connector instructions. An organization owner may need to add it. |
 | Claude does not use BrowserPair | Enable the connector for the conversation and explicitly ask to use BrowserPair. |
 | No browser is available | Open the paired Chrome profile and confirm it appears online in BrowserPair **Browsers**. |
-| A website is outside scope | Review the connection's allowed websites in **Agent access → Connected apps**. |
+| A website is outside scope | Review the intended task website, account-wide Permissions and Chrome's site-access settings. |
 | A task pauses for approval | Read the task's approval request in BrowserPair before continuing. |
 | An action has an uncertain result | Inspect its durable task state. Do not ask Claude to repeat the action blindly. |
 
 ## Manage or disconnect access
 
-In BrowserPair, open **Agent access → Connected apps** to review or revoke the Claude connection. You can also remove the connector from Claude. Review existing task states in BrowserPair before starting replacement work.
+In BrowserPair, open **AI apps → Connected apps** to review or revoke the Claude connection. You can also remove the connector from Claude. Review existing task states in BrowserPair before starting replacement work.
 
 <CardGroup cols={2}>
   <Card title="AI app connections" icon="plug" href="/connect-ai-app">

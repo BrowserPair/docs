@@ -75,14 +75,14 @@ Get BrowserPair ready with a guided setup, then choose one of two ways to work: 
     Choose this path when ChatGPT, Claude, or another AI app already provides the Brain. You do not need to connect a model in BrowserPair. Follow the [ChatGPT guide](/chatgpt) or [Claude guide](/claude) for client-specific setup.
 
     <Steps>
-      <Step title="Open Agent access">
-        In the BrowserPair App, open **AI apps → Connected apps**. Choose the AI app you want to connect.
+      <Step title="Open AI apps">
+        In the BrowserPair App, open **AI apps → Connected apps** to review existing connections. Start a new connection in ChatGPT, Claude or another MCP client.
       </Step>
       <Step title="Connect with OAuth">
         Follow the instructions in your AI app to add BrowserPair at `https://mcp.browserpair.com`. Sign in to BrowserPair when prompted.
       </Step>
       <Step title="Review its permissions">
-        Choose the browser, websites, capabilities, and approval behavior on the BrowserPair authorization screen.
+        Confirm the requesting AI app's identity and browser. The account-wide Permissions page sets Standard/Developer ask-before behavior for all connections.
       </Step>
       <Step title="Send your first task">
         Use the read-only **Try it** request, press Send in your AI app, and review the linked outcome in BrowserPair **Activity**.
@@ -148,7 +148,7 @@ BrowserPair pauses rather than guessing when authority or certainty is missing.
 
 <AccordionGroup>
   <Accordion title="A new website is required" icon="globe">
-    The task cannot silently leave its effective website scope. A signed-in user may approve a bounded task-scoped domain grant when the reusable agent key permits it.
+    The task cannot silently leave its effective website scope. Account-wide Permissions and any task-required confirmations control whether to ask; Chrome and managed-browser access restrictions always apply.
   </Accordion>
 
   <Accordion title="Sensitive data is redacted" icon="key">
@@ -156,7 +156,7 @@ BrowserPair pauses rather than guessing when authority or certainty is missing.
   </Accordion>
 
   <Accordion title="The next action needs confirmation" icon="shield">
-    Approval presets and task-contract rules determine when BrowserPair asks before continuing.
+    The nine account-wide Permissions switches and immutable task confirmations determine when BrowserPair asks.
   </Accordion>
 
   <Accordion title="The current observation is not enough" icon="eye">

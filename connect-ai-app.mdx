@@ -1,7 +1,7 @@
 ---
 title: "Connect an AI App to BrowserPair with OAuth"
 sidebarTitle: "Connect an AI app"
-description: "Connect ChatGPT, Claude or any MCP client to BrowserPair Remote MCP with your BrowserPair account, choose its limits on a consent screen, and disconnect at any time."
+description: "Connect ChatGPT, Claude and other OAuth MCP clients to your Chrome, review the connected browser and use account-wide Permissions."
 icon: "link"
 keywords:
   - "BrowserPair OAuth"
@@ -9,7 +9,7 @@ keywords:
   - "connect AI app to browser"
 ---
 
-AI apps that speak MCP with OAuth can connect to BrowserPair without a copied agent key. The app sends you to BrowserPair, you sign in and choose its limits, and the app receives a short-lived token that works only on Remote MCP.
+AI apps that speak MCP with OAuth can connect to BrowserPair without a copied agent key. The app sends you to BrowserPair, you sign in and review the connection, and the app receives a short-lived token that works only on Remote MCP.
 
 <CardGroup cols={3}>
   <Card title="Your account" icon="user">
@@ -17,7 +17,7 @@ AI apps that speak MCP with OAuth can connect to BrowserPair without a copied ag
   </Card>
 
   <Card title="Your limits" icon="shield">
-    Pick one browser, the websites, what the app may do and when it must ask you.
+    Confirm the connected browser. The account-wide Permissions page determines which sensitive steps ask before acting.
   </Card>
 
   <Card title="Your off switch" icon="power-off">
@@ -34,39 +34,39 @@ AI apps that speak MCP with OAuth can connect to BrowserPair without a copied ag
   <Step title="Add BrowserPair in your AI app">
     Use the server URL `https://mcp.browserpair.com` and choose OAuth if the app asks. Follow the [ChatGPT guide](/chatgpt) or [Claude guide](/claude) for client-specific steps.
   </Step>
-  <Step title="Choose the app's limits">
-    BrowserPair shows the app's name, whether its identity is published by its own domain, and the address it returns to. Choose the browser, at least one website, what it may do and the approval preset, then select **Allow**.
+  <Step title="Review the connection">
+    BrowserPair shows the app's name, whether its identity is published by its own domain, and the address it returns to. Confirm the connected browser and client identity, then select **Allow**. All apps use the same account Permissions policy.
   </Step>
   <Step title="Ask for a browser task">
-    The app can now list your browser, start tasks inside those limits, and report verified results.
+    The app can now list its connected browser, start tasks under the account Permissions policy, and report verified results.
   </Step>
 </Steps>
 
 ## What a connected app can and cannot do
 
-|  | Connected app (OAuth) | Agent key (`bp_live_…`) |
+| | Connected app (OAuth) | Agent key (`bp_live_…`) |
 | --- | --- | --- |
-| Websites | Only the sites you allowed; change them any time under **Connected apps → Edit websites** | The key's sites |
-| Read, navigate, click, type, choose options | Yes, if you allow them (default) | If granted |
-| Submit forms, send messages, publish, delete | Only if you allow them; risky steps still ask you | If granted |
-| Payments, sign-in or security settings | **Never**, unless you turn on [Developer mode](/developer-mode) for that app | Only with explicit capabilities |
-| Passwords, one-time codes, card numbers, other sensitive data | **Never**, unless you turn on [Developer mode](/developer-mode) for that app | Only with explicit sensitive grants |
-| Downloads, uploads, console and network diagnostics | Only if you allow them; every file waits for your approval in Chrome | If granted (`download`, `file_upload`, `diagnostics_read`) |
-| REST API | No (Remote MCP only) | Yes |
+| Interface | Remote MCP | Remote MCP and REST |
+| Browser selection | Browser approved during OAuth | Browser(s) assigned to the key |
+| Websites | Task intent, account ask-before settings, Chrome and managed browser policy | Same account and task rules |
+| Browser actions | Same task capabilities and immutable safety as other connections | Same browser actions and safety |
+| Payments, sending, publishing and deleting | Current account-wide sensitive-step questions and task-required confirmations | Same account-wide rules |
+| Protected values | Category-specific task observations; Standard masks by default | Same account-wide disclosure rules |
+| Files | Account file question applies; manual file selection remains protected | Same manual steps and task rules |
 
 Website content is untrusted data. Nothing a page or the app's model says can widen these limits.
 
 ## Approvals and uncertain results
 
 - When a step needs your decision, the task pauses and the app is told to ask you to approve or deny it in the BrowserPair card in Chrome.
-- A task may start with only some of the app's sites. If it then needs another of them, you approve that site in Chrome. A site outside the app's list is refused, and no approval in Chrome can add it: add it under **AI apps → Connected apps → Edit websites** (no need to connect again).
+- When a task needs another website, current Permissions determine whether BrowserPair asks. The task's sites, Chrome access and managed browser policy still apply; there is no per-app website editor.
 - If the task has no page open yet, the request waits in the BrowserPair side panel: click the BrowserPair icon in Chrome's toolbar to approve or deny it.
 - If BrowserPair cannot confirm whether an action took effect, it never repeats it automatically. The app is told to look at the page again before deciding.
 - Each result says whether the outcome was verified on the page or needs your review.
 
 ## Manage connected apps
 
-Open **AI apps** in the [BrowserPair App](https://app.browserpair.com/). Each connected app shows its browser, websites, permissions and when it was last used. **Edit websites** changes its site list without reconnecting; removing a site stops the app's running tasks that could still reach it, and BrowserPair emails you about the change. **Disconnect** ends its tokens at once and stops its running tasks. Removing the only browser an app may use also disconnects it.
+Open **AI apps** in the [BrowserPair App](https://app.browserpair.com/). Each connected app shows its connected browser and management controls. There is no per-app **Edit websites** control. Use the account-wide Permissions page for ask-before settings; each task still declares its intended sites. **Disconnect** ends its tokens at once and stops its running tasks. Removing the only browser an app may use also disconnects it.
 
 Connected apps count toward your plan's agent limit, like agent keys.
 

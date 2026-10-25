@@ -2,7 +2,7 @@
 icon: "plug"
 title: "BrowserPair Remote MCP for AI Browser Agents"
 sidebarTitle: "Remote MCP"
-description: "Connect MCP-speaking AI agents to BrowserPair with scoped keys, durable tasks, bounded Reflex subgoals, and browser observations."
+description: "Connect AI agents through OAuth or MCP keys to run durable tasks with explicit tools, verified results and account-wide Permissions."
 keywords:
   - "BrowserPair MCP"
   - "MCP browser automation"
@@ -13,7 +13,7 @@ Use Remote MCP when Claude, Codex, or another MCP-speaking agent should remain t
 
 <CardGroup cols={3}>
   <Card title="Scoped" icon="shield">
-    Every tool call stays inside the agent key and task authority.
+    Every tool call follows the authorised connected browser, task contract and current account-wide Permissions.
   </Card>
 
   <Card title="Durable" icon="arrows-rotate">
@@ -41,7 +41,7 @@ Use Remote MCP when Claude, Codex, or another MCP-speaking agent should remain t
   The `bp_live_…` token is an agent credential, not a browser-device credential. The extension never stores the agent key.
 </Note>
 
-AI apps such as ChatGPT and Claude can connect without a key: they discover OAuth from the server's `401` response and you choose their limits on a consent screen. See [Connect an AI app](/connect-ai-app).
+ChatGPT and Claude can connect via OAuth without a copied key; confirm their identity and browser on consent. Account-wide Permissions control sensitive-step questions. See [Connect an AI app](/connect-ai-app).
 
 Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and results include a short `guidance` sentence that tells the agent what to do next, for example when a step waits for the user's approval in Chrome or an uncertain effect must be checked before any retry.
 
@@ -49,14 +49,21 @@ Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and r
 
 | Tool | Purpose |
 | --- | --- |
-| `browser_list` | List browser profiles available to the key and whether each is online. |
+| `browser_list` | List available browser profiles, names and online status. |
 | `browser_run` | Start one durable bounded browser task. |
 | `task_state` | Read current task state and the latest bounded interaction. |
 | `task_subgoal` | Delegate a bounded subgoal to BrowserPair Reflex. |
 | `task_observe` | Request a fresh browser observation without performing an action. |
 | `task_diagnostics` | Read a task tab's console messages or request list (bounded, redacted, no headers or bodies). Needs `diagnostics_read`. |
-| `task_respond` | Perform one bounded agent response, resolve an effect, finish, or report blocked. To answer a dismissed page confirmation dialog OK, repeat the action with `acceptDialog: true` (always approved by the user in Chrome; see [REST API → Page dialogs](/rest-api#page-dialogs)). |
+| Page actions | `task_navigate`, `task_click`, `task_fill`, `task_select`, `task_press`, `task_hover`, `task_scroll`, `task_drag`, `task_upload`, `task_set_viewport` and other individually named tools act on current task evidence. |
+| Tabs | `task_open_tab`, `task_back`, `task_switch_tab`, `task_adopt_tab` and `task_close_tab` (only a task-owned tab can be closed). |
+| User steps and uncertain effects | `task_user_step` requests manual user input; `task_resolve_effect` reconciles an uncertain action after a fresh observation. |
+| Finish | `task_done`, `task_blocked` and `task_handoff` finish or return control without claiming an unsupported result. |
 | `task_cancel` | Cancel the task. |
+
+## Tabs and browser ownership
+
+Observations can include `task_tabs` for task-owned tabs and `open_tabs` for eligible user-opened tabs, according to the user's current Permissions setting. An agent can continue an existing user-owned tab with `task_adopt_tab` only when it names that tab and the site is authorized. Adoption never transfers ownership: the user's tab is not closed by BrowserPair. `task_close_tab` and `task_done` with `tabs: close` can close task-created tabs only.
 
 ## Start a task
 
@@ -78,7 +85,7 @@ Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and r
 
 Optional fields are `capabilities`, `confirmations`, and `max_side_effects`.
 
-If capabilities are omitted, BrowserPair uses the ordinary browsing set: `read`, `navigate`, `hover`, `click`, `fill`, and `select`.
+Capability names are task hints; the current account Permissions governs sensitive-step confirmations, and task-required confirmations remain immutable.
 
 <Tip>
   Multiple websites can be authorized at task start. Keep the set as narrow as the workflow allows.
@@ -97,10 +104,10 @@ If capabilities are omitted, BrowserPair uses the ordinary browsing set: `read`,
     Call `task_state` and use only the current interaction generation.
   </Step>
   <Step title="Choose the next mode">
-    Respond directly with `task_respond`, delegate routine work with `task_subgoal`, or request richer context with `task_observe`.
+    Choose one current `task_*` action, delegate bounded work with `task_subgoal`, or request richer context with `task_observe`.
   </Step>
   <Step title="Finish deliberately">
-    Report `done`, `blocked`, resolve an uncertain effect, or cancel.
+    Use `task_done` with observable evidence, `task_blocked` when the work cannot continue, or cancel. An uncertain effect needs fresh evidence first.
   </Step>
 </Steps>
 
@@ -136,15 +143,15 @@ with either `relevant-region` or `full-page` scope.
   Observation depth does not change authority. Account observation policy, domain scope, capabilities, and sensitive-data redaction still apply.
 </Warning>
 
-## Respond safely
+## Use current tools safely
 
-Current action kinds include `navigate`, `open_tab`, `back`, `adopt_tab`, `click`, `double_click`, `context_click`, `hover`, `fill`, `select`, `focus`, `press`, `scroll`, `wait`, `drag`, `canvas_click`, `range_click`, `done`, `blocked`, and `resolve_effect`. Hover, keys other than Enter, drag and drop, sliders and canvas points each need their own capability (`hover`, `keyboard`, `drag_drop`, `range_interaction`, `canvas_interaction`).
+Each Remote MCP browser step has a **separate named tool**, taking fresh observation refs and the matching `interaction_generation` where required. The retired `task_respond` MCP tool is not part of the current interface. The REST endpoint `POST /v1/tasks/:id/respond` is different and remains available.
+
+When an action's effect is unknown, request a fresh observation and reconcile with `task_resolve_effect` rather than replaying the action. A dismissed page confirmation can be accepted only through a new, specifically approved action. BrowserPair still checks account Permissions, task contract and Chrome restrictions at every step.
 
 <Warning>
-  Never invent a DOM or accessibility ref. Use only refs returned by the current BrowserPair interaction, with the matching interaction generation.
+  Never invent element refs, task permissions or a verified result. An apparent success in the model's text is not proof of a website side effect.
 </Warning>
-
-A rejected action says why: `capability_denied` includes `requiredCapability`, `reason` and `grantedCapabilities`, and `resolve_effect` with `definitely_not_executed` is refused (`fresh_observation_required`) until you have called `task_observe` after the uncertain action. See [REST API → When an action is rejected](/rest-api#when-an-action-is-rejected).
 
 ## Idempotency
 

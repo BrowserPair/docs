@@ -34,12 +34,12 @@ The task contract created at start remains immutable:
 - explicit confirmation requirements; and
 - optional side-effect bound.
 
-A later user-approved website does not rewrite that original contract. BrowserPair records a separate task-scoped grant.
+A new website decision does not rewrite the immutable task contract. Account-wide Permissions and current browser restrictions determine whether it proceeds.
 
 ```text
 original task domains
 + explicit task-scoped user grants
-≤ reusable agent-key domain ceiling
+subject to live account Permissions and Chrome/managed-browser policy
 ```
 
 <Warning>
@@ -50,7 +50,7 @@ original task domains
 
 <CardGroup cols={2}>
   <Card title="Authority state" icon="shield">
-    Original contract, explicit task grants, sensitive grants, and required confirmations.
+    Original contract, current account ask-before preferences, task confirmation evidence and browser ownership.
   </Card>
 
   <Card title="Ownership state" icon="browser">
@@ -94,8 +94,9 @@ This solves duplicate **task creation**. Browser mutations need an additional ef
 BrowserPair does not treat every open tab as available agent state.
 
 - strongly task-owned tabs may be used automatically;
-- probable or unrelated tabs are not silently adopted; and
-- navigation without an owned tab can create a new task-owned tab inside the user's existing browser profile.
+- probable or unrelated tabs are never silently adopted; an agent can explicitly choose a permitted user-owned tab with `task_adopt_tab` and must respect its current site and task scope;
+- a user-owned adopted tab remains yours and BrowserPair never closes it; and
+- navigation without an owned tab can create a new task-owned tab. `task_close_tab` or `task_done` with `tabs: close` can close only task-created tabs.
 
 ## Reconnect and fencing
 

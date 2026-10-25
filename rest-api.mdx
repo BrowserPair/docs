@@ -80,11 +80,11 @@ curl https://api.browserpair.com/v1/tasks \
     </ParamField>
 
     <ParamField body="domains" type="string[]" required>
-      One or more explicit websites, all inside the reusable key's domain ceiling.
+      One or more intended task websites. Account-wide Permissions control sensitive-step prompts; Chrome/managed site blocks remain enforced.
     </ParamField>
 
     <ParamField body="capabilities" type="string[]" required>
-      The exact capability classes this task may exercise.
+      Capability names for task compatibility. The server applies current account Permissions and immutable task confirmations.
     </ParamField>
 
     <ParamField body="confirmations" type="string[]">
@@ -117,7 +117,7 @@ curl https://api.browserpair.com/v1/tasks \
   </Card>
 </CardGroup>
 
-A task can narrow the reusable key, never widen it.
+Request fields cannot override account Permissions, Chrome browser policy, immutable confirmations or effect recovery.
 
 ## Idempotency
 

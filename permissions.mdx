@@ -1,7 +1,7 @@
 ---
-title: "BrowserPair Permissions: Scopes, Approvals, and Sensitive Access"
+title: "BrowserPair Permissions: Standard, Developer and task safety"
 sidebarTitle: "Permissions"
-description: "Understand agent-key ceilings, task contracts, approval presets, website grants, and high-risk browser action boundaries."
+description: "Manage the nine account-wide ask-before settings, Standard and Developer modes, and immutable browser and task protections."
 icon: "shield"
 keywords:
   - "BrowserPair permissions"
@@ -9,67 +9,31 @@ keywords:
   - "scoped browser access"
 ---
 
-BrowserPair treats authority as an explicit stack. Every layer can narrow what came before it; none can silently widen it.
+Every BrowserPair AI connection follows the same account-wide Permissions policy. BrowserPair also enforces the current browser, task requirements, Chrome site access and safe effect recovery. A website, model or Skill never expands authority.
 
 <CardGroup cols={3}>
-  <Card title="Agent-key ceiling" icon="key">
-    Reusable browser, website, capability, approval, and optional rate boundaries.
-  </Card>
-
-  <Card title="Task contract" icon="file-shield">
-    Per-task domains, capabilities, confirmations, and optional side-effect bound.
-  </Card>
-
-  <Card title="Explicit grants" icon="shield">
-    Bounded user approvals for runtime website expansion or protected data.
-  </Card>
+  <Card title="One account policy" icon="shield">Standard and Developer each have nine configurable ask-before switches.</Card>
+  <Card title="Task contract" icon="file-shield">Browser identity, task intent and immutable confirmations remain bounded.</Card>
+  <Card title="Browser protections" icon="browser">Chrome site access, managed policy, user steps and effect checks always apply.</Card>
 </CardGroup>
 
-```text
-user authority
-  -> agent-key ceiling
-    -> task contract
-      -> explicit task grants
-        -> policy / task confirmation
-```
+## Account-wide Permissions
 
-## Hard scope
+Open **BrowserPair App → Manage → Permissions**. Both modes use the same browser tools and websites. Nine switches determine when you are asked about payments; sign-in/account security; deletion; sending/publishing; files; passwords/secrets; new websites; form submits; and website instructions.
 
-An agent key can restrict:
+- **Standard:** asks before seven sensitive categories; **new websites and form submits do not ask by default**. You may enable those questions.
+- **Developer:** starts with all nine questions off; entering the mode requires an explicit warning acknowledgement.
+- Your choices apply to connected AI apps, agent keys, Chat, schedules and tasks already running at their next decision.
 
-- browser IDs;
-- domains;
-- capabilities;
-- approval preset; and
-- an optional per-hour task limit.
+The previous per-app website editors, per-key permission presets, per-agent Developer timers and reusable agent-specific sensitive grants have been removed from the current interface.
 
-Current capability classes include ordinary browsing plus elevated effects such as communication, publish, destructive, authentication, payment, account security, and state change.
+## Unchanged safety boundaries
 
-## Approval presets
-
-<AccordionGroup>
-  <Accordion title="Always ask" icon="hand">
-    Confirm before the first browser observation and before actions.
-  </Accordion>
-
-  <Accordion title="Allow read tools" icon="eye">
-    Reading and navigation can continue automatically; state-changing interactions ask first.
-  </Accordion>
-
-  <Accordion title="Allow low-risk tools — default" icon="shield">
-    Ordinary low-risk browsing proceeds automatically while elevated or high-risk actions still require confirmation.
-  </Accordion>
-
-  <Accordion title="Allow all tools in scope" icon="bolt">
-    Remove optional user prompts for actions already allowed by the key and task contract. Hard denials and immutable confirmations remain.
-  </Accordion>
-</AccordionGroup>
-
-<Warning>
-  Approval behavior is not authority. A permissive preset never adds a browser, domain, capability, sensitive-data category, or task-contract permission.
-</Warning>
+Chrome website access, managed-browser policy, user-entered credentials and file selection, immutable task confirmations, target rechecks, ownership/fencing and no-replay recovery remain enforced in both modes.
 
 ## Runtime website expansion
+
+
 
 A task can start with one or many explicit domains.
 
@@ -89,7 +53,7 @@ When the next destination is outside the current effective task scope, BrowserPa
   </Card>
 </CardGroup>
 
-If the destination is outside the reusable agent key's hard domain ceiling, runtime task approval cannot bypass the key. Change or reissue the key instead.
+Opening new websites follows your account-wide Permissions switches, immutable task confirmations, and Chrome/managed-browser restrictions.
 
 ## The approval card
 
@@ -99,40 +63,30 @@ Approval emails and system notifications never quote page text; they use Browser
 
 ## Developer mode
 
-For work you want an agent to do with secrets or risky steps, turn on [Developer mode](/developer-mode) for that one agent key or connected app. You choose the secret types, the risky steps and the duration; words on a button no longer block those steps, and approvals still follow your settings.
+For fewer questions about sensitive steps, choose the account-wide [Developer mode](/developer-mode) on the Permissions page. It affects every connected agent and keeps immutable browser/task safety checks.
 
 ## Organization policy
 
-On managed Chrome, an administrator can set `blockedUrlPatterns` for the BrowserPair extension (host patterns that include subdomains). Blocked sites are refused before any input (`blocked_by_browser_policy`) for navigation, links, forms, frames, redirects and tab adoption. The policy can only remove access; no approval, key or preset can lift it.
+On managed Chrome, an administrator can set `blockedUrlPatterns` for the BrowserPair extension (host patterns that include subdomains). Blocked sites are refused before any input (`blocked_by_browser_policy`) for navigation, links, forms, frames, redirects and tab adoption. The policy can only remove access; neither mode nor an approval can lift it.
 
-## When a capability is missing
+## When BrowserPair refuses an action
 
-A `capability_denied` rejection names the capability the action needs (`requiredCapability`), why (`label_risk` for words such as Send, Delete or Pay on the target, `form_submit`, `key_or_modifier`, `action_kind`) and what the task already has (`grantedCapabilities`). The agent can then ask the user for a task with that capability or pick another target; nothing is granted automatically.
+An action may be refused because the task requires confirmation, the element moved, a Chrome site restriction applies, or a previous effect remains uncertain. Read the current task state before another attempt. Page content cannot grant permission or prove that an action failed.
 
 ## Removing a browser
 
 Removing a browser revokes its device credential at once and stops its active tasks. Agent keys scoped **only** to that browser are revoked too, so they can never drift to another browser; keys that also cover other browsers keep working for those. The App lists the affected keys before you confirm, and revocation cannot be undone.
 
-## Sensitive-data grants
+## Sensitive-data disclosure
 
-Protected values are redacted by default. User grants can be scoped to:
-
-- one exact pending action;
-- the current task; or
-- one agent key until revoked.
-
-Optional domain binding can narrow a grant further.
-
-<Card title="Sensitive access" icon="key" href="/sensitive-access">
-  See the protected categories, grant lifetimes, audit behavior, and revocation model.
-</Card>
+Protected values are masked by default in Standard mode. An agent requests a specific sensitive category for a task observation. The account-wide **Passwords and secrets** question controls whether it pauses for your approval. There is no current reusable per-agent grant editor. See [Sensitive access](/sensitive-access).
 
 ## High-risk effects
 
-Publish, send, delete, payment, password-related, transfer, and other elevated actions require the corresponding capability plus every confirmation required by policy or the task contract.
+Publish, send, delete, payment and other elevated actions follow current account ask-before switches and any immutable task confirmation.
 
 <Note>
-  **Allow all tools in scope** can remove optional prompts, but it cannot remove a confirmation explicitly required by the immutable task contract.
+  Turning an ask-before switch off removes that optional question; it cannot remove an immutable task confirmation or Chrome restrictions.
 </Note>
 
 ## What can never grant authority

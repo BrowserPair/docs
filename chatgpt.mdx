@@ -2,7 +2,10 @@
 title: "Use BrowserPair in ChatGPT"
 sidebarTitle: "ChatGPT"
 description: "Add BrowserPair to ChatGPT, sign in with your BrowserPair account, and let ChatGPT run scoped browser tasks in your own Chrome with approvals and verified results."
-icon: "/icons/chatgpt.svg"
+icon:
+  style: "brands"
+  name: "openai"
+  library: "fontawesome"
 keywords:
   - "BrowserPair ChatGPT"
   - "ChatGPT browser tasks"
@@ -28,7 +31,7 @@ ChatGPT can use BrowserPair to carry out tasks in the Chrome profile you already
     Select **Connect** for BrowserPair. For a custom MCP connection, use the server URL `https://mcp.browserpair.com` and OAuth authentication; enable Developer mode only if ChatGPT requires it for custom connections.
   </Step>
   <Step title="Allow it in BrowserPair">
-    ChatGPT sends you to BrowserPair. Check that the identity is published by **chatgpt.com**, choose the browser, websites, permissions and approvals, then select **Allow**. See [Connect an AI app](/connect-ai-app).
+    ChatGPT sends you to BrowserPair. Check that the identity is published by **chatgpt.com**, choose the intended browser and confirm the requesting app, then select **Allow**. Ask-before settings are account-wide under Permissions. See [Connect an AI app](/connect-ai-app).
   </Step>
 </Steps>
 
@@ -42,7 +45,7 @@ When a step needs your approval, ChatGPT tells you to approve or deny it in the 
 
 ## Limits
 
-ChatGPT can use only the websites you allowed; to add or remove a site, open **AI apps → Connected apps → Edit websites** in the BrowserPair App. By default ChatGPT can never make payments, change sign-in or security settings, or see passwords, one-time codes, card numbers or other sensitive data through BrowserPair; only you can allow chosen ones for a limited time with [Developer mode](/developer-mode). BrowserPair can request masked screenshot observations; displaying image content depends on the ChatGPT connection and tool response support. Each browser-accepted task counts toward your monthly BrowserPair task allowance.
+ChatGPT uses the browser you connected. There is no per-app website editor; tasks and account Permissions govern website changes alongside Chrome policy. Standard mode asks about sensitive steps by default. Developer mode changes account-wide ask-before settings; required sign-in/file steps and immutable task confirmations remain protected. BrowserPair can request masked screenshot observations; displaying image content depends on the ChatGPT connection and tool response support. Each browser-accepted task counts toward your monthly BrowserPair task allowance.
 
 ## Disconnect
 
