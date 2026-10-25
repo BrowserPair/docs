@@ -13,7 +13,7 @@ Use Remote MCP when Claude, Codex, or another MCP-speaking agent should remain t
 
 <CardGroup cols={3}>
   <Card title="Scoped" icon="shield">
-    Every tool call stays inside the agent key and task authority.
+    Every tool call follows the authorised connected browser, task contract and current account-wide Permissions.
   </Card>
 
   <Card title="Durable" icon="arrows-rotate">
@@ -41,7 +41,7 @@ Use Remote MCP when Claude, Codex, or another MCP-speaking agent should remain t
   The `bp_live_…` token is an agent credential, not a browser-device credential. The extension never stores the agent key.
 </Note>
 
-AI apps such as ChatGPT and Claude can connect without a key: they discover OAuth from the server's `401` response and you choose their limits on a consent screen. See [Connect an AI app](/connect-ai-app).
+ChatGPT and Claude can connect via OAuth without a copied key; confirm their identity and browser on consent. Account-wide Permissions control sensitive-step questions. See [Connect an AI app](/connect-ai-app).
 
 Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and results include a short `guidance` sentence that tells the agent what to do next, for example when a step waits for the user's approval in Chrome or an uncertain effect must be checked before any retry.
 
@@ -78,7 +78,7 @@ Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and r
 
 Optional fields are `capabilities`, `confirmations`, and `max_side_effects`.
 
-If capabilities are omitted, BrowserPair uses the ordinary browsing set: `read`, `navigate`, `hover`, `click`, `fill`, and `select`.
+Capability names are task hints; the current account Permissions governs sensitive-step confirmations, and task-required confirmations remain immutable.
 
 <Tip>
   Multiple websites can be authorized at task start. Keep the set as narrow as the workflow allows.
