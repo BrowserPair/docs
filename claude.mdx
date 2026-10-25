@@ -53,11 +53,11 @@ BrowserPair connects Claude to the Chrome profile you already use through a remo
 
 ## Try a browser task
 
-For a first check, allow `example.com` for the connection and ask:
+For a first check, use `example.com` as the intended task website. Ensure Chrome allows BrowserPair to access it, then ask:
 
 > Use BrowserPair to open https://example.com in my connected Chrome profile and report the main heading and page URL. Do not submit forms or change anything.
 
-For work in an authenticated dashboard, choose that website in the connection's allowed scope first. For example:
+For work in an authenticated dashboard, name the intended website in your task and check BrowserPair's account Permissions and Chrome site access. For example:
 
 > Use BrowserPair to read the status of my latest deployment in the connected dashboard. Report the status and the page URL. Do not redeploy, edit settings, or delete anything.
 
@@ -67,7 +67,7 @@ Review the associated task in BrowserPair **Activity**. A task being accepted is
 
 Claude sends task requests to BrowserPair's public remote MCP endpoint. BrowserPair coordinates execution with your paired Chrome extension, so website interactions use that browser profile's current session.
 
-You do not export a cookie file or create a separate browser login for Claude. Browser observations and task results are returned through the integration; review the connection scope before using private pages. Read [Remote MCP](/remote-mcp), [permissions](/permissions), and [sensitive-data access](/sensitive-access) for the applicable controls.
+You do not export a cookie file or create a separate browser login for Claude. Browser observations and task results are returned through the integration; review your account Permissions, task websites and Chrome site access before using private pages. Read [Remote MCP](/remote-mcp), [permissions](/permissions), and [sensitive-data access](/sensitive-access) for the applicable controls.
 
 ## Troubleshooting
 
