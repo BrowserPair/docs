@@ -35,41 +35,21 @@ user authority
 
 ## Hard scope
 
-An agent key can restrict:
+An AI connection selects the browser it can use. Each task has website intent and immutable confirmations. Task authority is evaluated with the account's current Permissions policy; page content and Skills never add authority.
 
-- browser IDs;
-- domains;
-- capabilities;
-- approval preset; and
-- an optional per-hour task limit.
+## Account-wide Permissions
 
-Current capability classes include ordinary browsing plus elevated effects such as communication, publish, destructive, authentication, payment, account security, and state change.
+The **Permissions** page in the BrowserPair App controls the Standard and Developer modes for every connected AI app, API key, task, schedule and Chrome side panel.
 
-## Approval presets
+Both modes permit the same tools and websites. They differ in which of the nine sensitive steps prompt you first: payment, sign-in/account security, deletion, sending/publishing, files, passwords/secrets, new websites, form submits and website instructions.
 
-<AccordionGroup>
-  <Accordion title="Always ask" icon="hand">
-    Confirm before the first browser observation and before actions.
-  </Accordion>
+**Standard** asks before sensitive steps by default. **Developer** starts with all nine ask-before switches off, but any switch can be turned back on. Switching to Developer requires an explicit acknowledgement. These modes are account-wide; there is no longer a per-agent Developer timer, consent-screen preset, per-app site editor or per-key capability preset.
 
-  <Accordion title="Allow read tools" icon="eye">
-    Reading and navigation can continue automatically; state-changing interactions ask first.
-  </Accordion>
-
-  <Accordion title="Allow low-risk tools — default" icon="shield">
-    Ordinary low-risk browsing proceeds automatically while elevated or high-risk actions still require confirmation.
-  </Accordion>
-
-  <Accordion title="Allow all tools in scope" icon="bolt">
-    Remove optional user prompts for actions already allowed by the key and task contract. Hard denials and immutable confirmations remain.
-  </Accordion>
-</AccordionGroup>
-
-<Warning>
-  Approval behavior is not authority. A permissive preset never adds a browser, domain, capability, sensitive-data category, or task-contract permission.
-</Warning>
+Current Chrome website access, managed browser site blocks, user-entered credentials and file chooser, task-required immutable confirmations, ownership/fencing and uncertain-effect recovery remain enforced in both modes.
 
 ## Runtime website expansion
+
+
 
 A task can start with one or many explicit domains.
 
@@ -89,7 +69,7 @@ When the next destination is outside the current effective task scope, BrowserPa
   </Card>
 </CardGroup>
 
-If the destination is outside the reusable agent key's hard domain ceiling, runtime task approval cannot bypass the key. Change or reissue the key instead.
+Opening new websites follows your account-wide Permissions switches, immutable task confirmations, and Chrome/managed-browser restrictions.
 
 ## The approval card
 
@@ -99,7 +79,7 @@ Approval emails and system notifications never quote page text; they use Browser
 
 ## Developer mode
 
-For work you want an agent to do with secrets or risky steps, turn on [Developer mode](/developer-mode) for that one agent key or connected app. You choose the secret types, the risky steps and the duration; words on a button no longer block those steps, and approvals still follow your settings.
+For fewer questions about sensitive steps, choose the account-wide [Developer mode](/developer-mode) on the Permissions page. It affects every connected agent and keeps immutable browser/task safety checks.
 
 ## Organization policy
 
@@ -107,7 +87,7 @@ On managed Chrome, an administrator can set `blockedUrlPatterns` for the Browser
 
 ## When a capability is missing
 
-A `capability_denied` rejection names the capability the action needs (`requiredCapability`), why (`label_risk` for words such as Send, Delete or Pay on the target, `form_submit`, `key_or_modifier`, `action_kind`) and what the task already has (`grantedCapabilities`). The agent can then ask the user for a task with that capability or pick another target; nothing is granted automatically.
+A `capability_denied` rejection names the capability the action needs (`requiredCapability`), why (`label_risk` for words such as Send, Delete or Pay on the target, `form_submit`, `key_or_modifier`, `action_kind`) and what the task already has (`grantedCapabilities`). The task must still follow current account Permissions and immutable contract requirements; nothing is granted by page content.
 
 ## Removing a browser
 
