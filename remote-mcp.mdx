@@ -9,7 +9,7 @@ keywords:
   - "AI browser agent"
 ---
 
-Use Remote MCP when Claude, Codex, or another MCP-speaking agent should remain the **Brain** while BrowserPair provides scoped access to the user's connected browser.
+Use Remote MCP when Claude, Codex, or another MCP-speaking agent should remain the **Agent Model** while BrowserPair provides scoped access to the user's connected browser.
 
 <CardGroup cols={3}>
   <Card title="Scoped" icon="shield">
@@ -21,7 +21,7 @@ Use Remote MCP when Claude, Codex, or another MCP-speaking agent should remain t
   </Card>
 
   <Card title="Composable" icon="plug">
-    The external Brain can inspect state, delegate bounded Reflex work, request observations, and respond.
+    The external Agent Model can inspect state, delegate bounded Decision Model work, request observations, and respond.
   </Card>
 </CardGroup>
 
@@ -52,7 +52,7 @@ Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and r
 | `browser_list` | List available browser profiles, names and online status. |
 | `browser_run` | Start one durable bounded browser task. |
 | `task_state` | Read current task state and the latest bounded interaction. |
-| `task_subgoal` | Delegate a bounded subgoal to BrowserPair Reflex. |
+| `task_subgoal` | Delegate a bounded subgoal to BrowserPair Decision Model. |
 | `task_observe` | Request a fresh browser observation without performing an action. |
 | `task_diagnostics` | Read a task tab's console messages or request list (bounded, redacted, no headers or bodies). Needs `diagnostics_read`. |
 | Page actions | `task_navigate`, `task_click`, `task_fill`, `task_select`, `task_press`, `task_hover`, `task_scroll`, `task_drag`, `task_upload`, `task_set_viewport` and other individually named tools act on current task evidence. |
@@ -112,9 +112,9 @@ Capability names are task hints; the current account Permissions governs sensiti
   </Step>
 </Steps>
 
-## Delegate to Reflex
+## Delegate to Decision Model
 
-`task_subgoal` is useful when the external Brain knows the next bounded objective but does not need to choose every click.
+`task_subgoal` is useful when the external Agent Model knows the next bounded objective but does not need to choose every click.
 
 <CardGroup cols={2}>
   <Card title="Bounded work" icon="bolt">
@@ -122,11 +122,11 @@ Capability names are task hints; the current account Permissions governs sensiti
   </Card>
 
   <Card title="Skill-aware" icon="wand-magic-sparkles">
-    Optionally bind a compatible Skill so Reflex has reusable workflow knowledge.
+    Optionally bind a compatible Skill so Decision Model has reusable workflow knowledge.
   </Card>
 </CardGroup>
 
-Reflex returns control when confidence is too low, it reaches its bound, or it becomes blocked.
+Decision Model returns control when confidence is too low, it reaches its bound, or it becomes blocked.
 
 ## Request richer context
 
@@ -168,6 +168,6 @@ MCP request IDs are mapped to BrowserPair task idempotency keys for `browser_run
   </Card>
 
   <Card title="Skills" icon="wand-magic-sparkles" href="/skills-guide">
-    Add reusable workflow knowledge to bounded Reflex work.
+    Add reusable workflow knowledge to bounded Decision Model work.
   </Card>
 </CardGroup>

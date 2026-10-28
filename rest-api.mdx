@@ -32,7 +32,7 @@ Use the REST API when you want explicit HTTP control over BrowserPair's durable 
 | `GET` | `/v1/browsers` | List browsers available to the agent key. |
 | `POST` | `/v1/tasks` | Create a durable bounded task. |
 | `GET` | `/v1/tasks/:id` | Read current durable state and interaction. |
-| `POST` | `/v1/tasks/:id/subgoal` | Delegate bounded work to Reflex. |
+| `POST` | `/v1/tasks/:id/subgoal` | Ask the Decision Model to select bounded operations; BrowserPair executes them. |
 | `POST` | `/v1/tasks/:id/observe` | Request a fresh observation. |
 | `POST` | `/v1/tasks/:id/respond` | Send one bounded agent response. |
 | `POST` | `/v1/tasks/:id/cancel` | Cancel the task. |
@@ -144,13 +144,13 @@ The key must be 8–200 characters using letters, numbers, `.`, `_`, `:`, or `-`
   Treat the interaction generation as part of the action context. Do not reuse stale element refs from an older generation.
 </Tip>
 
-## Delegate a Reflex subgoal
+## Delegate a Decision Model subgoal
 
 `POST /v1/tasks/:id/subgoal` can include:
 
 - a bounded subgoal;
 - success criteria;
-- maximum Reflex steps;
+- maximum Decision Model steps;
 - observation mode and scope; and
 - an optional compatible Skill ID.
 

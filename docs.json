@@ -24,7 +24,7 @@
         "icon": "browser",
         "pages": [
           "managed-tasks",
-          "brain-reflex",
+          "agent-decision-model",
           "skills-guide",
           "site-learning",
           "sensitive-access",
@@ -99,11 +99,16 @@
       "github": "https://github.com/BrowserPair"
     }
   },
-  "description": "BrowserPair documentation for connecting AI agents to your existing browser with scoped access, managed Brain + Reflex tasks, Remote MCP, REST APIs, Skills, approvals, and recoverable browser execution.",
+  "description": "BrowserPair documentation for connecting AI agents to your existing browser with scoped access, managed Agent Model and optional Decision Model tasks, Remote MCP, REST APIs, Skills, approvals, and recoverable browser execution.",
   "redirects": [
     {
       "source": "/skills",
       "destination": "/skills-guide",
+      "permanent": true
+    },
+    {
+      "source": "/brain-reflex",
+      "destination": "/agent-decision-model",
       "permanent": true
     }
   ]

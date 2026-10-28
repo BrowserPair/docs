@@ -6,8 +6,8 @@ This repository publishes BrowserPair's public documentation at https://docs.bro
 
 - BrowserPair connects AI agents to the user's existing Chrome profile.
 - A browser device credential is separate from an external agent key.
-- Managed tasks use a user-configured Brain; external MCP agents supply their own Brain.
-- Reflex performs bounded delegated work.
+- Managed tasks use a user-configured Agent Model; external MCP agents supply their own Agent Model.
+- Decision Model selects bounded actions; BrowserPair executes them.
 - Skills are workflow knowledge, never authorization.
 - An uncertain effect must be verified before a retry.
 

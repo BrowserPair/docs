@@ -9,7 +9,7 @@ keywords:
   - "MCP browser automation"
 ---
 
-Get BrowserPair ready with a guided setup, then choose one of two ways to work: connect an AI app such as ChatGPT or Claude and send tasks there, or configure your own Brain model to start managed tasks inside BrowserPair. Both use your connected Chrome profile and the same task authority checks.
+Get BrowserPair ready with a guided setup, then choose one of two ways to work: connect an AI app such as ChatGPT or Claude and send tasks there, or configure your own Agent Model to start managed tasks inside BrowserPair. Both use your connected Chrome profile and the same task authority checks.
 
 <CardGroup cols={3}>
   <Card title="1. Connect" icon="browser">
@@ -53,8 +53,8 @@ Get BrowserPair ready with a guided setup, then choose one of two ways to work: 
     Choose this path when you want BrowserPair to coordinate planning and execution.
 
     <Steps>
-      <Step title="Configure a Brain">
-        Open **Settings → Models** and connect a Brain model. The first connected Brain becomes the account default. Reflex is optional.
+      <Step title="Configure an Agent Model">
+        Open **Settings → Models** and connect an Agent Model. The first connected Agent Model becomes the account default. Decision Model is optional.
       </Step>
       <Step title="Open Chat">
         Describe the outcome you want in plain language.
@@ -72,7 +72,7 @@ Get BrowserPair ready with a guided setup, then choose one of two ways to work: 
     </Card>
   </Tab>
   <Tab title="Connect an AI app">
-    Choose this path when ChatGPT, Claude, or another AI app already provides the Brain. You do not need to connect a model in BrowserPair. Follow the [ChatGPT guide](/chatgpt) or [Claude guide](/claude) for client-specific setup.
+    Choose this path when ChatGPT, Claude, or another AI app already provides the Agent Model. You do not need to connect a model in BrowserPair. Follow the [ChatGPT guide](/chatgpt) or [Claude guide](/claude) for client-specific setup.
 
     <Steps>
       <Step title="Open AI apps">
@@ -113,7 +113,7 @@ OAuth-connected AI apps do not need a manually copied agent key. The Bearer toke
   </Card>
 </CardGroup>
 
-The current MCP surface includes browser discovery, durable task creation/state, bounded Reflex subgoals, richer observations, agent responses, and cancellation.
+The current MCP surface includes browser discovery, durable task creation/state, bounded Decision Model subgoals, richer observations, agent responses, and cancellation.
 
 <Card title="Remote MCP reference" icon="plug" href="/remote-mcp">
   See every tool and the recommended external-agent loop.
@@ -160,7 +160,7 @@ BrowserPair pauses rather than guessing when authority or certainty is missing.
   </Accordion>
 
   <Accordion title="The current observation is not enough" icon="eye">
-    A Brain can request richer accessibility, DOM, screenshot, or combined context when account policy allows it.
+    A Agent Model can request richer accessibility, DOM, screenshot, or combined context when account policy allows it.
   </Accordion>
 
   <Accordion title="An effect is uncertain" icon="arrows-rotate">
@@ -177,7 +177,7 @@ BrowserPair pauses rather than guessing when authority or certainty is missing.
 ## Next
 
 <CardGroup cols={3}>
-  <Card title="Brain + Reflex" icon="brain" href="/brain-reflex">
+  <Card title="Agent Model + Decision Model" icon="brain" href="/agent-decision-model">
     Configure managed intelligence and provider routing.
   </Card>
 

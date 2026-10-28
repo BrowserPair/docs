@@ -21,15 +21,15 @@ BrowserPair can provide observations and results needed to plan, execute, or ver
 | Your Chrome profile and extension | Hold the website session and perform browser interactions. |
 | BrowserPair service | Coordinates authorized task requests and durable task state. |
 | Connected AI app, such as ChatGPT or Claude | Plans the external-agent workflow and receives permitted tool observations and results. |
-| Configured Brain or Reflex provider | Provides model processing for managed tasks when that path is configured. |
+| Configured Agent Model or Decision Model provider | Provides model processing for managed tasks when that path is configured. |
 
 Review account-wide Permissions and current task context with the private data on the page in mind. Read the [privacy policy](https://browserpair.com/privacy) and the AI provider's own policies before using private accounts.
 
 ## Two planning paths
 
-**Connected AI app:** connect [ChatGPT](/chatgpt), [Claude](/claude), or another compatible MCP client. That app provides the planning. You do not need to configure a managed Brain model inside BrowserPair.
+**Connected AI app:** connect [ChatGPT](/chatgpt), [Claude](/claude), or another compatible MCP client. That app provides the planning. You do not need to configure a managed Agent Model inside BrowserPair.
 
-**Managed task:** configure a Brain model in BrowserPair and run the task there. [Brain + Reflex](/brain-reflex) describes the model roles and provider routing.
+**Managed task:** configure an Agent Model in BrowserPair and run the task there. [Agent Model + Decision Model](/agent-decision-model) describes the model roles and provider routing.
 
 Both paths use BrowserPair's task authority controls. A model's request or text found on a website cannot silently expand the task's allowed scope.
 
