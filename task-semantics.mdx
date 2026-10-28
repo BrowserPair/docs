@@ -150,15 +150,15 @@ Effect state answers _did the browser action happen_; verification answers _did 
 
 Evidence is deliberately strict: text typed into an editor that was never saved, text the user cannot see, a redirect target in a query string, or a page that was still loading never counts as proof. A navigation that the page declined (for example "Leave this page?") is reported as a dismissed dialog, not as success; an agent can answer such a dialog OK only by repeating the action with `acceptDialog` and your approval in Chrome. Downloads an action starts are reported as evidence, never as proof of the outcome.
 
-## Managed Brain + Reflex continuity
+## Managed Agent Model + Decision Model continuity
 
-Managed and external-Reflex tasks also preserve:
+Managed tasks and externally delegated Decision Model subgoals also preserve:
 
-- selected Brain and Reflex provider identities plus fallbacks;
+- selected Agent Model and Decision Model provider identities plus fallbacks;
 - current subgoal and success criteria;
 - observation mode and scope;
-- Reflex effective confidence and escalation reason;
-- Brain, Reflex, step, and duration limits; and
+- Decision Model effective confidence and escalation reason;
+- Agent Model, Decision Model, step, and duration limits; and
 - selected Skill ID and version.
 
 These fields help BrowserPair resume coordination. They never expand browser authority.

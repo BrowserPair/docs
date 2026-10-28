@@ -10,7 +10,7 @@ Official documentation for [BrowserPair](https://browserpair.com/), the browser 
 - [Connect an AI app](https://docs.browserpair.com/connect-ai-app) and [ChatGPT](https://docs.browserpair.com/chatgpt).
 - [Remote MCP](https://docs.browserpair.com/remote-mcp) and [REST API](https://docs.browserpair.com/rest-api).
 - [Permissions](https://docs.browserpair.com/permissions), [sensitive access](https://docs.browserpair.com/sensitive-access) and [task semantics](https://docs.browserpair.com/task-semantics).
-- [Managed tasks](https://docs.browserpair.com/managed-tasks), [Brain + Reflex](https://docs.browserpair.com/brain-reflex) and [Skills](https://docs.browserpair.com/skills-guide).
+- [Managed tasks](https://docs.browserpair.com/managed-tasks), [Agent Model + Decision Model](https://docs.browserpair.com/agent-decision-model) and [Skills](https://docs.browserpair.com/skills-guide).
 
 ## Public resources
 

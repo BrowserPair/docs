@@ -10,7 +10,7 @@ BrowserPair, Playwright, and Browser Use support different ways of doing browser
 
 | Question | BrowserPair | Playwright | Browser Use |
 | --- | --- | --- | --- |
-| What do you start with? | A paired Chrome profile and a task from an AI app or managed Brain. | Code that controls a browser; Playwright Test adds a test runner. | An agent task and model, or direct browser-control code. |
+| What do you start with? | A paired Chrome profile and a task from an AI app or managed Agent Model. | Code that controls a browser; Playwright Test adds a test runner. | An agent task and model, or direct browser-control code. |
 | Can existing authentication be reused? | Tasks run through the extension in the paired profile's current session. | Tests can load stored authentication state; Chromium can also be attached over CDP. | Real Browser profiles and CDP connections support existing browser state; cloud browsers are another option. |
 | How do you connect an external AI app? | Remote MCP with OAuth; direct integrations can use agent keys and REST. | Choose the library or an integration such as Playwright MCP for your environment. | Choose the open-source or cloud integration that fits your agent. |
 | What does BrowserPair provide around execution? | Website and capability scope, approval pauses, durable task state, verification, and handling of uncertain effects. | Assess the runner, integration, and controls you build around your automation. | Assess the selected agent, browser configuration, tools, and hosted service. |
