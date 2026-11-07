@@ -1,0 +1,114 @@
+{
+  "theme": "luma",
+  "name": "BrowserPair",
+  "colors": {
+    "primary": "#78952B",
+    "light": "#C8FF4D",
+    "dark": "#C8FF4D"
+  },
+  "favicon": "https://browserpair.com/mark.svg",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "icon": "rocket",
+        "pages": [
+          "index",
+          "quickstart",
+          "compare-browser-automation"
+        ]
+      },
+      {
+        "group": "Use BrowserPair",
+        "icon": "browser",
+        "pages": [
+          "managed-tasks",
+          "agent-decision-model",
+          "skills-guide",
+          "site-learning",
+          "sensitive-access",
+          "read-authenticated-dashboard"
+        ]
+      },
+      {
+        "group": "Agent APIs",
+        "icon": "plug",
+        "pages": [
+          "remote-mcp",
+          "rest-api",
+          "connect-ai-app",
+          "chatgpt",
+          "claude"
+        ]
+      },
+      {
+        "group": "Concepts",
+        "icon": "shield",
+        "pages": [
+          "permissions",
+          "task-semantics",
+          "developer-mode",
+          "browser-session-data-flow"
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "https://browserpair.com/mark.svg",
+    "dark": "https://browserpair.com/mark.svg"
+  },
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Open app",
+      "href": "https://app.browserpair.com/"
+    },
+    "links": [
+      {
+        "href": "https://browserpair.com",
+        "label": "Website"
+      },
+      {
+        "href": "https://browserpair.com/changelog/",
+        "label": "Changelog"
+      },
+      {
+        "href": "https://browserpair.com/security",
+        "label": "Security"
+      },
+      {
+        "href": "https://github.com/BrowserPair",
+        "label": "GitHub"
+      }
+    ]
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "mcp",
+      "cursor"
+    ]
+  },
+  "footer": {
+    "socials": {
+      "website": "https://browserpair.com/",
+      "github": "https://github.com/BrowserPair"
+    }
+  },
+  "description": "BrowserPair documentation: connect AI agents to your Chrome, choose Standard or Developer mode, and use Remote MCP, REST and full-page observations with verified outcomes.",
+  "redirects": [
+    {
+      "source": "/skills",
+      "destination": "/skills-guide",
+      "permanent": true
+    },
+    {
+      "source": "/brain-reflex",
+      "destination": "/agent-decision-model",
+      "permanent": true
+    }
+  ]
+}

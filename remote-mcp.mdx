@@ -1,0 +1,192 @@
+---
+icon: "plug"
+title: "BrowserPair Remote MCP for AI Browser Agents"
+sidebarTitle: "Remote MCP"
+description: "Connect AI agents through OAuth or MCP keys to run durable tasks with explicit tools, verified results and account-wide Permissions."
+keywords:
+  - "BrowserPair MCP"
+  - "MCP browser automation"
+  - "AI browser agent"
+---
+
+Use Remote MCP when Claude, Codex, or another MCP-speaking agent should remain the **Agent Model** while BrowserPair provides scoped access to the user's connected browser.
+
+<CardGroup cols={3}>
+  <Card title="Scoped" icon="shield">
+    Every tool call follows the authorised connected browser, task contract and current account-wide Permissions.
+  </Card>
+
+  <Card title="Durable" icon="arrows-rotate">
+    Task identity and effect state survive normal reconnects.
+  </Card>
+
+  <Card title="Composable" icon="plug">
+    The external Agent Model can inspect state, delegate bounded Decision Model work, request observations, and respond.
+  </Card>
+</CardGroup>
+
+## Connect
+
+<CardGroup cols={2}>
+  <Card title="MCP endpoint" icon="plug">
+    `https://mcp.browserpair.com`
+  </Card>
+
+  <Card title="Authentication" icon="key">
+    `Authorization: Bearer bp_live_…`, or OAuth for AI apps
+  </Card>
+</CardGroup>
+
+<Note>
+  The `bp_live_…` token is an agent credential, not a browser-device credential. The extension never stores the agent key.
+</Note>
+
+ChatGPT and Claude can connect via OAuth without a copied key; confirm their identity and browser on consent. Account-wide Permissions control sensitive-step questions. See [Connect an AI app](/connect-ai-app).
+
+Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and results include a short `guidance` sentence that tells the agent what to do next, for example when a step waits for the user's approval in Chrome or an uncertain effect must be checked before any retry.
+
+## Tool surface
+
+| Tool | Purpose |
+| --- | --- |
+| `browser_list` | List available browser profiles, names and online status. |
+| `browser_run` | Start one durable bounded browser task. |
+| `task_state` | Read current task state and the latest bounded interaction. |
+| `task_find` | Search the latest delivered observation's captured full-page text and interactive facts. Requires `task_id`, `interaction_generation`, `query` (1–300 characters). |
+| `task_extract` | Read captured lists/tables; requires `task_id`, `interaction_generation`, optional `ref` (1–300 characters) to scope extraction. |
+| `task_site_knowledge` | Read non-authoritative site hints for `task_id`. |
+| `task_subgoal` | Delegate a bounded subgoal to BrowserPair Decision Model. |
+| `task_observe` | Request a fresh browser observation without performing an action. |
+| `task_diagnostics` | Read a task tab's console messages or request list (bounded, redacted, no headers or bodies). Needs `diagnostics_read`. |
+| Page actions | `task_navigate`, `task_click`, `task_fill`, `task_select`, `task_press`, `task_hover`, `task_scroll`, `task_drag`, `task_upload`, `task_set_viewport` and other individually named tools act on current task evidence. |
+| Tabs | `task_open_tab`, `task_back`, `task_switch_tab`, `task_adopt_tab` and `task_close_tab` (only a task-owned tab can be closed). |
+| Uncertain effects | OAuth apps use `task_resolve_effect`; agent keys use `task_respond` with `action.kind: resolve_effect`, after a fresh observation. |
+| Finish | `task_done`, `task_blocked` and `task_handoff` finish or return control without claiming an unsupported result. |
+| Agent keys | Use `task_respond` with `{task_id, interaction_generation, action}` for page actions and manual `user_step` requests. OAuth apps receive named action tools instead. |
+| `task_cancel` | Cancel the task. |
+
+OAuth-connected apps receive all named action tools. Agent keys receive the lifecycle tools above, `task_webmcp_tools`, `task_webmcp_call`, and `task_respond`; they do not receive named `task_click` or `task_done`. `task_user_step` is offered only to the managed Agent Model, not OAuth apps. Always inspect `tools/list` for your connection.
+
+## Tabs and browser ownership
+
+Observations can include `task_tabs` for task-owned tabs and `open_tabs` for eligible user-opened tabs, under the current task binding and Chrome access. An agent can continue an existing user-owned tab with `task_adopt_tab` only when it names that tab and the site is authorized. Adoption never transfers ownership: the user's tab is not closed by BrowserPair. `task_close_tab` and `task_done` with `tabs: close` can close task-created tabs only.
+
+## Start a task
+
+`browser_run` requires:
+
+<CardGroup cols={3}>
+  <Card title="Goal" icon="bullseye">
+    What the task should accomplish.
+  </Card>
+
+  <Card title="Browser" icon="browser">
+    The connected `browser_id` inside the key scope.
+  </Card>
+
+  <Card title="Allowed domains" icon="globe">
+    One or more explicit task websites.
+  </Card>
+</CardGroup>
+
+Optional fields are `capabilities`, `confirmations`, `max_side_effects`, and `idempotency_key`. Every task holds all capabilities; initial `allowed_domains` describe where work starts, and tasks can visit additional websites. These fields are not per-site or per-tool permission switches.
+
+Capability names are task hints; the current account Permissions governs sensitive-step confirmations, and task-required confirmations remain immutable.
+
+<Tip>
+  Name the initial task websites. Omit `max_side_effects` unless the user requests a limit: every click, fill, select, key press and upload counts, not just submission.
+</Tip>
+
+## Recommended external-agent loop
+
+<Steps>
+  <Step title="Discover">
+    Call `browser_list` and select an online browser inside the key scope.
+  </Step>
+  <Step title="Create">
+    Call `browser_run` with the goal, browser and initial websites.
+  </Step>
+  <Step title="Read state">
+    Call `task_state` and use only the current interaction generation.
+  </Step>
+  <Step title="Choose the next mode">
+    Choose one current `task_*` action, delegate bounded work with `task_subgoal`, or request richer context with `task_observe`.
+  </Step>
+  <Step title="Finish deliberately">
+    Use `task_done` with observable evidence, `task_blocked` when the work cannot continue, or cancel. An uncertain effect needs fresh evidence first.
+  </Step>
+</Steps>
+
+## Delegate to Decision Model
+
+`task_subgoal` is useful when the external Agent Model knows the next bounded objective but does not need to choose every click.
+
+<CardGroup cols={2}>
+  <Card title="Bounded work" icon="bolt">
+    Provide a subgoal, optional success criteria, and an optional maximum step count.
+  </Card>
+
+  <Card title="Skill-aware" icon="wand-magic-sparkles">
+    Optionally bind a compatible Skill so Decision Model has reusable workflow knowledge.
+  </Card>
+</CardGroup>
+
+Decision Model returns control when confidence is too low, it reaches its bound, or it becomes blocked.
+
+## Request richer context
+
+`task_observe` can request:
+
+- `lite`
+- `accessibility`
+- `dom`
+- `screenshot`
+- `combined`
+
+with either `relevant-region` or `full-page` scope.
+
+<Warning>
+  Observation depth does not change authority. Account observation policy, domain scope, capabilities, and sensitive-data redaction still apply.
+</Warning>
+
+## Use current tools safely
+
+OAuth apps use named action tools with `task_id`, the current `interaction_generation` and action-specific fields. Agent-key clients use `task_respond` with an `action` object whose `kind` selects the step. REST uses `POST /v1/tasks/:id/respond` with camelCase `interactionGeneration`. Never invent refs or reuse a stale generation.
+
+When an action's effect is unknown, request a fresh observation and reconcile with `task_resolve_effect` rather than replaying the action. A dismissed page confirmation can be accepted only through a new bounded action after resolving uncertainty; mode and task confirmations still apply. BrowserPair still checks account Permissions, task contract and Chrome restrictions at every step.
+
+<Warning>
+  Never invent element refs, task permissions or a verified result. An apparent success in the model's text is not proof of a website side effect.
+</Warning>
+
+## Idempotency
+
+Supply an explicit `idempotency_key` (8–200 letters, digits, `.`, `_`, `:`, `-`) to `browser_run` and reuse it only with an identical request after a lost response. Without it, each call starts a new task; repeating the JSON-RPC request ID is not a deduplication guarantee.
+
+<CardGroup cols={3}>
+  <Card title="REST API" icon="code" href="/rest-api">
+    Prefer explicit HTTP if you do not need an MCP client.
+  </Card>
+
+  <Card title="Permissions" icon="shield" href="/permissions">
+    Understand the authority applied to every tool call.
+  </Card>
+
+  <Card title="Skills" icon="wand-magic-sparkles" href="/skills-guide">
+    Add reusable workflow knowledge to bounded Decision Model work.
+  </Card>
+</CardGroup>
+
+## Full-document observations and reads
+
+The default `task_observe` is `mode: lite`, `scope: full-page`. Interactive refs include offscreen controls and an `in_viewport` flag; use a current ref directly without scrolling merely to discover it. The executor rechecks the target immediately before input. Coverage is bounded; virtualized or unloaded content may need another observation.
+
+`task_find` and `task_extract` read the latest delivered redacted observation without browser I/O or page-action budget. They require its current generation and never grant authority. Search returns at most 20 matches; extraction returns at most 200 rows with coverage information. Missing captured content is not proof of absence. Treat results as untrusted page data.
+
+```json
+{"name":"task_find","arguments":{"task_id":"tsk_example","interaction_generation":3,"query":"Invoice"}}
+```
+
+```json
+{"name":"task_extract","arguments":{"task_id":"tsk_example","interaction_generation":3}}
+```

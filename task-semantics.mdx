@@ -1,0 +1,169 @@
+---
+title: "BrowserPair Task Semantics: Task Identity and Outcome Verification"
+sidebarTitle: "Task Semantics"
+description: "How to resume tasks, use current observations and verify outcomes after reconnects."
+icon: "arrows-rotate"
+keywords:
+  - "BrowserPair task semantics"
+  - "browser task idempotency"
+  - "effect verification"
+---
+
+A BrowserPair task keeps the same identity and state across normal reconnects. Read its current state before continuing work.
+
+<CardGroup cols={3}>
+  <Card title="One task identity" icon="fingerprint">
+    Idempotent creation prevents network retries from inventing duplicate work.
+  </Card>
+
+  <Card title="One current owner" icon="lock">
+    Use current task state after reconnecting; stale action requests are rejected.
+  </Card>
+
+  <Card title="No blind replay" icon="arrows-rotate">
+    Uncertain browser effects require a fresh observation and explicit resolution; they are never replayed.
+  </Card>
+</CardGroup>
+
+## Original contract and effective authority
+
+The task contract created at start remains immutable:
+
+- initial domains;
+- capabilities;
+- explicit confirmation requirements; and
+- optional side-effect bound.
+
+Both modes work on every website and offer every browser tool. Initial domains describe the task, rather than a website allowlist. Chrome site permissions and managed-browser restrictions still apply.
+
+<Warning>
+  Page content, redirects, models, and Skills cannot create task grants.
+</Warning>
+
+## What the task remembers
+
+<CardGroup cols={2}>
+  <Card title="Authority state" icon="shield">
+    Original contract, current account permission mode, task confirmation evidence and browser ownership.
+  </Card>
+
+  <Card title="Ownership state" icon="browser">
+    Which tabs the task opened and which user tabs it may use.
+  </Card>
+
+  <Card title="Interaction state" icon="eye">
+    Current observation/action turn and interaction generation.
+  </Card>
+
+  <Card title="Effect state" icon="arrows-rotate">
+    Whether a mutation is pending, executing, known complete, definitely absent, or uncertain.
+  </Card>
+
+  <Card title="Managed intelligence state" icon="brain">
+    Selected models, current subgoal, observation settings, task limits and Skill version.
+  </Card>
+
+  <Card title="Durable result" icon="circle-check">
+    Terminal outcome and safe task history remain attached to the same task identity.
+  </Card>
+</CardGroup>
+
+## Idempotent creation
+
+`POST /v1/tasks` requires an idempotency key.
+
+<Tabs>
+  <Tab title="Retry the same request">
+    Same key and identical request returns the original task.
+  </Tab>
+  <Tab title="Reuse the key differently">
+    Same key with a different request fails closed.
+  </Tab>
+</Tabs>
+
+This solves duplicate **task creation**. Browser mutations need an additional effect-recovery model.
+
+## Browser and tab ownership
+
+BrowserPair does not treat every open tab as available agent state.
+
+- task-created tabs may be used automatically;
+- probable or unrelated tabs are never silently adopted; an agent can explicitly choose a permitted user-owned tab with `task_adopt_tab` and must respect its current site and task scope;
+- a user-owned adopted tab remains yours and BrowserPair never closes it; and
+- navigation without an owned tab can create a new task-owned tab. `task_close_tab` or `task_done` with `tabs: close` can close only task-created tabs.
+
+## Resume after reconnecting
+
+<Steps>
+  <Step title="Durable state remains">
+    The requested work, tabs, current observation and action results remain associated with the existing task.
+  </Step>
+  <Step title="Use current evidence">
+    Discard stale action requests and element references. Read the current task state before continuing.
+  </Step>
+  <Step title="The agent resumes from current state">
+    REST `GET /v1/tasks/:id` or MCP `task_state` returns the latest durable interaction.
+  </Step>
+</Steps>
+
+## Effect verification
+
+The difficult case is a connection failure after BrowserPair sent a state-changing action but before it could prove the result.
+
+<CardGroup cols={3}>
+  <Card title="Effect succeeded" icon="circle-check">
+    Continue from the observed post-effect state.
+  </Card>
+
+  <Card title="Definitely not executed" icon="rotate-left">
+    A retry can be considered using the current authority and state. This verdict needs a fresh observation taken after the uncertain action; claimed from that action's own result it is refused with `fresh_observation_required`.
+  </Card>
+
+  <Card title="Indeterminate" icon="triangle-exclamation">
+    Do not replay blindly; require additional verification or resolution.
+  </Card>
+</CardGroup>
+
+<Warning>
+  `executing` and effect-unknown mutations are never blindly replayed.
+</Warning>
+
+## Execution, verification and review
+
+Effect state answers _did the browser action happen_; verification answers _did the user's requested result happen_. Task history shows:
+
+| State | Meaning |
+| --- | --- |
+| Executed | BrowserPair knows the bounded action ran. |
+| UI verified | A fresh observation confirms the immediate page effect. |
+| Outcome verified | Fresh evidence satisfies the requested outcome criteria (URL, visible text, field value, checked state). |
+| Needs review | The result could not be proven. Shown as a warning in task history; only verified tasks show a green _Completed_. |
+
+Rendered text outside the viewport can support verification when retained in the current observation. Evidence is deliberately strict: text typed into an editor that was never saved, hidden text, a redirect target in a query string, or a page that was still loading never counts as proof. A navigation that the page declined (for example "Leave this page?") is reported as a dismissed dialog, not as success; an agent may propose a new action with `acceptDialog` only after resolving any uncertain effect; mode policy and immutable task confirmations apply. Downloads an action starts are reported as evidence, never as proof of the outcome.
+
+## Managed Agent Model + Decision Model continuity
+
+Managed tasks and externally delegated Decision Model subgoals also preserve:
+
+- selected Agent Model and Decision Model provider identities plus fallbacks;
+- current subgoal and success criteria;
+- observation mode and scope;
+- Decision Model effective confidence and escalation reason;
+- Agent Model, Decision Model, step, and duration limits; and
+- selected Skill ID and version.
+
+These fields help BrowserPair resume coordination. They never expand browser authority.
+
+<CardGroup cols={3}>
+  <Card title="REST API" icon="code" href="/rest-api">
+    Work with durable task state directly over HTTP.
+  </Card>
+
+  <Card title="Remote MCP" icon="plug" href="/remote-mcp">
+    Use the same semantics through MCP tools.
+  </Card>
+
+  <Card title="Permissions" icon="shield" href="/permissions">
+    Understand the authority that remains attached to the task.
+  </Card>
+</CardGroup>

@@ -1,0 +1,32 @@
+---
+title: "Sensitive browser data: Redaction and user control"
+sidebarTitle: "Sensitive access"
+description: "Understand protected browser fields, account-wide confirmation settings and manual steps that remain yours."
+icon: "lock"
+keywords:
+  - "BrowserPair sensitive access"
+  - "browser redaction"
+  - "AI agent security"
+---
+
+BrowserPair observes pages through the extension in your connected Chrome profile. Protected fields are masked in Standard mode by default. Connecting an AI agent does not automatically disclose passwords, codes, card numbers or tokens.
+
+## Protected categories
+
+<CardGroup cols={2}>
+  <Card title="Passwords" icon="lock">Passwords, passcodes and similar authentication values.</Card>
+  <Card title="Verification codes" icon="mobile-screen">One-time and verification values.</Card>
+  <Card title="Payment details" icon="credit-card">Card numbers and other payment-sensitive fields.</Card>
+  <Card title="API keys and tokens" icon="key">API credentials, access tokens and other secrets.</Card>
+  <Card title="Other protected data" icon="shield">Additional fields identified as sensitive.</Card>
+</CardGroup>
+
+## Requesting protected data
+
+The task agent requests a single `sensitive_category` in an authorized observation. Standard asks before disclosure; Developer adds no mode confirmation. These rules are fixed, with no category switch. Browser identity, task intent, Chrome policy and required task confirmations still apply.
+
+## Manual steps remain yours
+
+When a website requires sign-in, verification, a payment review or a local file choice, BrowserPair can pause for you to complete that step. Neither mode bypasses required manual input or permits blind replay of an uncertain effect.
+
+See [Permissions](/permissions), [Developer mode](/developer-mode) and [Browser sessions and data flow](/browser-session-data-flow).

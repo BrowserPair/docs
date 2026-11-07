@@ -1,0 +1,80 @@
+---
+title: "Managed Tasks: Run Browser Work from the BrowserPair App"
+sidebarTitle: "Managed tasks"
+description: "Run a bounded browser task from the BrowserPair app with an Agent Model, optional Decision Model, Skills, approvals and task history."
+icon: "play"
+keywords:
+  - "BrowserPair managed tasks"
+  - "AI browser task"
+---
+
+Use the BrowserPair dashboard when you want BrowserPair to coordinate planning, bounded execution, approvals, Skills, and task history for you.
+
+<CardGroup cols={3}>
+  <Card title="Choose the browser" icon="browser">Select the connected profile where the task is allowed to run.</Card>
+  <Card title="Choose the websites" icon="globe">Name the websites where the task should start.</Card>
+  <Card title="Describe the outcome" icon="play">Tell BrowserPair what should happen; the task remains bounded by your settings.</Card>
+</CardGroup>
+
+## Choose how to start tasks
+
+If you connect an external AI app such as ChatGPT or Claude, start tasks in that app. You do not need a BrowserPair Agent Model. The Activity page shows the connected app, a read-only first try, and shared task history.
+
+If you connect your own Agent Model, use **Chat** to describe work in your own words. The first Agent Model becomes your account default. Accounts with neither path configured can choose either approach. Open **Settings → Models** to manage providers, **Permissions** for access settings, **Settings → Usage & analytics** for usage, and **Automations → Skills** for reusable workflows.
+
+## Requirements
+
+Before a managed task can run:
+
+- at least one browser must be connected;
+- the request must identify the intended starting website; and
+- an **Agent Model** provider must be configured.
+
+<Note>A Decision Model provider is optional. BrowserPair can still use bounded deterministic execution where available and escalate planning decisions to the Agent Model.</Note>
+
+## Run a task
+
+<Steps>
+  <Step title="Open Chat">Describe the desired outcome in a new BrowserPair Chat conversation.</Step>
+  <Step title="Open Task settings">Choose the browser and name the intended starting websites. Tasks can visit additional websites; Chrome site permissions still apply.</Step>
+  <Step title="Choose a Skill or auto-match">Leave **Skill** on auto-match or select a compatible enabled Skill explicitly.</Step>
+  <Step title="Keep the defaults or override them">Account-level Agent Model, Decision Model, trust threshold, observation policy, and execution limits are used unless you choose task-specific overrides.</Step>
+  <Step title="Run and review">BrowserPair creates one durable task, surfaces approvals when needed, and records the final state in task history.</Step>
+</Steps>
+
+## Chat with your own model
+
+When you configure an Agent Model, you can ask it to work through **Chat** in the BrowserPair App or from the Chrome side panel. A running task displays your request, model messages, steps, questions and current state in **Activity** and the side panel.
+
+If the Agent Model needs something only you know, it asks a question and the task pauses for your reply. Your response or new instruction supplies context; it **does not grant new websites, capabilities or permission exemptions**. Review requested approvals in BrowserPair itself. BrowserPair records whether the final result was verified or needs review.
+
+See [Agent Model + Decision Model](/agent-decision-model) and [Permissions](/permissions).
+
+## Task settings
+
+<CardGroup cols={2}>
+  <Card title="Authority" icon="shield">Browser and task intent bound the work. Both permission modes allow all tools and websites; a Skill supplies knowledge only.</Card>
+  <Card title="Model overrides" icon="brain">Override Agent Model, fallbacks, Decision Model, or trust only when a task needs different routing.</Card>
+  <Card title="Execution limits" icon="gauge">Bound Decision Model steps, Agent Model calls, Decision Model calls, total steps, and maximum duration.</Card>
+  <Card title="Website access" icon="globe">
+    Both modes work on every website; Chrome site permissions and managed restrictions still apply.
+  </Card>
+</CardGroup>
+
+<Warning>
+  A Skill, provider, screenshot, or model response cannot add browser authority.
+</Warning>
+
+<CardGroup cols={3}>
+  <Card title="Agent Model + Decision Model" icon="brain" href="/agent-decision-model">
+    Configure model routing and observations.
+  </Card>
+
+  <Card title="Skills" icon="puzzle-piece" href="/skills-guide">
+    Reuse workflow knowledge safely.
+  </Card>
+
+  <Card title="Permissions" icon="shield" href="/permissions">
+    Understand approvals and scope.
+  </Card>
+</CardGroup>

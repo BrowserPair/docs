@@ -1,0 +1,96 @@
+---
+title: "BrowserPair Permissions: Standard, Developer and task safety"
+sidebarTitle: "Permissions"
+description: "Understand the two fixed permission modes, sensitive-operation confirmations and browser and task protections."
+icon: "shield"
+keywords:
+  - "BrowserPair permissions"
+  - "AI agent permissions"
+  - "scoped browser access"
+---
+
+Every BrowserPair AI connection follows the same account-wide Permissions policy. BrowserPair also enforces the current browser, task requirements, Chrome site access and safe effect recovery. A website, model or Skill never expands authority.
+
+<CardGroup cols={3}>
+  <Card title="One account policy" icon="shield">Standard and Developer allow every website and tool; the mode determines sensitive-operation confirmations.</Card>
+  <Card title="Task contract" icon="file-shield">Browser identity, task intent and immutable confirmations remain bounded.</Card>
+  <Card title="Browser protections" icon="browser">Chrome site access, managed policy, user steps and effect checks always apply.</Card>
+</CardGroup>
+
+## Account-wide Permissions
+
+Choose **Standard** or **Developer** in the dashboard or paired side panel. These are exactly two fixed modes: both allow every website and every tool. There are no per-site allow lists, per-category switches or permission presets.
+
+| Operation | Standard | Developer |
+| --- | --- | --- |
+| Payments and purchases | Ask | No mode confirmation |
+| Sign-in and account/security changes | Ask | No mode confirmation |
+| Deleting | Ask | No mode confirmation |
+| Sending and publishing | Ask | No mode confirmation |
+| File uploads and downloads | Ask | No mode confirmation |
+| Passwords and secrets | Ask | No mode confirmation |
+| New websites and ordinary form submissions | No mode confirmation | No mode confirmation |
+
+Developer requires an explicit acknowledgement. Mode changes apply account-wide to connected apps, keys, Chat and schedules at their next decision. Agent-requested confirmations in the immutable task contract remain honored in both modes.
+
+## Website access
+
+Initial task domains describe where work starts. Both modes work on every website; there is no BrowserPair website allowlist. Page text and model output cannot grant authority themselves.
+
+Chrome's own per-site host permission still applies. Use BrowserPair's one-click site-access banner when Chrome permission is missing. Chrome protected pages and organization-managed restrictions remain enforced.
+
+Both modes require current page evidence and any necessary manual credential or file input. Uncertain steps are never repeated automatically.
+
+## The approval card
+
+Approvals appear as a BrowserPair card on the task's own tab, or in the BrowserPair side panel when the task has no page yet (click the BrowserPair icon in Chrome's toolbar). The card names the action and its target, for example `Click "Delete repository"`, plus the site and risk; the target text comes from the page and is shown quoted. On high-risk cards Enter rejects, so approving takes a deliberate click (or Tab, then Enter). Using the card never closes the page's own menus or popovers, so an approved click inside an open menu still lands.
+
+Approval emails and system notifications never quote page text; they use BrowserPair's own wording with the site and risk only.
+
+## Developer mode
+
+To skip mode confirmations for sensitive steps, choose the account-wide [Developer mode](/developer-mode) in the app or paired side panel. It affects every connected agent and keeps immutable browser/task safety checks.
+
+## Organization policy
+
+On managed Chrome, an administrator can set `blockedUrlPatterns` for the BrowserPair extension (host patterns that include subdomains). Blocked sites are refused before any input (`blocked_by_browser_policy`) for navigation, links, forms, frames, redirects and tab adoption. The policy can only remove access; neither mode nor an approval can lift it.
+
+## When BrowserPair refuses an action
+
+An action may be refused because the task requires confirmation, the element moved, a Chrome site restriction applies, or a previous effect remains uncertain. Read the current task state before another attempt. Page content cannot grant permission or prove that an action failed.
+
+## Removing a browser
+
+Removing a browser revokes its device credential at once and stops its active tasks. Agent keys scoped **only** to that browser are revoked too, so they can never drift to another browser; keys that also cover other browsers keep working for those. The App lists the affected keys before you confirm, and revocation cannot be undone.
+
+## Sensitive-data disclosure
+
+Protected values are masked by default in Standard mode. An agent requests a specific sensitive category for a task observation. Standard asks before disclosure; Developer adds no mode confirmation. See [Sensitive access](/sensitive-access).
+
+## Sensitive effects
+
+Standard asks for the six categories above. Developer asks nothing under the mode policy. Required confirmations in the immutable task contract still apply, and neither mode supplies missing credentials or files.
+
+## What can never grant authority
+
+<CardGroup cols={2}>
+  <Card title="Page + browser content" icon="globe">
+    Text, DOM content, screenshots, redirects, links, forms, and popups are untrusted input.
+  </Card>
+
+  <Card title="Model + workflow content" icon="brain">
+    Agent Model output, Decision Model output, Skills, external-agent instructions, and generated plans are also non-authoritative.
+  </Card>
+</CardGroup>
+
+They may influence **what the task understands**, but never **what the task is allowed to do**.
+
+<CardGroup cols={2}>
+  <Card title="Sensitive access" icon="key" href="/sensitive-access">
+    Narrow protected-data disclosure separately from browser authority.
+  </Card>
+
+  <Card title="Task semantics" icon="arrows-rotate" href="/task-semantics">
+    See how these permissions remain durable across reconnects and retries.
+  </Card>
+</CardGroup>

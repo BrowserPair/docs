@@ -1,0 +1,36 @@
+---
+title: "Developer mode: Account-wide permissions for trusted AI agents"
+sidebarTitle: "Developer mode"
+description: "Understand Developer mode, its fixed confirmation policy and the safeguards that remain in force."
+icon: "code"
+keywords:
+  - "BrowserPair developer mode"
+  - "AI agent permissions"
+  - "AI agent secrets"
+---
+
+Developer mode controls **when BrowserPair asks you** before sensitive steps. It applies account-wide to ChatGPT, Claude, other MCP connections, API keys, BrowserPair Chat and schedules. It is not a temporary grant to one agent.
+
+<Warning>
+  Developer mode asks for no operation confirmations under the mode policy. Activate it only if you trust every connected AI agent on your account.
+</Warning>
+
+## Standard compared with Developer
+
+Both modes allow every website and every tool. Standard asks only before payments/purchases, sign-in and account/security changes, deleting, sending/publishing, file uploads/downloads, and passwords/secrets. Developer adds no confirmations. Neither mode has category switches or website allow lists.
+
+Agent-requested confirmations in the immutable task contract are still honored. Chrome per-site permission (including the one-click grant), managed-browser restrictions, ownership checks and uncertain-effect recovery remain enforced.
+
+## Switch modes
+
+Open **Permissions** in the BrowserPair app or paired side panel. Choose **Developer**, acknowledge the warning, or choose **Standard** to restore sensitive-operation confirmations. Changes affect subsequent decisions; completed website actions are not undone.
+
+## Sensitive data and manual steps
+
+Sensitive data is normally masked in Standard mode. The current task agent may request one protected category at a time; Standard requires approval for disclosure and Developer adds no mode confirmation. The task and browser boundaries still apply.
+
+A task may pause for you to sign in, verify an account, review a payment or select a local file yourself. Developer mode never bypasses these user steps or permits blind replay of an action with an uncertain effect.
+
+## For agent developers
+
+Read the active mode and immutable task confirmation requirements from task guidance. A `sensitive_category` request is bounded to the current observation and task. See [Permissions](/permissions) and [Sensitive access](/sensitive-access).

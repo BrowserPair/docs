@@ -1,0 +1,147 @@
+---
+title: "BrowserPair: The Browser Access Layer for AI Agents"
+sidebarTitle: "Introduction"
+description: "Connect AI agents to the browser profile you already use with scoped authority, durable tasks, and recoverable execution."
+icon: "house"
+keywords:
+  - "BrowserPair"
+  - "AI browser automation"
+  - "AI agents"
+  - "browser access"
+---
+
+BrowserPair is the control layer between an AI agent and the browser profile you already use. It adds bounded authority, durable task coordination, explicit approvals, and extension-owned execution without turning your browser session into a cloud browser.
+
+<CardGroup cols={3}>
+  <Card title="Your browser" icon="browser">
+    Existing signed-in sessions stay in the connected browser profile.
+  </Card>
+
+  <Card title="Your authority" icon="shield">
+    Choose the connected browser and Standard or Developer mode; immutable task confirmations remain honored.
+  </Card>
+
+  <Card title="Recoverable execution" icon="arrows-rotate">
+    Tasks keep their identity across reconnects. Uncertain steps are never repeated automatically; outcomes are verified on the page.
+  </Card>
+</CardGroup>
+
+## Choose how you want to work
+
+<CardGroup cols={2}>
+  <Card title="Run a task in BrowserPair" icon="play" href="/managed-tasks">
+    Connect your own Agent Model to enable the task composer in BrowserPair. A Decision Model provider is optional; approvals, Skills, and history live in the app.
+  </Card>
+
+  <Card title="Bring your own agent" icon="plug" href="/remote-mcp">
+    Connect ChatGPT, Claude, or another AI app over MCP and start tasks in that app, without configuring BrowserPair's managed Agent Model. REST and scoped agent keys are available for developers.
+  </Card>
+</CardGroup>
+
+<Tip>
+  New to BrowserPair? Start with the [Quickstart](/quickstart). It takes you from an unpaired browser to your first bounded task.
+</Tip>
+
+## The BrowserPair flow
+
+<Steps>
+  <Step title="Connect a browser">
+    Pair the Chrome profile you already use. BrowserPair receives a device credential for that browser; your agent key remains separate.
+  </Step>
+  <Step title="Define authority">
+    Select a connected browser, review account-wide Standard/Developer Permissions, and choose the task you want to run.
+  </Step>
+  <Step title="Run a durable task">
+    Start work from the BrowserPair app, Remote MCP, or REST. The same permission and recovery model applies to every path.
+  </Step>
+  <Step title="Approve only when needed">
+    BrowserPair pauses when a bounded request needs your authority—for example a protected value or a sensitive operation in Standard mode.
+  </Step>
+  <Step title="Verify the result">
+    Browser execution stays inside the extension. Task state, ownership, and effect verification make reconnects safer than blind replay.
+  </Step>
+</Steps>
+
+## Where each responsibility lives
+
+<CardGroup cols={2}>
+  <Card title="Connected browser" icon="laptop">
+    Holds the user's signed-in profile, performs browser mutations, observes the current page, applies local redaction, and verifies effects.
+  </Card>
+
+  <Card title="BrowserPair service" icon="cloud">
+    Lets you manage your account, connected apps, tasks and approvals. Task observations may reach your connected AI app or configured model provider.
+  </Card>
+</CardGroup>
+
+<Warning>
+  Page text, screenshots, model output, redirects, and Skills are all non-authoritative input. None of them can silently widen the authority granted by the user, agent key, or task.
+</Warning>
+
+## Explore the system
+
+<CardGroup cols={3}>
+  <Card title="Agent Model + Decision Model" icon="brain" href="/agent-decision-model">
+    Managed planning, fast bounded execution, provider fallbacks, and observation policy.
+  </Card>
+
+  <Card title="Skills" icon="wand-magic-sparkles" href="/skills-guide">
+    Reusable workflow knowledge that never grants browser authority.
+  </Card>
+
+  <Card title="Sensitive access" icon="key" href="/sensitive-access">
+    Data redaction, manual credential input and account-wide sensitive-step confirmation settings.
+  </Card>
+
+  <Card title="Remote MCP" icon="plug" href="/remote-mcp">
+    The complete MCP tool surface for external agents.
+  </Card>
+
+  <Card title="REST API" icon="code" href="/rest-api">
+    Durable task creation and agent control over HTTP.
+  </Card>
+
+  <Card title="Permissions" icon="shield" href="/permissions">
+    Two fixed Standard and Developer permission modes, plus immutable browser and task safety.
+  </Card>
+</CardGroup>
+
+## Free defaults
+
+<CardGroup cols={3}>
+  <Card title="1 browser" icon="browser">
+    One connected browser profile per account.
+  </Card>
+
+  <Card title="2 agent keys" icon="key">
+    Two active external-agent keys.
+  </Card>
+
+  <Card title="100 tasks / month" icon="gauge">
+    Accepted browser tasks per UTC calendar month.
+  </Card>
+</CardGroup>
+
+## Support by plan
+
+<CardGroup cols={2}>
+  <Card title="Free — self-service docs" icon="book-open" href="/quickstart">
+    Free accounts use the BrowserPair guides, quickstart and public service status. The in-app live chat messenger is not available on Free.
+  </Card>
+
+  <Card title="Pro — live support" icon="messages-square" href="https://app.browserpair.com/">
+    Paid Pro includes in-app live support and past support conversations until the paid billing period ends. After a downgrade the messenger and history stay hidden until Pro is active again.
+  </Card>
+</CardGroup>
+
+<Card title="Open BrowserPair" icon="arrow-up-right-from-square" href="https://app.browserpair.com/">
+  Connect a browser, configure an agent or managed Agent Model, and run your first task.
+</Card>
+
+## Public developer resources
+
+- [Product and community hub](https://github.com/BrowserPair/browserpair): setup, use cases, questions and public feedback.
+- [REST and MCP examples](https://github.com/BrowserPair/examples): small integration starters and connection recipes.
+- [Workflow Skills](https://github.com/BrowserPair/skills): research, product comparison and form preparation guides. Skills never expand task authority.
+- [Browser-agent ecosystem guide](https://github.com/BrowserPair/awesome-browser-agents): independent tools, frameworks and evaluation resources, maintained by BrowserPair.
+- [Documentation source](https://github.com/BrowserPair/docs): propose a correction to these guides.
