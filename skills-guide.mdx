@@ -1,53 +1,57 @@
 ---
-title: "BrowserPair Skills: Reusable Workflow Knowledge"
+title: "BrowserPair Skills: Optional Reusable Workflow Knowledge"
 sidebarTitle: "Skills"
-description: "Create, version, share, import, export, and auto-match BrowserPair Skills without expanding browser authority."
+description: "Create, manage and optionally use reusable BrowserPair Skills without changing browser permissions."
 icon: "puzzle-piece"
 keywords:
   - "BrowserPair Skills"
-  - "AI agent skills"
-  - "browser workflows"
+  - "AI agent workflows"
 ---
 
-BrowserPair Skills are reusable, versioned workflow knowledge for recurring browser work. They help an agent understand **how** to approach a task without deciding **what it is allowed to do**.
+A BrowserPair Skill is a reusable, versioned guide for a repeatable browser task. It describes **how to work**, not **what the browser is allowed to do**.
 
-<CardGroup cols={3}>
-  <Card title="Reusable" icon="puzzle-piece">Capture workflow structure, terminology, landmarks, and verification hints once.</Card>
-  <Card title="Versioned" icon="code-branch">Pin, promote, install, and evolve a Skill without losing which version a task used.</Card>
-  <Card title="Non-authoritative" icon="shield">A Skill never adds browser, website, capability, sensitive-data, or confirmation authority.</Card>
-</CardGroup>
+<Warning>
+  Skills never grant new websites, tools, access to protected values, approvals or browser ownership.
+</Warning>
 
-<Warning>The task and agent key must independently authorize every action a Skill suggests.</Warning>
-
-## What a Skill can describe
-
-<CardGroup cols={2}>
-  <Card title="Applicability" icon="globe">Domains, URL patterns, and task intents.</Card>
-  <Card title="Authority requirements" icon="shield">Capability names describe workflow needs; every task holds all capabilities, subject to mode confirmations and managed policy.</Card>
-  <Card title="Workflow knowledge" icon="list-check">Semantic landmarks, terminology, suggested actions, and expected inputs/outputs.</Card>
-  <Card title="Verification" icon="circle-check">Success hints, failure modes, and limitations.</Card>
-</CardGroup>
-
-## Create and use a Skill
+## How to use Skills
 
 <Steps>
-  <Step title="Create private">In the BrowserPair App, open **Automations → Skills** and describe the workflow. Skills are optional workflow knowledge, not a prerequisite to connect ChatGPT or another AI app.</Step>
-  <Step title="Enable or pin">Enable, disable, pin a version, or configure auto-suggestion.</Step>
-  <Step title="Match to a task">BrowserPair can auto-match by goal, domain, and workflow needs.</Step>
-  <Step title="Bind the version">The selected Skill ID and version are recorded with the task.</Step>
+  <Step title="Create a Skill">
+    Open **Skills** in the BrowserPair App, describe the workflow and save it. Keep private data and credentials out of the definition.
+  </Step>
+  <Step title="Review and version it">
+    Maintain your own Skills and versions. Imported or shared Skills must be reviewed before use.
+  </Step>
+  <Step title="Choose only when needed">
+    You can explicitly choose an applicable Skill when starting a task. Connected agents can optionally search for and read available Skills when their work would benefit.
+  </Step>
+  <Step title="Check the result">
+    The task still uses current page observations, normal browser permissions and evidence-based verification.
+  </Step>
 </Steps>
 
+**Skills are not automatically matched to every task.** BrowserPair does not insert a Skill lookup or a separate model call into the default task flow. Without a Skill, tasks work normally.
+
+## Optional connected-agent tools
+
+Where the connected client supports them, the Remote MCP interface provides:
+
+| Tool | Purpose |
+| --- | --- |
+| skill_search | Find applicable visible Skills when the agent decides they are useful. |
+| skill_read | Read one Skill's current instructions. |
+| skill_create | Create a new private Skill under the owner's account. |
+| skill_update | Save a new version of an owned Skill. |
+| skill_delete | Retire an owned Skill. |
+
+An agent can explicitly attach an available Skill and version when starting a task. The selected instructions cannot change the account's Standard or Developer mode or bypass task confirmations.
+
+## Good Skill content
+
+Keep applicability, required inputs, suggested steps, expected output, verification, limitations and recovery instructions explicit. Never save passwords, tokens, customer records or private page contents as reusable instructions.
+
 <CardGroup cols={2}>
-  <Card title="Run with a Skill" icon="play" href="/managed-tasks">Select one or let BrowserPair auto-match it.</Card>
-  <Card title="Permissions" icon="shield" href="/permissions">See the boundaries Skills cannot override.</Card>
+  <Card title="Remote MCP" icon="plug" href="/remote-mcp">Using BrowserPair with an external AI app.</Card>
+  <Card title="Permissions" icon="shield" href="/permissions">Account modes and non-negotiable browser safeguards.</Card>
 </CardGroup>
-
-## Private Site Learning and optional sharing
-
-Open **Automations → Learning**. After acknowledging the one-time notice, **Learn from my tasks** and **Use shared site knowledge** start enabled. You may turn either off, exclude websites, forget a learned site, or delete your private learning.
-
-BrowserPair learns only bounded **content-free page structure** from verified, authorised HTTPS tasks: reviewed page families, parameterised route shapes, semantic control counts and outcomes. It does **not** save raw HTML, page text, form values, screenshots, secrets, CSS selectors, coordinates or reusable click targets in site memory.
-
-**Improve BrowserPair for everyone** is a separate opt-in and starts off. Shared patterns require independent contributors and verified evidence; revoked or stale knowledge is not delivered. Every later task still observes the live page, checks authority and verifies effects.
-
-Read the full [site-learning privacy explanation](https://browserpair.com/learning-privacy). A Skill is a workflow guide, whereas automatically learned site knowledge is a separate, privacy-controlled source of hints.

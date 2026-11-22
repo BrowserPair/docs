@@ -23,9 +23,8 @@
         "icon": "browser",
         "pages": [
           "managed-tasks",
-          "agent-decision-model",
+          "agent-model",
           "skills-guide",
-          "site-learning",
           "sensitive-access",
           "read-authenticated-dashboard"
         ]
@@ -107,7 +106,12 @@
     },
     {
       "source": "/brain-reflex",
-      "destination": "/agent-decision-model",
+      "destination": "/agent-model",
+      "permanent": true
+    },
+    {
+      "source": "/agent-decision-model",
+      "destination": "/agent-model",
       "permanent": true
     }
   ]

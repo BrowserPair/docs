@@ -27,11 +27,13 @@ Choose **Standard** or **Developer** in the dashboard or paired side panel. Thes
 | Sign-in and account/security changes | Ask | No mode confirmation |
 | Deleting | Ask | No mode confirmation |
 | Sending and publishing | Ask | No mode confirmation |
-| File uploads and downloads | Ask | No mode confirmation |
+| File uploads and downloads | Enabled by default; no extra mode prompt | Enabled by default; no extra mode prompt |
 | Passwords and secrets | Ask | No mode confirmation |
 | New websites and ordinary form submissions | No mode confirmation | No mode confirmation |
 
-Developer requires an explicit acknowledgement. Mode changes apply account-wide to connected apps, keys, Chat and schedules at their next decision. Agent-requested confirmations in the immutable task contract remain honored in both modes.
+File uploads and downloads have **separate account settings**, enabled by default in both modes. You can disable either operation in Permissions, in which case it is refused. Choosing a local file still requires your action. Task-requested confirmations always apply.
+
+Developer requires an explicit acknowledgement. Mode changes apply account-wide to connected apps, keys and Chat at their next decision. Agent-requested confirmations in the immutable task contract remain honored in both modes.
 
 ## Website access
 
@@ -65,11 +67,11 @@ Removing a browser revokes its device credential at once and stops its active ta
 
 ## Sensitive-data disclosure
 
-Protected values are masked by default in Standard mode. An agent requests a specific sensitive category for a task observation. Standard asks before disclosure; Developer adds no mode confirmation. See [Sensitive access](/sensitive-access).
+Protected values are masked in ordinary observations. A protected-data request is possible only through an explicitly supported and authorized connection; unsupported external requests are refused. ChatGPT does not offer protected-data observation requests. See [Sensitive access](/sensitive-access).
 
 ## Sensitive effects
 
-Standard asks for the six categories above. Developer asks nothing under the mode policy. Required confirmations in the immutable task contract still apply, and neither mode supplies missing credentials or files.
+Standard asks before payments, account/security changes, deletion, sending/publishing, and passwords/secrets. Developer skips those mode-based prompts. Uploads and downloads have separate owner settings and do not add a mode prompt by default. Required task confirmations still apply, and neither mode supplies missing credentials or files.
 
 ## What can never grant authority
 
@@ -79,7 +81,7 @@ Standard asks for the six categories above. Developer asks nothing under the mod
   </Card>
 
   <Card title="Model + workflow content" icon="brain">
-    Agent Model output, Decision Model output, Skills, external-agent instructions, and generated plans are also non-authoritative.
+    Agent Model output, Skills, external-agent instructions, and generated plans are also non-authoritative.
   </Card>
 </CardGroup>
 

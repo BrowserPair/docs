@@ -1,0 +1,48 @@
+---
+title: "Agent Model: Run Browser Tasks with Your Own AI"
+sidebarTitle: "Agent Model"
+description: "Configure an Agent Model for tasks started inside BrowserPair. Learn how account permissions, observations, fallbacks, and verification work."
+icon: "brain"
+keywords:
+  - "BrowserPair Agent Model"
+  - "AI browser agent"
+---
+
+BrowserPair can run tasks with an Agent Model that you configure. The model plans the next step from permitted browser observations; BrowserPair carries out permitted actions in your connected Chrome and checks their outcomes.
+
+<Note>
+  If you connect ChatGPT, Claude, Cursor or another external AI app over Remote MCP, that app supplies the model. You do not need to add an Agent Model in BrowserPair for this path.
+</Note>
+
+## Configure an Agent Model
+
+<Steps>
+  <Step title="Connect a provider">
+    Open the BrowserPair App, open **Models** and connect a supported Agent Model provider. Model availability and costs depend on your provider.
+  </Step>
+  <Step title="Choose the default">
+    Select your preferred Agent Model and, where supported, a fallback. BrowserPair does not include an AI subscription.
+  </Step>
+  <Step title="Start a task">
+    Open **Chat**, choose your connected browser and describe the outcome you need.
+  </Step>
+  <Step title="Review the result">
+    Follow task progress in **Activity**. Review any required confirmation or user step, and check the verified result.
+  </Step>
+</Steps>
+
+## Agent Model and browser authority
+
+The model chooses what action to request; it does not gain extra browser authority. Both account modes support the same websites and tools. Standard asks before its fixed set of sensitive operations; Developer skips those mode-based questions. Chrome site access, user-input requirements, explicit task confirmations, and safe recovery still apply.
+
+A task can request a bounded page observation, act on current page elements, ask you a question, or stop when blocked. Protected data is masked or refused according to the current connection and permissions. An action whose result is uncertain is not repeated without fresh evidence.
+
+## Reusable Skills
+
+Skills are optional workflow instructions. A connected agent can search or read an applicable Skill when useful; nothing is automatically matched to each task. A Skill cannot authorize an action or a website.
+
+<CardGroup cols={3}>
+  <Card title="Managed tasks" icon="play" href="/managed-tasks">Start a task inside BrowserPair.</Card>
+  <Card title="Skills" icon="puzzle-piece" href="/skills-guide">Reuse documented workflows.</Card>
+  <Card title="Permissions" icon="shield" href="/permissions">Understand approvals and file controls.</Card>
+</CardGroup>

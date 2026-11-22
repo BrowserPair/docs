@@ -21,7 +21,7 @@ Use Remote MCP when Claude, Codex, or another MCP-speaking agent should remain t
   </Card>
 
   <Card title="Composable" icon="plug">
-    The external Agent Model can inspect state, delegate bounded Decision Model work, request observations, and respond.
+    The external Agent Model can inspect state, observe pages, request browser actions, optionally use Skills and verify results.
   </Card>
 </CardGroup>
 
@@ -54,8 +54,6 @@ Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and r
 | `task_state` | Read current task state and the latest bounded interaction. |
 | `task_find` | Search the latest delivered observation's captured full-page text and interactive facts. Requires `task_id`, `interaction_generation`, `query` (1–300 characters). |
 | `task_extract` | Read captured lists/tables; requires `task_id`, `interaction_generation`, optional `ref` (1–300 characters) to scope extraction. |
-| `task_site_knowledge` | Read non-authoritative site hints for `task_id`. |
-| `task_subgoal` | Delegate a bounded subgoal to BrowserPair Decision Model. |
 | `task_observe` | Request a fresh browser observation without performing an action. |
 | `task_diagnostics` | Read a task tab's console messages or request list (bounded, redacted, no headers or bodies). Needs `diagnostics_read`. |
 | Page actions | `task_navigate`, `task_click`, `task_fill`, `task_select`, `task_press`, `task_hover`, `task_scroll`, `task_drag`, `task_upload`, `task_set_viewport` and other individually named tools act on current task evidence. |
@@ -64,8 +62,9 @@ Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and r
 | Finish | `task_done`, `task_blocked` and `task_handoff` finish or return control without claiming an unsupported result. |
 | Agent keys | Use `task_respond` with `{task_id, interaction_generation, action}` for page actions and manual `user_step` requests. OAuth apps receive named action tools instead. |
 | `task_cancel` | Cancel the task. |
+| Optional Skills | `skill_search`, `skill_read`, `skill_create`, `skill_update` and `skill_delete` support agent-directed workflow reuse without expanding browser access. |
 
-OAuth-connected apps receive all named action tools. Agent keys receive the lifecycle tools above, `task_webmcp_tools`, `task_webmcp_call`, and `task_respond`; they do not receive named `task_click` or `task_done`. `task_user_step` is offered only to the managed Agent Model, not OAuth apps. Always inspect `tools/list` for your connection.
+OAuth-connected apps receive named action tools; ChatGPT connections do not receive the WebMCP pass-through tools or batch tool. Other supported clients may receive `task_batch` for bounded same-page sequences. Agent-key clients use lifecycle tools plus `task_respond` for page actions; their available WebMCP tools depend on the connection. `task_user_step` is for managed Agent Model tasks only. Always inspect `tools/list` for your actual connection.
 
 ## Tabs and browser ownership
 
@@ -110,28 +109,20 @@ Capability names are task hints; the current account Permissions governs sensiti
     Call `task_state` and use only the current interaction generation.
   </Step>
   <Step title="Choose the next mode">
-    Choose one current `task_*` action, delegate bounded work with `task_subgoal`, or request richer context with `task_observe`.
+    Choose one current `task_*` action, optionally consult an available Skill, or request richer context with `task_observe`.
   </Step>
   <Step title="Finish deliberately">
     Use `task_done` with observable evidence, `task_blocked` when the work cannot continue, or cancel. An uncertain effect needs fresh evidence first.
   </Step>
 </Steps>
 
-## Delegate to Decision Model
+## Optional, agent-directed Skills
 
-`task_subgoal` is useful when the external Agent Model knows the next bounded objective but does not need to choose every click.
+Connected agents may choose to call skill_search and skill_read when a repeatable workflow would benefit from saved instructions. Owners may also create, update and delete private Skills with the supported tools. **No Skill lookup or automatic matching is required for normal browser tasks.** A Skill can be attached explicitly to browser_run, and it never changes website or operation permissions.
 
-<CardGroup cols={2}>
-  <Card title="Bounded work" icon="bolt">
-    Provide a subgoal, optional success criteria, and an optional maximum step count.
-  </Card>
+## File operations
 
-  <Card title="Skill-aware" icon="wand-magic-sparkles">
-    Optionally bind a compatible Skill so Decision Model has reusable workflow knowledge.
-  </Card>
-</CardGroup>
-
-Decision Model returns control when confidence is too low, it reaches its bound, or it becomes blocked.
+Uploads and downloads are enabled by default in Standard and Developer, with separate owner-controlled settings. A disabled file operation is refused. File selection from the owner's device remains a manual action; explicit task confirmations always apply.
 
 ## Request richer context
 
@@ -173,7 +164,7 @@ Supply an explicit `idempotency_key` (8–200 letters, digits, `.`, `_`, `:`, `-
   </Card>
 
   <Card title="Skills" icon="wand-magic-sparkles" href="/skills-guide">
-    Add reusable workflow knowledge to bounded Decision Model work.
+    Use optional workflow knowledge when the task benefits.
   </Card>
 </CardGroup>
 

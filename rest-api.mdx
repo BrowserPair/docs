@@ -2,7 +2,7 @@
 icon: "code"
 title: "BrowserPair REST API for Durable Browser Automation"
 sidebarTitle: "REST API"
-description: "Create idempotent scoped browser tasks, request observations or subgoals, respond to browser state, and cancel work over REST."
+description: "Create idempotent browser tasks, request observations, respond to browser state, and cancel work over REST."
 keywords:
   - "BrowserPair API"
   - "browser automation REST API"
@@ -32,7 +32,6 @@ Use the REST API when you want explicit HTTP control over BrowserPair's durable 
 | `GET` | `/v1/browsers` | List browsers available to the agent key. |
 | `POST` | `/v1/tasks` | Create a durable bounded task. |
 | `GET` | `/v1/tasks/:id` | Read current durable state and interaction. |
-| `POST` | `/v1/tasks/:id/subgoal` | Ask the Decision Model to select bounded operations; BrowserPair executes them. |
 | `POST` | `/v1/tasks/:id/observe` | Request a fresh observation. |
 | `POST` | `/v1/tasks/:id/respond` | Send one bounded agent response. |
 | `POST` | `/v1/tasks/:id/cancel` | Cancel the task. |
@@ -144,21 +143,17 @@ The key must be 8–200 characters using letters, numbers, `.`, `_`, `:`, or `-`
   Treat the interaction generation as part of the action context. Do not reuse stale element refs from an older generation.
 </Tip>
 
-## Delegate a Decision Model subgoal
-
-`POST /v1/tasks/:id/subgoal` uses `subgoal` (1–1200 characters), optional `success` object, `maxSteps` (1–50), `observationRequest: {mode, scope}`, `skillId` and optional `skillVersion`. MCP uses `max_steps`, `observation_mode`, `observation_scope`, `skill_id` instead. A Skill supplies knowledge only; it cannot expand authority.
-
 ## Request an observation
 
 `POST /v1/tasks/:id/observe` requests fresh context without performing a browser mutation.
 
-Modes are `lite`, `accessibility`, `dom`, `screenshot`, and `combined`. Scope is `relevant-region` or `full-page`. The JSON body uses `mode`, `scope`, and optional `sensitiveCategory` (MCP: `sensitive_category`). Default lite/full-page observations include full-document interactive refs, offscreen controls and `in_viewport`; bounded coverage and redaction still apply.
+Modes are `lite`, `accessibility`, `dom`, `screenshot`, and `combined`. Scope is `relevant-region` or `full-page`. The JSON body uses `mode` and `scope`. External protected-data observation requests are not currently granted, including `sensitiveCategory`; handle sensitive user steps inside Chrome. Default lite/full-page observations include full-document interactive refs, offscreen controls and `in_viewport`; bounded coverage and redaction still apply.
 
 ## Respond to the task
 
 `POST /v1/tasks/:id/respond` accepts one action against the current interaction generation.
 
-Supported kinds include `navigate`, `open_tab`, `back`, `adopt_tab`, `click`, `double_click`, `context_click`, `hover`, `fill`, `select`, `focus`, `press`, `scroll`, `wait`, `drag`, `canvas_click`, `range_click`, `done`, `blocked`, and `resolve_effect`. Hover, keys other than Enter, drag and drop, sliders and canvas points each need their own capability (`hover`, `keyboard`, `drag_drop`, `range_interaction`, `canvas_interaction`).
+Supported kinds include `navigate`, `open_tab`, `back`, `adopt_tab`, `click`, `double_click`, `context_click`, `hover`, `fill`, `select`, `focus`, `press`, `scroll`, `wait`, `drag`, `canvas_click`, `range_click`, `done`, `blocked`, and `resolve_effect`. Hover, keyboard, drag, slider and canvas operations have distinct action types. Capability names describe compatibility and workflow needs; they do not override the account mode or task confirmations.
 
 <Warning>
   Use only refs returned by the current observation. BrowserPair rejects authority-expanding or stale requests rather than inferring intent.
@@ -168,7 +163,7 @@ Supported kinds include `navigate`, `open_tab`, `back`, `adopt_tab`, `click`, `d
 
 Use the current action schema and outcome to handle dialogs. `acceptDialog` applies only to a matching previously dismissed confirmation/leave-page dialog; changed or unavailable dialogs are refused. Confirmation follows the fixed mode and immutable task requirements. Do not repeat an action while its effect is uncertain.
 
-Downloads and uploads are sensitive file operations: Standard asks; Developer adds no mode confirmation. Upload actions take `ref` and `file`: `{"source":"user"}` requires the user to choose a file, while `{"source":"content","name":"report.txt","text":"Prepared report"}` supplies bounded content (at most 256 KiB). Local file paths are not accepted. `allowDownload` is a bounded action option, not a permission-mode override.
+Downloads and uploads are enabled by default in both modes, with separate account-level file controls. Neither mode adds a file-operation prompt by default; an explicit task confirmation or a user-selected local file may still require your action. Upload actions take `ref` and `file`: `{"source":"user"}` requires the user to choose a file, while `{"source":"content","name":"report.txt","text":"Prepared report"}` supplies bounded content (at most 256 KiB). Local file paths are not accepted. `allowDownload` is a bounded action option, not a permission-mode override.
 
 ### Ending, handing over and switching tabs
 

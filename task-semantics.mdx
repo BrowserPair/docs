@@ -141,18 +141,11 @@ Effect state answers _did the browser action happen_; verification answers _did 
 
 Rendered text outside the viewport can support verification when retained in the current observation. Evidence is deliberately strict: text typed into an editor that was never saved, hidden text, a redirect target in a query string, or a page that was still loading never counts as proof. A navigation that the page declined (for example "Leave this page?") is reported as a dismissed dialog, not as success; an agent may propose a new action with `acceptDialog` only after resolving any uncertain effect; mode policy and immutable task confirmations apply. Downloads an action starts are reported as evidence, never as proof of the outcome.
 
-## Managed Agent Model + Decision Model continuity
+## Managed Agent Model and Skill continuity
 
-Managed tasks and externally delegated Decision Model subgoals also preserve:
+Managed tasks preserve the selected Agent Model and supported fallback, current task instructions, permitted observation context, bounded execution limits, and an explicitly selected Skill ID and version when one is used.
 
-- selected Agent Model and Decision Model provider identities plus fallbacks;
-- current subgoal and success criteria;
-- observation mode and scope;
-- Decision Model effective confidence and escalation reason;
-- Agent Model, Decision Model, step, and duration limits; and
-- selected Skill ID and version.
-
-These fields help BrowserPair resume coordination. They never expand browser authority.
+The retired Decision Model and automatic site-learning features are not part of the current task flow. A Skill remains optional context; it never expands browser authority.
 
 <CardGroup cols={3}>
   <Card title="REST API" icon="code" href="/rest-api">
