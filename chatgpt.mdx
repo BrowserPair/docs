@@ -15,7 +15,7 @@ keywords:
 ChatGPT can use BrowserPair to carry out tasks in the Chrome profile you already use. ChatGPT decides what to do; BrowserPair keeps it inside the limits you choose and executes each step in its Chrome extension.
 
 <Note>
-  Connect BrowserPair from ChatGPT's Plugin Directory when available. Some ChatGPT workspaces also allow a custom MCP connection; custom connections may require Developer mode. Availability and exact menu names depend on your plan and workspace.
+  The [published BrowserPair plugin](https://chatgpt.com/plugins/plugin_asdk_app_6ac5859a310c8191b959b4cfd69b2668) is the recommended way to connect ChatGPT. You do not need to create a custom MCP server or enable ChatGPT Developer mode for this setup. Availability may depend on your ChatGPT plan and workspace.
 </Note>
 
 ## Add BrowserPair
@@ -24,16 +24,20 @@ ChatGPT can use BrowserPair to carry out tasks in the Chrome profile you already
   <Step title="Connect your browser">
     Pair the Chrome profile you want ChatGPT to use. See [Quickstart](/quickstart).
   </Step>
-  <Step title="Find BrowserPair in ChatGPT">
-    Find BrowserPair in your workspace’s app or plugin directory. If it supports custom MCP connections, use that option with the endpoint below. Exact labels and availability depend on the workspace.
+  <Step title="Open the published ChatGPT plugin">
+    Open [BrowserPair in ChatGPT](https://chatgpt.com/plugins/plugin_asdk_app_6ac5859a310c8191b959b4cfd69b2668) directly. This is the official plugin, not a manually configured MCP server.
   </Step>
   <Step title="Connect with OAuth">
-    Select **Connect** for BrowserPair. For a custom MCP connection, use the server URL `https://mcp.browserpair.com` and OAuth authentication; enable ChatGPT’s own Developer mode only if ChatGPT requires it for custom connections. This is separate from BrowserPair’s Developer permission mode.
+    Select **Connect** in ChatGPT and sign in with the BrowserPair account that owns your Chrome profile.
   </Step>
   <Step title="Allow it in BrowserPair">
     ChatGPT sends you to BrowserPair. Check that the identity is published by **chatgpt.com**, choose the intended browser and confirm the requesting app, then select **Allow**. Ask-before settings are account-wide under Permissions. See [Connect an AI app](/connect-ai-app).
   </Step>
 </Steps>
+
+## Optional: custom MCP connection
+
+If your ChatGPT workspace supports custom MCP connections and you intentionally choose that route instead of the published plugin, use `https://mcp.browserpair.com` with OAuth. That separate route may require ChatGPT Developer mode. ChatGPT Developer mode is not the same as BrowserPair's Developer permission mode. See [Remote MCP](/remote-mcp).
 
 ## Try it
 

@@ -41,7 +41,7 @@ Use Remote MCP when Claude, Codex, or another MCP-speaking agent should remain t
   The `bp_live_…` token is an agent credential, not a browser-device credential. The extension never stores the agent key.
 </Note>
 
-ChatGPT and Claude can connect via OAuth without a copied key; confirm their identity and browser on consent. Account-wide Permissions control sensitive-step questions. See [Connect an AI app](/connect-ai-app).
+For ChatGPT, use the [published BrowserPair plugin](https://chatgpt.com/plugins/plugin_asdk_app_6ac5859a310c8191b959b4cfd69b2668) and connect with OAuth—there is no need to add a custom MCP server manually. Claude and other supported clients can connect to the MCP endpoint using OAuth. Confirm the requesting client and browser on consent; account-wide Permissions control sensitive-step questions. See [Connect an AI app](/connect-ai-app).
 
 Every tool declares `readOnlyHint`, `destructiveHint` and `openWorldHint`, and results include a short `guidance` sentence that tells the agent what to do next, for example when a step waits for the user's approval in Chrome or an uncertain effect must be checked before any retry.
 
