@@ -7,7 +7,8 @@ Official documentation for [BrowserPair](https://browserpair.com/), the browser 
 ## Find a guide
 
 - [Quickstart](https://docs.browserpair.com/quickstart): pair Chrome and run your first bounded task.
-- [Connect an AI app](https://docs.browserpair.com/connect-ai-app) and [ChatGPT](https://docs.browserpair.com/chatgpt).
+- [ChatGPT: published BrowserPair plugin](https://chatgpt.com/plugins/plugin_asdk_app_6ac5859a310c8191b959b4cfd69b2668) and [ChatGPT setup guide](https://docs.browserpair.com/chatgpt).
+- [Connect an AI app](https://docs.browserpair.com/connect-ai-app): OAuth for Claude and other supported MCP clients.
 - [Remote MCP](https://docs.browserpair.com/remote-mcp) and [REST API](https://docs.browserpair.com/rest-api).
 - [Permissions](https://docs.browserpair.com/permissions), [sensitive access](https://docs.browserpair.com/sensitive-access) and [task semantics](https://docs.browserpair.com/task-semantics).
 - [Managed tasks](https://docs.browserpair.com/managed-tasks), [Agent Model](https://docs.browserpair.com/agent-model) and [Skills](https://docs.browserpair.com/skills-guide).

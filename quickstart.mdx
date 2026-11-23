@@ -9,7 +9,7 @@ keywords:
   - "MCP browser automation"
 ---
 
-Get BrowserPair ready with a guided setup, then choose one of two ways to work: connect an AI app such as ChatGPT or Claude and send tasks there, or configure your own Agent Model to start managed tasks inside BrowserPair. Both use your connected Chrome profile and the same task authority checks.
+Get BrowserPair ready with a guided setup, then choose one of two ways to work: connect the [published BrowserPair plugin in ChatGPT](https://chatgpt.com/plugins/plugin_asdk_app_6ac5859a310c8191b959b4cfd69b2668), connect another AI app such as Claude, or configure your own Agent Model to start managed tasks inside BrowserPair. Both use your connected Chrome profile and the same task authority checks.
 
 <CardGroup cols={3}>
   <Card title="1. Connect" icon="browser">
@@ -77,11 +77,11 @@ Check the [Chrome Web Store](https://chromewebstore.google.com/detail/agdomhjeah
     Choose this path when ChatGPT, Claude, or another AI app already provides the Agent Model. You do not need to connect a model in BrowserPair. Follow the [ChatGPT guide](/chatgpt) or [Claude guide](/claude) for client-specific setup.
 
     <Steps>
-      <Step title="Open AI apps">
-        In the BrowserPair App, open **AI apps → Connected apps** to review existing connections. Start a new connection in ChatGPT, Claude or another MCP client.
+      <Step title="Choose your AI app">
+        For ChatGPT, open the [published BrowserPair plugin](https://chatgpt.com/plugins/plugin_asdk_app_6ac5859a310c8191b959b4cfd69b2668) and choose **Connect**. For Claude or another MCP client, start a connection in that client; see [Connect an AI app](/connect-ai-app).
       </Step>
       <Step title="Connect with OAuth">
-        Follow the instructions in your AI app to add BrowserPair at `https://mcp.browserpair.com`. Sign in to BrowserPair when prompted.
+        Sign in to your BrowserPair account. If a non-ChatGPT MCP client requests a server URL, use `https://mcp.browserpair.com` with OAuth. The published ChatGPT plugin does not require manual MCP setup.
       </Step>
       <Step title="Review its permissions">
         Confirm the requesting AI app's identity and browser. The account-wide Permissions page sets Standard/Developer ask-before behavior for all connections.

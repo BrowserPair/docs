@@ -15,6 +15,7 @@
         "pages": [
           "index",
           "quickstart",
+          "chatgpt",
           "compare-browser-automation"
         ]
       },
@@ -36,7 +37,6 @@
           "remote-mcp",
           "rest-api",
           "connect-ai-app",
-          "chatgpt",
           "claude"
         ]
       },
